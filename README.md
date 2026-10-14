@@ -1,4 +1,4 @@
-# Website Yumnia — Desa Wisata Sukajadi
+# Website Yumnia, Desa Wisata Sukajadi
 
 Toko online **Yumnia**, merek hijab dan sandal wanita milik Desa Wisata Sukajadi, Kec. Tamansari, Kab. Bogor.
 Dibangun dengan **WordPress + WooCommerce**, memakai tema custom `yumnia`. Pesanan dikirim lewat **WhatsApp**.

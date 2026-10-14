@@ -106,7 +106,7 @@ while ( have_posts() ) :
 							<?php $yumnia_is_color = 'pa_warna' === $yumnia_attr['t']; ?>
 							<fieldset class="option" data-attr="<?php echo esc_attr( $yumnia_attr['k'] ); ?>">
 								<legend class="option__legend">
-									<span><?php echo esc_html( $yumnia_attr['l'] ); ?>: <strong data-attr-value><?php echo 1 === count( $yumnia_attr['o'] ) ? esc_html( $yumnia_attr['o'][0]['n'] ) : '—'; ?></strong></span>
+									<span><?php echo esc_html( $yumnia_attr['l'] ); ?>: <strong data-attr-value><?php echo 1 === count( $yumnia_attr['o'] ) ? esc_html( $yumnia_attr['o'][0]['n'] ) : esc_html__( 'belum dipilih', 'yumnia' ); ?></strong></span>
 									<?php if ( ! $yumnia_is_color && $yumnia_table ) : ?>
 										<button type="button" class="option__guide" data-open-details="ukuran"><?php echo yumnia_icon( 'ruler' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?><?php esc_html_e( 'Panduan ukuran', 'yumnia' ); ?></button>
 									<?php endif; ?>

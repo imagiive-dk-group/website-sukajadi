@@ -106,12 +106,12 @@ function yumnia_set_metabox( $post ) {
 	for ( $i = 0; $i < 4; $i++ ) {
 		$current = $items[ $i ] ?? array( 'product' => 0, 'warna' => '' );
 		echo '<tr><td><select name="yumnia_set_items[' . (int) $i . '][product]" style="width:100%">';
-		echo '<option value="">— ' . esc_html__( 'kosong', 'yumnia' ) . ' —</option>';
+		echo '<option value="">' . esc_html__( '(kosong)', 'yumnia' ) . '</option>';
 		foreach ( $products as $p ) {
 			printf( '<option value="%d" %s>%s</option>', (int) $p->get_id(), selected( (int) $current['product'], $p->get_id(), false ), esc_html( $p->get_name() ) );
 		}
 		echo '</select></td><td><select name="yumnia_set_items[' . (int) $i . '][warna]" style="width:100%">';
-		echo '<option value="">— ' . esc_html__( 'bebas', 'yumnia' ) . ' —</option>';
+		echo '<option value="">' . esc_html__( '(bebas)', 'yumnia' ) . '</option>';
 		if ( ! is_wp_error( $colors ) ) {
 			foreach ( $colors as $c ) {
 				printf( '<option value="%s" %s>%s</option>', esc_attr( $c->slug ), selected( $current['warna'], $c->slug, false ), esc_html( $c->name ) );

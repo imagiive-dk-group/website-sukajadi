@@ -2,7 +2,7 @@
 
 Ada dua cara. Pilih salah satu.
 
-## Cara A — Docker (disarankan untuk developer)
+## Cara A: Docker (disarankan untuk developer)
 
 1. Pasang [Docker Desktop](https://www.docker.com/products/docker-desktop/) lalu jalankan.
 2. Buka terminal di folder repo ini, lalu jalankan:
@@ -26,7 +26,7 @@ Perubahan di folder `wp-content/themes/yumnia` langsung terlihat setelah halaman
 | `docker compose run --rm cli wp <perintah>` | Jalankan WP-CLI, mis. `wp plugin list` |
 | `docker compose down -v` | Hapus semuanya (database ikut terhapus) |
 
-## Cara B — LocalWP (tanpa Docker, cocok untuk Windows/Mac)
+## Cara B: LocalWP (tanpa Docker, cocok untuk Windows/Mac)
 
 1. Pasang [LocalWP](https://localwp.com/) dan buat situs baru (PHP 8.1 atau lebih baru).
 2. Salin folder `wp-content/themes/yumnia` ke folder `app/public/wp-content/themes/` milik situs LocalWP.

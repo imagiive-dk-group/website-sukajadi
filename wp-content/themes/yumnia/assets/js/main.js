@@ -1,5 +1,5 @@
 /**
- * Yumnia — interaksi & animasi.
+ * Yumnia: interaksi & animasi.
  * Tanpa library: IntersectionObserver, Web Animations API, View Transitions.
  */
 (() => {
@@ -453,7 +453,7 @@
 		const groups = (p.attrs || []).map((a) => {
 			const isColor = a.t === 'pa_warna';
 			const opts = a.o.map((o) => `<label class="opt${isColor ? ' opt--swatch' : ''}"><input type="radio" name="p${idx}-${esc(a.k)}" data-key="${esc(a.k)}" value="${esc(o.s)}">${isColor ? `<span class="opt__swatch" style="--c:${esc(o.h)}"></span><span class="opt__name">${esc(o.n)}</span>` : `<span class="opt__text">${esc(o.n)}</span>`}</label>`).join('');
-			return `<fieldset class="option" data-attr="${esc(a.k)}"><legend class="option__legend"><span>${esc(a.l)}: <strong data-attr-value>—</strong></span></legend><div class="option__list">${opts}</div></fieldset>`;
+			return `<fieldset class="option" data-attr="${esc(a.k)}"><legend class="option__legend"><span>${esc(a.l)}: <strong data-attr-value>belum dipilih</strong></span></legend><div class="option__list">${opts}</div></fieldset>`;
 		}).join('');
 		return `<div class="pick" data-pick="${idx}"><img class="pick__img" src="${esc(p.img)}" alt="" width="72" height="90"><div><p class="pick__name">${esc(p.name)}</p><p class="pick__price" data-pick-price>${rupiah(p.price)}</p>${groups}<p class="pick__stock" data-pick-stock></p></div></div>`;
 	};
@@ -466,7 +466,7 @@
 			});
 			const chosen = a.o.find((o) => o.s === sel[a.k]);
 			const label = $(`[data-attr="${a.k}"] [data-attr-value]`, root);
-			if (label) label.textContent = chosen ? chosen.n : '—';
+			if (label) label.textContent = chosen ? chosen.n : 'belum dipilih';
 		});
 		const v = resolve(p, sel);
 		const price = $('[data-pick-price]', root);
@@ -746,7 +746,7 @@
 				});
 				const chosen = a.o.find((o) => o.s === sel[a.k]);
 				const lbl = $(`[data-attr="${a.k}"] [data-attr-value]`, form);
-				if (lbl) lbl.textContent = chosen ? chosen.n : '—';
+				if (lbl) lbl.textContent = chosen ? chosen.n : 'belum dipilih';
 			});
 			const v = resolve(p, sel);
 			currentVar = v;

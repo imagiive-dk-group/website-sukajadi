@@ -1,4 +1,4 @@
-# Usulan teknis — Website Yumnia
+# Usulan teknis Website Yumnia
 
 Platform yang dipakai adalah **WordPress + WooCommerce dengan tema custom**.
 Biaya rutinnya hanya **domain + hosting**. Semua fitur memakai software gratis, tanpa langganan plugin atau aplikasi.
