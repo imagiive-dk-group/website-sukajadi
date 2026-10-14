@@ -29,13 +29,8 @@ while ( have_posts() ) :
 	$yumnia_cat      = $yumnia_cats ? $yumnia_cats[0] : null;
 	$yumnia_is_sandal = $yumnia_cat && false !== strpos( $yumnia_cat->slug, 'sandal' );
 
-	// Foto: utama, galeri, lalu foto varian yang belum ada.
+	// Foto: utama (berganti sesuai warna yang dipilih) lalu galeri.
 	$yumnia_images = array_filter( array_merge( array( $product->get_image_id() ), $product->get_gallery_image_ids() ) );
-	foreach ( $yumnia_payload['vars'] as $yumnia_v ) {
-		if ( $yumnia_v['gi'] ) {
-			$yumnia_images[] = $yumnia_v['gi'];
-		}
-	}
 	$yumnia_images = array_values( array_unique( array_map( 'intval', $yumnia_images ) ) );
 
 	$yumnia_maker    = $product->get_meta( '_yumnia_pembuat' );

@@ -738,6 +738,33 @@
 			});
 		}
 
+		// Ganti foto besar (pertama) sesuai warna yang dipilih, dengan efek pudar.
+		const heroImg = items[0] ? $('.gallery__img', items[0]) : null;
+		const heroOrig = heroImg ? { src: heroImg.getAttribute('src'), srcset: heroImg.getAttribute('srcset'), sizes: heroImg.getAttribute('sizes'), full: heroImg.getAttribute('data-full') } : null;
+		let heroToken = 0;
+		const swapHero = (src) => {
+			if (!heroImg) return;
+			const next = src ? { src, srcset: null, sizes: null, full: src } : heroOrig;
+			if (heroImg.getAttribute('src') === next.src) return;
+			const token = ++heroToken;
+			if (track && track.scrollLeft > 4) goTo(0);
+			const apply = () => {
+				if (token !== heroToken) return;
+				['srcset', 'sizes'].forEach((a) => (next[a] ? heroImg.setAttribute(a, next[a]) : heroImg.removeAttribute(a)));
+				heroImg.setAttribute('src', next.src);
+				heroImg.setAttribute('data-full', next.full || next.src);
+				if (!reduced && heroImg.animate) {
+					heroImg.animate([{ opacity: 0, transform: 'scale(1.04)' }, { opacity: 1, transform: 'scale(1)' }], { duration: 650, easing: 'cubic-bezier(.22,1,.36,1)' });
+				}
+			};
+			const pre = new Image();
+			pre.onload = pre.onerror = () => {
+				if (reduced || !heroImg.animate) { apply(); return; }
+				heroImg.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 160, easing: 'ease-out', fill: 'forwards' }).finished.then((a) => { apply(); a && a.cancel && a.cancel(); }).catch(apply);
+			};
+			pre.src = next.src;
+		};
+
 		const update = () => {
 			if (!p) return;
 			(p.attrs || []).forEach((a) => {
@@ -794,9 +821,8 @@
 				update();
 				if (inp.name === 'attribute_pa_warna') {
 					const v = colorImage(p, inp.value);
-					const idx = v ? items.findIndex((it) => parseInt(it.getAttribute('data-image-id'), 10) === v.gi) : 0;
-					goTo(idx >= 0 ? idx : 0);
-					if (barImg && v && v.img) barImg.src = v.img;
+					swapHero(v && v.big ? v.big : null);
+					if (barImg) barImg.src = v && v.img ? v.img : p.img;
 				}
 			});
 			$$('[data-qty-input] [data-step]', form).forEach((b) => b.addEventListener('click', () => {
