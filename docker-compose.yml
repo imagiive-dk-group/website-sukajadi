@@ -1,0 +1,59 @@
+# Menjalankan website Yumnia di komputer sendiri.
+# Panduan lengkap: docs/PANDUAN-LOKAL.md
+#
+#   docker compose up -d                         # nyalakan WordPress + database
+#   docker compose run --rm cli sh /scripts/setup.sh   # pasang WooCommerce + data contoh (sekali saja)
+#   buka http://localhost:8080  (admin: http://localhost:8080/wp-admin, user admin / sandi admin)
+
+services:
+  db:
+    image: mariadb:11
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: yumnia
+      MARIADB_USER: yumnia
+      MARIADB_PASSWORD: yumnia
+      MARIADB_ROOT_PASSWORD: yumnia-root
+    volumes:
+      - db:/var/lib/mysql
+
+  wordpress:
+    image: wordpress:php8.3-apache
+    restart: unless-stopped
+    depends_on:
+      - db
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: yumnia
+      WORDPRESS_DB_PASSWORD: yumnia
+      WORDPRESS_DB_NAME: yumnia
+      WORDPRESS_DEBUG: "1"
+    volumes:
+      - wp:/var/www/html
+      - ./wp-content/themes/yumnia:/var/www/html/wp-content/themes/yumnia
+
+  cli:
+    image: wordpress:cli-php8.3
+    user: "33:33"
+    depends_on:
+      - db
+      - wordpress
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: yumnia
+      WORDPRESS_DB_PASSWORD: yumnia
+      WORDPRESS_DB_NAME: yumnia
+      WP_URL: http://localhost:8080
+    volumes:
+      - wp:/var/www/html
+      - ./wp-content/themes/yumnia:/var/www/html/wp-content/themes/yumnia
+      - ./contoh-data:/contoh-data:ro
+      - ./scripts:/scripts:ro
+    profiles:
+      - tools
+
+volumes:
+  db:
+  wp:

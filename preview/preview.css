@@ -1,0 +1,7 @@
+/* Hanya untuk pratinjau statis. */
+.preview-flag {
+	position: fixed; left: 50%; bottom: 12px; z-index: 60; transform: translateX(-50%); padding: 5px 12px; border-radius: 999px;
+	background: rgba(42, 20, 25, 0.78); color: #fff; font: 500 11px/1.4 var(--font); letter-spacing: 0.06em; pointer-events: none;
+	animation: flagOut 0.6s ease 5s forwards;
+}
+@keyframes flagOut { to { opacity: 0; transform: translate(-50%, 10px); } }

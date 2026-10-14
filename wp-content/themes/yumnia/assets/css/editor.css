@@ -1,0 +1,10 @@
+/* Gaya di editor blok supaya mirip tampilan situs. */
+@font-face { font-family: "Jost"; src: url("../fonts/jost-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+body { font-family: "Jost", system-ui, sans-serif; color: #2a1419; background: #fbf7f2; font-size: 17px; line-height: 1.6; }
+h1, h2, h3, h4 { font-weight: 400; letter-spacing: -0.02em; line-height: 1.1; }
+h2 { font-size: 2.4rem; }
+a { color: #7b1e3a; }
+.lead { font-size: 1.35rem; }
+blockquote { font-style: italic; font-weight: 300; font-size: 1.8rem; color: #7b1e3a; border: 0; }
+.wp-block-button__link { background: #7b1e3a; border-radius: 999px; }
+.is-style-arch img { border-radius: 999px 999px 16px 16px; }
