@@ -52,7 +52,7 @@
             'addressCountry' => 'ID',
         ],
         'sameAs' => array_values(array_filter([instagram_url(setting('instagram'))])),
-    ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+    ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG) !!}</script>
     @stack('head')
 
     @if($gaId)

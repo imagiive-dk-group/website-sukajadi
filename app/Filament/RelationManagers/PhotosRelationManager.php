@@ -87,7 +87,8 @@ class PhotosRelationManager extends RelationManager
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    // Hapus satu per satu agar file foto (dan varian WebP) ikut terhapus.
+                    DeleteBulkAction::make()->fetchSelectedRecords(),
                 ]),
             ]);
     }

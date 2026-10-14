@@ -5,6 +5,7 @@ namespace Tests\Feature\Admin;
 use App\Filament\Resources\Packages\Pages\CreatePackage;
 use App\Filament\Resources\Packages\Pages\EditPackage;
 use App\Models\Package;
+use Database\Seeders\TourismSeeder;
 use Filament\Forms\Components\Repeater;
 use Livewire\Livewire;
 
@@ -98,7 +99,7 @@ class PackageFormTest extends AdminTestCase
     public function test_edit_package_updates_english_name(): void
     {
         $this->actingAsSuperAdmin();
-        $this->seed(\Database\Seeders\TourismSeeder::class);
+        $this->seed(TourismSeeder::class);
 
         $package = Package::query()->firstOrFail();
 

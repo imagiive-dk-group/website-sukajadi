@@ -5,28 +5,37 @@ namespace Tests\Feature\Admin;
 use App\Filament\Pages\BookingCalendar;
 use App\Filament\Pages\Reports;
 use App\Filament\Pages\Settings;
+use App\Filament\RelationManagers\PhotosRelationManager;
 use App\Filament\Resources\Addons\AddonResource;
 use App\Filament\Resources\Albums\AlbumResource;
+use App\Filament\Resources\Albums\Pages\EditAlbum;
 use App\Filament\Resources\Attractions\AttractionResource;
+use App\Filament\Resources\Attractions\Pages\EditAttraction;
 use App\Filament\Resources\BlockedDates\BlockedDateResource;
 use App\Filament\Resources\Bookings\BookingResource;
 use App\Filament\Resources\Faqs\FaqResource;
 use App\Filament\Resources\Messages\MessageResource;
 use App\Filament\Resources\Officials\OfficialResource;
 use App\Filament\Resources\Packages\PackageResource;
+use App\Filament\Resources\Packages\Pages\EditPackage;
 use App\Filament\Resources\Posts\PostResource;
 use App\Filament\Resources\ProfileSections\ProfileSectionResource;
 use App\Filament\Resources\ProfileStats\ProfileStatResource;
 use App\Filament\Resources\Testimonials\TestimonialResource;
+use App\Filament\Resources\Umkms\Pages\EditUmkm;
+use App\Filament\Resources\Umkms\RelationManagers\ProductsRelationManager;
 use App\Filament\Resources\Umkms\UmkmResource;
 use App\Filament\Resources\Users\UserResource;
+use App\Filament\Widgets\BookingsChart;
+use App\Filament\Widgets\BookingStats;
+use App\Filament\Widgets\UpcomingVisits;
+use App\Models\Album;
+use App\Models\Attraction;
 use App\Models\BlockedDate;
 use App\Models\Booking;
 use App\Models\Message;
 use App\Models\Package;
-use App\Filament\Widgets\BookingsChart;
-use App\Filament\Widgets\BookingStats;
-use App\Filament\Widgets\UpcomingVisits;
+use App\Models\Umkm;
 use Livewire\Livewire;
 
 class PageAccessTest extends AdminTestCase
@@ -114,6 +123,48 @@ class PageAccessTest extends AdminTestCase
         $this->get(BookingCalendar::getUrl())->assertOk()->assertSee('Kalender Booking');
         $this->get(BookingCalendar::getUrl().'?bulan='.today()->addDays(5)->format('Y-m'))->assertOk();
         $this->get(Reports::getUrl())->assertOk()->assertSee('Ekspor CSV (Excel)');
+    }
+
+    public function test_relation_managers_render_for_every_owner(): void
+    {
+        $this->seedSampleData();
+        $this->actingAsSuperAdmin();
+
+        $owners = [
+            [Package::query()->has('photos')->firstOrFail(), EditPackage::class],
+            [Attraction::query()->has('photos')->firstOrFail(), EditAttraction::class],
+            [Umkm::query()->has('photos')->firstOrFail(), EditUmkm::class],
+            [Album::query()->has('photos')->firstOrFail(), EditAlbum::class],
+        ];
+
+        foreach ($owners as [$owner, $page]) {
+            Livewire::test(PhotosRelationManager::class, ['ownerRecord' => $owner, 'pageClass' => $page])
+                ->assertOk()
+                ->assertCanSeeTableRecords($owner->photos()->get())
+                ->assertSee('Unggah banyak foto');
+        }
+
+        $umkm = Umkm::query()->has('products')->firstOrFail();
+        Livewire::test(ProductsRelationManager::class, ['ownerRecord' => $umkm, 'pageClass' => EditUmkm::class])
+            ->assertOk()
+            ->assertCanSeeTableRecords($umkm->products()->get());
+    }
+
+    public function test_calendar_shows_bookings_and_blocked_dates(): void
+    {
+        $this->seedSampleData();
+        $this->actingAsSuperAdmin();
+        $booking = Booking::query()->firstOrFail();
+
+        Livewire::test(BookingCalendar::class, ['month' => $booking->visit_date->format('Y-m')])
+            ->assertSee($booking->code)
+            ->assertSee('20 pax')
+            ->call('nextMonth')
+            ->assertSet('month', $booking->visit_date->copy()->addMonthNoOverflow()->format('Y-m'));
+
+        $this->get(BookingCalendar::getUrl().'?bulan='.today()->addDays(7)->format('Y-m'))
+            ->assertOk()
+            ->assertSee('Acara desa');
     }
 
     public function test_admin_role_cannot_access_users_and_settings(): void

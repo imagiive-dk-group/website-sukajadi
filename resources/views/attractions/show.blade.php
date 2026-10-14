@@ -14,7 +14,7 @@
         'description' => strip_tags((string) $attraction->tr('summary')),
         'url' => $attraction->url(),
         'address' => ['@type' => 'PostalAddress', 'addressLocality' => 'Desa Sukajadi, Tamansari', 'addressRegion' => 'Kabupaten Bogor, Jawa Barat', 'addressCountry' => 'ID'],
-    ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+    ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG) !!}</script>
 @endpush
 
 @section('content')

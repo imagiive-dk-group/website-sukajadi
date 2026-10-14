@@ -9,6 +9,7 @@ use App\Filament\Resources\Faqs\Pages\CreateFaq;
 use App\Filament\Resources\Messages\Pages\ViewMessage;
 use App\Filament\Resources\Testimonials\Pages\ListTestimonials;
 use App\Filament\Resources\Umkms\Pages\CreateUmkm;
+use App\Filament\Resources\Users\Pages\CreateUser;
 use App\Filament\Resources\Users\Pages\EditUser;
 use App\Filament\Resources\Users\UserResource;
 use App\Models\Album;
@@ -17,9 +18,11 @@ use App\Models\Message;
 use App\Models\Setting;
 use App\Models\Testimonial;
 use App\Models\Umkm;
+use App\Models\User;
 use Database\Seeders\SettingSeeder;
 use Filament\Actions\Testing\TestAction;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 
@@ -171,7 +174,7 @@ class SettingsAndContentTest extends AdminTestCase
     {
         $this->actingAsSuperAdmin();
 
-        Livewire::test(\App\Filament\Resources\Users\Pages\CreateUser::class)
+        Livewire::test(CreateUser::class)
             ->fillForm([
                 'name' => 'Admin Kedua',
                 'email' => 'admin2@example.com',
@@ -182,8 +185,8 @@ class SettingsAndContentTest extends AdminTestCase
             ->call('create')
             ->assertHasNoFormErrors();
 
-        $created = \App\Models\User::query()->where('email', 'admin2@example.com')->firstOrFail();
-        $this->assertTrue(\Illuminate\Support\Facades\Hash::check('rahasia-123', $created->password));
+        $created = User::query()->where('email', 'admin2@example.com')->firstOrFail();
+        $this->assertTrue(Hash::check('rahasia-123', $created->password));
         $this->assertFalse($created->isSuperAdmin());
     }
 }

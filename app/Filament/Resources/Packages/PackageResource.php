@@ -20,6 +20,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Component;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -188,7 +189,7 @@ class PackageResource extends Resource
             ]);
     }
 
-    /** @return array<\Filament\Schemas\Components\Component> */
+    /** @return array<Component> */
     public static function tierSchema(): array
     {
         return [

@@ -16,11 +16,12 @@ class PublicPagesTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected bool $seed = true;
-
     protected function setUp(): void
     {
         parent::setUp();
+        // Seed per tes: RefreshDatabase hanya men-seed saat migrasi pertama,
+        // yang bisa saja dipicu oleh kelas tes lain tanpa seeder.
+        $this->seed();
         $this->withoutVite();
     }
 

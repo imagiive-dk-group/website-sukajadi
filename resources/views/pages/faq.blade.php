@@ -12,7 +12,7 @@
             'name' => $faq->tr('question'),
             'acceptedAnswer' => ['@type' => 'Answer', 'text' => $faq->tr('answer')],
         ])->values(),
-    ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+    ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG) !!}</script>
 @endpush
 
 @section('content')

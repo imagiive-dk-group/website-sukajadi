@@ -22,7 +22,7 @@
             'priceCurrency' => 'IDR',
             'url' => lroute('booking.create', ['paket' => $package->slugFor(), 'tier' => $tier->id]),
         ])->values(),
-    ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+    ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG) !!}</script>
 @endpush
 
 @section('content')

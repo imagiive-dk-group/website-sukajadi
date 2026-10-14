@@ -15,7 +15,7 @@
         'url' => $umkm->url(),
         'telephone' => $umkm->hasPublicContact() ? $umkm->whatsapp : null,
         'address' => ['@type' => 'PostalAddress', 'streetAddress' => $umkm->address, 'addressLocality' => 'Desa Sukajadi, Tamansari', 'addressRegion' => 'Kabupaten Bogor', 'addressCountry' => 'ID'],
-    ]), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+    ]), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG) !!}</script>
 @endpush
 
 @section('content')

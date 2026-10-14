@@ -57,13 +57,13 @@ class Booking extends Model
     /** Pesan WhatsApp dari pemesan ke admin desa. */
     public function customerWhatsappMessage(): string
     {
-        return __('site.booking.wa_customer', $this->messageParams(), $this->locale);
+        return __('site.booking.wa_customer', $this->messageParams(), $this->locale ?? 'id');
     }
 
     /** Pesan WhatsApp dari admin ke pemesan. */
     public function adminWhatsappMessage(): string
     {
-        return __('site.booking.wa_admin', $this->messageParams(), $this->locale);
+        return __('site.booking.wa_admin', $this->messageParams(), $this->locale ?? 'id');
     }
 
     protected function messageParams(): array
@@ -72,7 +72,7 @@ class Booking extends Model
             'code' => $this->code,
             'name' => $this->customer_name,
             'package' => $this->package_name,
-            'date' => $this->visit_date->locale($this->locale)->translatedFormat('l, j F Y'),
+            'date' => $this->visit_date->locale($this->locale ?? 'id')->translatedFormat('l, j F Y'),
             'pax' => $this->pax,
             'total' => rupiah($this->total),
             'organization' => $this->organization ?: '-',

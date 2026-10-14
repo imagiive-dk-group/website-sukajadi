@@ -33,9 +33,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\HtmlString;
 use UnitEnum;
@@ -423,7 +421,7 @@ class BookingResource extends Resource
                 TextColumn::make('phone')
                     ->label('WhatsApp')
                     ->searchable()
-                    ->toggleable(),
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('total')
                     ->label('Estimasi total')
                     ->formatStateUsing(fn ($state): string => rupiah($state))
