@@ -1,6 +1,6 @@
 # Rencana Website Desa Wisata Sukajadi
 
-> Status: **Draf rencana v1**. Dokumen ini disusun dari 5 brosur/flyer yang ada. Bagian bertanda ⚠️ perlu dikonfirmasi pengelola desa sebelum pengembangan dimulai.
+> Status: **Draf rencana v2**. Disusun dari 5 brosur/flyer yang ada dan konfirmasi pengelola. Bagian bertanda ⚠️ masih perlu dikonfirmasi.
 
 ---
 
@@ -26,12 +26,13 @@
 | Nama | Desa Wisata Sukajadi |
 | Lokasi | Desa Sukajadi, Kec. Tamansari, Kab. Bogor, Jawa Barat |
 | Tagline | "Belajar • Berwisata • Berdaya", "Alam, Budaya, Edukasi", "Wisata Ramah! Eta Pisan!", "Datang, Belajar, Berkesan!" |
-| WhatsApp | 0889-7644-8447 |
-| Instagram | ⚠️ Ada dua versi: `@desa_wisata.sukajadi` dan `@DesaWisataSukajadi`. Mana yang benar? |
-| TikTok | ⚠️ "Desa Wisata Sukajadi" / `@DesaWisataSukajadi`. Mohon konfirmasi handle-nya. |
+| WhatsApp | **+62 857-7519-4575** (`wa.me/6285775194575`) |
+| Instagram | **`@desawisatasukajadi`** |
+| TikTok | ⚠️ Di brosur tertulis "Desa Wisata Sukajadi" / `@DesaWisataSukajadi`. Mohon konfirmasi handle-nya. |
+| Logo | `assets/brand/logo-desa-wisata-sukajadi.webp` (lencana bundar: gunung, curug, rumah, tulisan "Desa Wisata Sukajadi · Kec. Tamansari – Kab. Bogor") |
 | Pilar wisata | Edukasi, Alam, Budaya, Kuliner Lokal |
 
-> ⚠️ Salah satu brosur (Paket Budidaya Padi) mencantumkan WA **0849**76448447. Kemungkinan salah ketik dari 0889…, mohon dicek.
+> Nomor WA & akun Instagram di atas menggantikan yang tertulis di brosur lama. Semua kontak disimpan di menu Pengaturan admin, jadi cukup diubah di satu tempat.
 
 ### 2.1 Destinasi / Atraksi
 
@@ -69,16 +70,20 @@ Fasilitas: transportasi (area desa), makan & snack, tiket masuk objek, pemandu b
 - Edukasi panen ubi jalar
 - Menu spesial: nasi liwet
 
-**C. Paket Edukasi Budidaya Padi**: **Rp125.000/paket**, minimal **30 paket**
-- Pendamping/atraksi pada brosur: Edukasi Stroberi, Curug Aman, Permainan Tradisional Sunda, Edukasi UMKM Kue Tradisional, Tentang Tempe
-- ⚠️ Brosur ini menampilkan dua panel berlabel "Paket Edukasi Budidaya Padi". Apakah sebenarnya ada dua paket berbeda (misal Paket Padi + Paket Budaya/UMKM)? Mana saja aktivitas yang termasuk paket?
+**C. Paket Edukasi Budidaya Padi**: **Rp125.000/paket**, minimal **30 paket** (satu paket; dua panel di brosur adalah paket yang sama)
+- Edukasi budidaya padi
+- Edukasi stroberi (petik stroberi langsung dari kebun)
+- Air terjun Curug Aman
+- Permainan tradisional Sunda (egrang, gasing, kelom geulis)
+- Edukasi UMKM kue tradisional (lapis, onde-onde, kue talam)
+- Edukasi tempe
 
-**D. Paket Edukasi UMKM**: ⚠️ harga & minimal peserta belum ada
+**D. Paket Edukasi UMKM**: 🧪 **harga dummy** Rp100.000/orang, minimal 20 orang (akan diganti dari admin)
 - Pembuatan minuman sari buah pala
 - Pembuatan kue tradisional "kue noga"
 - Wisata alam & petualangan Curug Aman
 
-**E. Agro Eduwisata Anggrek Bulan**: ⚠️ harga & minimal peserta belum ada
+**E. Agro Eduwisata Anggrek Bulan**: 🧪 **harga dummy** Rp75.000/orang, minimal 15 orang (akan diganti dari admin)
 - Belajar budidaya langsung dari petani
 - Melihat proses perkembangbiakan anggrek bulan
 
@@ -99,18 +104,18 @@ Beranda
 ├── UMKM & Oleh-oleh          (sari pala, kue noga, tempe, kue tradisional)
 ├── Booking / Reservasi       (form multi-langkah)
 │   └── Cek Status Booking    (pakai kode booking + no. HP)
-├── FAQ                       (cara booking, pembayaran, pembatalan, yang perlu dibawa)
+├── FAQ                       (cara booking, yang perlu dibawa, akses lokasi)
 └── Kontak                    (WA, IG, TikTok, Google Maps, jam operasional)
 
 Admin (/admin, hanya pengurus)
-├── Dashboard (booking baru, jadwal minggu ini, pendapatan)
+├── Dashboard (booking baru, jadwal minggu ini)
 ├── Paket & Tingkat Harga
 ├── Destinasi/Aktivitas
 ├── Galeri & Album
-├── Booking & Pembayaran
+├── Booking
 ├── Kalender (tanggal penuh/libur, kuota)
 ├── Testimoni, FAQ
-└── Pengaturan (kontak, rekening, teks halaman)
+└── Pengaturan (kontak WA/IG/TikTok, teks halaman)
 ```
 
 ### 3.1 Isi Beranda (urutan section)
@@ -132,10 +137,15 @@ Tombol **WhatsApp melayang** (floating) tampil di semua halaman.
 
 ## 4. Desain & Identitas Visual
 
-- **Warna** (diambil dari brosur): hijau tua daun `#2F5D2A` (utama), hijau muda `#8DB255`, krem kertas `#F5EFE3` (latar), cokelat kayu `#7A5233` (aksen), oranye `#E8742A` (tombol CTA/badge).
-- **Gaya**: alami, hangat, nuansa papan kayu & daun seperti brosur. Foto menjadi elemen utama.
+- **Warna** (diambil dari logo resmi):
+  - Hijau logo `#277721`: warna utama (header, judul, tombol sekunder)
+  - Oranye logo `#FA6700`: aksen & tombol CTA ("Booking Sekarang", badge "Best Seller")
+  - Biru langit `#91D7E6`: aksen ringan (latar section alam/curug)
+  - Krem kertas `#F5EFE3`: latar halaman agar terasa hangat
+  - Hijau tua `#1B4D17`: teks judul & footer
+- **Gaya**: alami, hangat, nuansa daun & papan kayu seperti brosur. Foto menjadi elemen utama.
 - **Font** (Google Fonts, gratis): judul tebal *Poppins*/*Baloo 2*, aksen tulisan tangan *Kalam*/*Caveat* (untuk kalimat seperti "Datang, Belajar, Berkesan!"), teks isi *Inter*/*Nunito*.
-- **Logo**: ⚠️ ada dua versi logo di brosur (rumah+sungai dan air terjun+lencana). Pilih satu sebagai logo resmi, sediakan file PNG/SVG resolusi tinggi.
+- **Logo**: memakai logo lencana bundar yang sudah dikirim (`assets/brand/logo-desa-wisata-sukajadi.webp`). File saat ini berupa gambar raster (1080×1440 px, ada ruang kosong atas-bawah). Untuk hasil paling tajam (header, favicon, cetak), idealnya dibuat ulang versi **SVG** (vektor) dari logo ini. Logo pada brosur lama tidak dipakai.
 - **Mobile-first**: mayoritas pengunjung Indonesia membuka dari HP. Semua halaman dirancang untuk layar HP terlebih dahulu.
 
 ---
@@ -178,8 +188,9 @@ Total kebutuhan awal: kira-kira **150–300 foto**.
 Pilih paket ─► Pilih tingkat (Hemat/Standar/Premium) ─► Pilih tanggal
      ─► Isi jumlah peserta + data pemesan (nama, HP/WA, email, asal instansi, jenis rombongan)
      ─► Lihat ringkasan & estimasi harga ─► Kirim
-     ─► Dapat KODE BOOKING (mis. SKJ-261014-0042) + tombol "Konfirmasi via WhatsApp"
-          (pesan WA otomatis terisi: kode, paket, tanggal, jumlah peserta)
+     ─► Dapat KODE BOOKING (mis. SKJ-261014-0042) + tombol "Lanjutkan via WhatsApp"
+          (pesan WA otomatis terisi: kode, paket, tanggal, jumlah peserta, estimasi total)
+     ─► Konfirmasi jadwal & pembayaran dilanjutkan di WhatsApp dengan admin
 ```
 
 Validasi otomatis:
@@ -190,33 +201,34 @@ Validasi otomatis:
 ### 6.2 Alur di sisi pengelola
 
 ```
-Baru ─► Dikonfirmasi ─► Menunggu DP ─► DP Diterima ─► Lunas ─► Selesai
-                 └──────────────► Dibatalkan
+Baru ─► Dikonfirmasi ─► Selesai
+   └──────────┴──────► Dibatalkan
 ```
 
 - Notifikasi **email** ke admin setiap ada booking baru (gratis, pakai email bawaan hosting).
-- Di admin ada tombol **"Kirim WA"** yang membuka WhatsApp dengan pesan konfirmasi siap kirim ke pemesan (gratis, memakai `wa.me`, tidak perlu WhatsApp API berbayar).
-- Admin mencatat pembayaran (DP/pelunasan), nominal, dan bukti.
+- Di admin ada tombol **"Kirim WA"** yang membuka WhatsApp dengan pesan siap kirim ke pemesan (gratis, memakai `wa.me`, tidak perlu WhatsApp API berbayar).
+- Admin cukup mengubah status & menambah catatan internal (misal "sudah transfer DP" atau "ganti tanggal").
 - Kalender jadwal: melihat rombongan per tanggal.
 
-### 6.3 Pembayaran (tanpa biaya bulanan)
-- **Fase 1–2**: transfer bank / **QRIS statis** milik desa/BUMDes, lalu pemesan **mengunggah bukti bayar** di halaman Cek Status Booking. Admin memverifikasi manual. Biaya: Rp0.
-- **Fase 3 (opsional)**: payment gateway (Midtrans/Xendit/Tripay). Tidak ada biaya bulanan, tetapi **ada potongan per transaksi** (bisa dibebankan ke pemesan). Hanya diaktifkan jika volume booking sudah tinggi.
+### 6.3 Pembayaran
+- **Tidak ditangani di website.** Aturan DP, pelunasan, pembatalan, dan rekening dibahas langsung lewat **WhatsApp** dengan admin.
+- Website hanya menampilkan **estimasi harga** (harga × jumlah peserta) sebagai acuan.
+- Halaman FAQ cukup menulis: *"Pembayaran & ketentuan lainnya akan dijelaskan oleh admin melalui WhatsApp."*
+- Jika suatu saat volume booking sudah tinggi, payment gateway bisa ditambahkan tanpa mengubah struktur data booking.
 
 ### 6.4 Model data (dirancang untuk berkembang)
 
 | Tabel | Isi utama |
 |---|---|
 | `packages` | nama, slug, kategori, deskripsi, durasi, foto sampul, aktif/tidak, unggulan |
-| `package_tiers` | tingkat (Hemat/Standar/Premium), harga, **satuan harga** (per orang / per pack / per rombongan), minimal peserta, isi/fasilitas, badge |
+| `package_tiers` | tingkat (Hemat/Standar/Premium), harga, **satuan harga** (per orang / per pack / per rombongan), minimal peserta, isi/fasilitas, badge, penanda **harga dummy** (tampil label "harga sementara" di admin) |
 | `attractions` | destinasi/aktivitas: nama, kategori, deskripsi, lokasi |
 | `package_attraction` | relasi paket ↔ aktivitas |
 | `albums`, `photos` | galeri, keterangan foto, urutan, terkait paket/destinasi |
-| `bookings` | kode, paket, tingkat, tanggal, jumlah peserta, data pemesan, jenis rombongan, total, status, catatan |
-| `payments` | booking, jenis (DP/pelunasan), nominal, bukti, diverifikasi oleh, tanggal |
+| `bookings` | kode, paket, tingkat, tanggal, jumlah peserta, data pemesan, jenis rombongan, estimasi total, status, catatan internal |
 | `blocked_dates` / `capacity` | tanggal tutup & kuota harian per paket |
 | `addons` (Fase 2) | tambahan opsional: dokumentasi, oleh-oleh, menu tambahan |
-| `testimonials`, `faqs`, `settings` | konten pendukung & pengaturan (kontak, rekening, kebijakan) |
+| `testimonials`, `faqs`, `settings` | konten pendukung & pengaturan (kontak WA/IG/TikTok, teks halaman) |
 
 Dengan struktur ini, paket baru dengan model harga apa pun cukup ditambahkan dari admin.
 
@@ -236,7 +248,6 @@ Dengan struktur ini, paket baru dengan model harga apa pun cukup ditambahkan dar
 | Galeri | **PhotoSwipe** atau **GLightbox** | Lightbox gratis, nyaman di HP |
 | Peta | Embed Google Maps | Gratis (embed, bukan API berbayar) |
 | Email | SMTP bawaan hosting | Gratis |
-| Invoice PDF (Fase 2) | DomPDF | Gratis |
 | Analitik | Google Analytics 4 + Google Search Console | Gratis |
 | SSL (https) | Let's Encrypt (biasanya sudah termasuk hosting) | Gratis |
 | CDN & keamanan (opsional) | Cloudflare paket Free | Gratis, mempercepat foto |
@@ -282,11 +293,11 @@ Saran nama domain: `desawisatasukajadi.com`, `sukajadi.id`, `wisatasukajadi.id` 
 ## 9. Tahapan Pengembangan
 
 ### Fase 0: Persiapan konten (oleh pengelola desa)
-- [ ] Jawab pertanyaan ⚠️ di dokumen ini (kontak, logo, paket, harga)
+- [x] Kontak resmi (WA & Instagram), logo, kejelasan Paket Padi
+- [ ] Jawab pertanyaan ⚠️ yang tersisa (bagian 10)
+- [ ] Harga asli Paket UMKM & Anggrek Bulan (sementara pakai dummy)
 - [ ] Teks "Tentang Desa" (sejarah singkat, Pokdarwis, keunikan)
 - [ ] Rundown kegiatan per paket
-- [ ] Kebijakan DP, pelunasan, pembatalan, dan reschedule
-- [ ] Rekening/QRIS resmi penerima pembayaran
 - [ ] Mulai pengambilan foto sesuai shot list
 - [ ] Beli domain & hosting
 
@@ -301,14 +312,12 @@ Saran nama domain: `desawisatasukajadi.com`, `sukajadi.id`, `wisatasukajadi.id` 
 
 ### Fase 2: Booking lengkap
 - [ ] Kalender ketersediaan & kuota harian
-- [ ] Halaman Cek Status Booking + unggah bukti bayar
-- [ ] Pencatatan DP/pelunasan, invoice PDF
+- [ ] Halaman Cek Status Booking
 - [ ] Add-on (dokumentasi, oleh-oleh, menu tambahan)
 - [ ] Testimoni pengunjung, halaman UMKM & oleh-oleh
-- [ ] Laporan sederhana (jumlah pengunjung & pendapatan per bulan, ekspor Excel)
+- [ ] Laporan sederhana (jumlah booking & peserta per bulan, ekspor Excel)
 
 ### Fase 3: Pengembangan lanjutan (opsional)
-- [ ] Payment gateway otomatis
 - [ ] Versi Bahasa Inggris (wisatawan asing)
 - [ ] Paket custom (pemesan memilih sendiri aktivitas → harga dihitung otomatis)
 - [ ] Blog/berita kegiatan (bagus untuk SEO)
@@ -316,16 +325,19 @@ Saran nama domain: `desawisatasukajadi.com`, `sukajadi.id`, `wisatasukajadi.id` 
 
 ---
 
-## 10. Pertanyaan untuk Pengelola Desa (⚠️ ringkasan)
+## 10. Pertanyaan yang Masih Terbuka
 
-1. Akun Instagram & TikTok resmi yang benar?
-2. Nomor WA 0889-7644-8447 untuk semua paket? (Ada brosur bertuliskan 0849…)
-3. Logo mana yang dipakai sebagai logo resmi?
-4. Paket Budidaya Padi: aktivitas apa saja yang termasuk? Apakah ada dua paket berbeda di brosur tersebut?
-5. Harga & minimal peserta untuk **Paket UMKM** dan **Anggrek Bulan**?
-6. Apakah "per pack/per paket" sama dengan "per orang"?
-7. Kebijakan DP (berapa %), batas pelunasan, dan pembatalan?
-8. Berapa rombongan/peserta maksimal per hari?
-9. Siapa yang akan mengelola admin website (berapa orang)?
-10. Nama domain yang diinginkan?
-11. Perlu versi Bahasa Inggris sejak awal atau nanti?
+1. Akun TikTok resmi yang benar?
+2. Apakah "per pack/per paket" (Paket Ubi Jalar & Padi) sama dengan "per orang"?
+3. Berapa rombongan/peserta maksimal per hari?
+4. Siapa yang akan mengelola admin website (berapa orang)?
+5. Nama domain yang diinginkan?
+6. Perlu versi Bahasa Inggris sejak awal atau nanti?
+
+### Sudah dikonfirmasi
+- Instagram: `@desawisatasukajadi`
+- WhatsApp: +62 857-7519-4575
+- Paket Budidaya Padi: dua panel di brosur adalah **paket yang sama**
+- Harga Paket UMKM & Anggrek Bulan: pakai **dummy** dulu, diisi kemudian
+- Logo: logo lencana bundar (`assets/brand/logo-desa-wisata-sukajadi.webp`)
+- Pembayaran: **tidak diatur di website**, cukup lewat WhatsApp
