@@ -1,0 +1,52 @@
+<?php
+
+return [
+    'locales' => ['id' => 'Indonesia', 'en' => 'English'],
+
+    // Potongan URL per bahasa: /paket ↔ /en/packages
+    'paths' => [
+        'id' => [
+            'profile' => 'profil-desa',
+            'about' => 'tentang',
+            'packages' => 'paket',
+            'custom' => 'paket-custom',
+            'attractions' => 'destinasi',
+            'umkm' => 'umkm',
+            'products' => 'produk-umkm',
+            'gallery' => 'galeri',
+            'news' => 'berita',
+            'faq' => 'faq',
+            'contact' => 'kontak',
+            'reviews' => 'ulasan',
+            'booking' => 'booking',
+            'booking_done' => 'terima-kasih',
+            'booking_check' => 'cek-booking',
+        ],
+        'en' => [
+            'profile' => 'village-profile',
+            'about' => 'about',
+            'packages' => 'packages',
+            'custom' => 'custom-package',
+            'attractions' => 'destinations',
+            'umkm' => 'local-businesses',
+            'products' => 'local-products',
+            'gallery' => 'gallery',
+            'news' => 'news',
+            'faq' => 'faq',
+            'contact' => 'contact',
+            'reviews' => 'reviews',
+            'booking' => 'booking',
+            'booking_done' => 'thank-you',
+            'booking_check' => 'check-booking',
+        ],
+    ],
+
+    'package_categories' => ['edukasi', 'alam', 'budaya', 'kuliner'],
+    'attraction_categories' => ['alam', 'edukasi', 'budaya', 'kuliner'],
+    'album_categories' => ['alam', 'edukasi', 'budaya', 'kuliner', 'kegiatan'],
+    'umkm_categories' => ['makanan', 'minuman', 'kerajinan', 'pertanian', 'lainnya'],
+    'facilities' => ['transport', 'meals', 'tickets', 'guide', 'insurance', 'documentation'],
+    'group_types' => ['school', 'community', 'company', 'family', 'other'],
+    'booking_statuses' => ['new', 'confirmed', 'completed', 'cancelled'],
+    'profile_groups' => ['identitas', 'geografi', 'kependudukan', 'pemerintahan', 'status'],
+];

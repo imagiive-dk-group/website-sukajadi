@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /admin
+Disallow: /booking/terima-kasih
+Disallow: /en/booking/thank-you
+
+Sitemap: https://desawisatasukajadi.com/sitemap.xml

@@ -403,27 +403,27 @@ Domain terpilih: **`desawisatasukajadi.com`**. Sekalian buat email resmi gratis 
 - [ ] Mulai pengambilan foto sesuai shot list
 - [ ] Beli domain `desawisatasukajadi.com` & hosting
 
-### Fase 1: MVP (showcase + booking dasar)
-- [ ] Setup Laravel + Filament + Tailwind, deploy ke hosting
-- [ ] Halaman: Beranda, Profil Desa, Desa Wisata, Paket (+detail), Destinasi (+detail), UMKM (+detail), Galeri, FAQ, Kontak
-- [ ] Placeholder foto berlabel di semua posisi foto
-- [ ] Dua bahasa (Indonesia + English): URL `/en`, tombol ganti bahasa, konten admin per bahasa, terjemahan awal
-- [ ] Admin: kelola paket, tingkat harga, destinasi, UMKM, profil desa, galeri, pengaturan, 2 akun (Super Admin & Admin)
-- [ ] Form booking + kode booking + notifikasi email + tombol WA
-- [ ] Admin: daftar & status booking
-- [ ] SEO dasar, Google Analytics, Search Console
+### Fase 1: MVP (showcase + booking dasar) ✅ selesai dibangun
+- [x] Setup Laravel 13 + Filament 5 + Tailwind CSS 4 (deploy ke hosting: lihat `docs/PANDUAN-DEPLOY.md`)
+- [x] Halaman: Beranda, Profil Desa, Desa Wisata, Paket (+detail), Destinasi (+detail), UMKM (+detail), Galeri, Berita, FAQ, Kontak
+- [x] Placeholder foto berlabel di semua posisi foto (otomatis berganti saat foto diunggah)
+- [x] Dua bahasa (Indonesia + English): URL `/en`, tombol ganti bahasa, konten admin per bahasa, terjemahan awal
+- [x] Admin: kelola paket, tingkat harga, destinasi, UMKM, profil desa, galeri, pengaturan, 2 peran (Super Admin & Admin)
+- [x] Form booking + kode booking + notifikasi email + tombol WA
+- [x] Admin: daftar & status booking + tombol "Kirim WA"
+- [x] SEO dasar: meta, Open Graph, hreflang, schema.org, `sitemap.xml`, `robots.txt`; kolom Google Analytics di Pengaturan
 
-### Fase 2: Booking lengkap
-- [ ] Kalender ketersediaan & kuota harian (diaktifkan setelah kuota ditentukan)
-- [ ] Halaman Cek Status Booking
-- [ ] Add-on (dokumentasi, oleh-oleh, menu tambahan)
-- [ ] Testimoni pengunjung
-- [ ] Laporan sederhana (jumlah booking & peserta per bulan, ekspor Excel)
+### Fase 2: Booking lengkap ✅ selesai dibangun
+- [x] Kalender booking & kuota harian (global / per paket; kosong = tidak dibatasi) + tanggal ditutup
+- [x] Halaman Cek Status Booking
+- [x] Add-on (dokumentasi, oleh-oleh, menu tambahan)
+- [x] Ulasan pengunjung (dengan moderasi admin)
+- [x] Laporan per bulan + ekspor CSV (bisa dibuka di Excel)
 
-### Fase 3: Pengembangan lanjutan (opsional)
-- [ ] Paket custom (pemesan memilih sendiri aktivitas → harga dihitung otomatis)
-- [ ] Blog/berita kegiatan (bagus untuk SEO)
-- [ ] Penjualan produk UMKM online
+### Fase 3: Pengembangan lanjutan ✅ selesai dibangun
+- [x] Paket custom (pemesan memilih sendiri aktivitas → harga dihitung otomatis)
+- [x] Berita/blog kegiatan
+- [x] Katalog produk UMKM dengan pemesanan via WhatsApp (tanpa pembayaran online)
 
 ---
 
