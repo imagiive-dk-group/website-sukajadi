@@ -94,7 +94,7 @@ php artisan optimize
 php artisan up
 ```
 
-> Jangan jalankan `migrate:fresh` atau `db:seed` di server produksi setelah website berjalan: perintah itu menghapus/menimpa data.
+> Jangan jalankan `composer run setup`, `migrate:fresh`, atau `db:seed` di server produksi setelah website berjalan: perintah itu menghapus/menimpa data.
 
 ## 4. Backup
 

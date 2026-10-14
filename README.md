@@ -17,17 +17,18 @@ Dibangun dengan **Laravel 13**, panel admin **Filament 5**, **Tailwind CSS 4**, 
 - Rencana website: [docs/RENCANA-WEBSITE.md](docs/RENCANA-WEBSITE.md)
 - Panduan deploy ke hosting: [docs/PANDUAN-DEPLOY.md](docs/PANDUAN-DEPLOY.md)
 - Panduan admin: [docs/PANDUAN-ADMIN.md](docs/PANDUAN-ADMIN.md)
+- Menjalankan di komputer sendiri: [docs/PANDUAN-LOCALHOST.md](docs/PANDUAN-LOCALHOST.md)
 
 ## Menjalankan di komputer lokal
 
+Panduan lengkap (Windows/Mac, tanpa Node.js): [docs/PANDUAN-LOCALHOST.md](docs/PANDUAN-LOCALHOST.md)
+
 ```bash
-composer install && npm install
-cp .env.example .env && php artisan key:generate
-touch database/database.sqlite
-php artisan migrate --seed
-npm run build
-php artisan serve        # http://localhost:8000  (admin: /admin)
+composer run setup     # sekali saja: pasang paket, buat database SQLite, isi data awal
+composer run preview   # buka http://127.0.0.1:8000  (admin: /admin)
 php artisan test
 ```
 
-Login admin awal diambil dari `ADMIN_EMAIL` / `ADMIN_PASSWORD` di `.env` (bawaan: `admin@desawisatasukajadi.com` / `ubah-password-ini`). **Ganti password setelah login pertama.**
+Login admin awal: `admin@desawisatasukajadi.com` / `ubah-password-ini` (dari `ADMIN_EMAIL` / `ADMIN_PASSWORD` di `.env`). **Ganti password setelah login pertama.**
+
+> `composer run setup` menghapus dan mengisi ulang database. Jangan jalankan di server produksi; ikuti `docs/PANDUAN-DEPLOY.md`.
