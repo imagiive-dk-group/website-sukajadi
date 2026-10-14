@@ -1,6 +1,6 @@
 # Rencana Website Desa Wisata Sukajadi
 
-> Status: **Rencana v3 (final untuk mulai Fase 1)**. Disusun dari 5 brosur/flyer yang ada dan konfirmasi pengelola.
+> Status: **Rencana v4 (final untuk mulai Fase 1)**. Disusun dari 5 brosur/flyer yang ada dan konfirmasi pengelola.
 
 ---
 
@@ -98,13 +98,16 @@ Fasilitas: transportasi (area desa), makan & snack, tiket masuk objek, pemandu b
 
 ```
 Beranda
-├── Tentang Desa              (sejarah, visi, Pokdarwis, peta lokasi)
+├── Tentang
+│   ├── Profil Desa           (data resmi pemerintah: wilayah, penduduk, pemerintahan; lihat 3.2)
+│   └── Desa Wisata           (cerita desa wisata, Pokdarwis, visi, peta lokasi)
 ├── Paket Wisata              (daftar + filter: edukasi/alam/budaya/kuliner, durasi, harga)
 │   └── Detail Paket          (galeri, rundown, tingkat harga, fasilitas, tombol Booking)
 ├── Destinasi & Aktivitas     (Curug Aman, kelinci, stroberi, anggrek, dll.)
 │   └── Detail Destinasi      (galeri foto, deskripsi, paket terkait)
 ├── Galeri                    (album per kategori, lightbox, bisa geser di HP)
-├── UMKM & Oleh-oleh          (sari pala, kue noga, tempe, kue tradisional)
+├── UMKM Sukajadi             (direktori UMKM: overview satu per satu + kontak; lihat 3.3)
+│   └── Detail UMKM           (profil usaha, produk, foto, kontak WA/IG, lokasi)
 ├── Booking / Reservasi       (form multi-langkah)
 │   └── Cek Status Booking    (pakai kode booking + no. HP)
 ├── FAQ                       (cara booking, yang perlu dibawa, akses lokasi)
@@ -118,6 +121,8 @@ Admin (/admin, hanya pengurus, Bahasa Indonesia)
 ├── Dashboard (booking baru, jadwal minggu ini)
 ├── Paket & Tingkat Harga
 ├── Destinasi/Aktivitas
+├── UMKM & Produk
+├── Profil Desa (data resmi + sumber)
 ├── Galeri & Album
 ├── Booking
 ├── Kalender (tanggal penuh/libur, kuota opsional)
@@ -134,12 +139,73 @@ Admin (/admin, hanya pengurus, Bahasa Indonesia)
 5. **Cocok Untuk**: sekolah, komunitas, instansi, keluarga.
 6. **Fasilitas**: transportasi, makan, tiket, pemandu, asuransi.
 7. **Galeri cuplikan**: grid foto (masonry) → tautan ke Galeri.
-8. **Testimoni** pengunjung/sekolah.
-9. **Cara Booking** dalam 4 langkah.
-10. **Lokasi** dengan peta Google Maps.
-11. **CTA penutup** "Datang, Belajar, Berkesan!" + tombol WhatsApp.
+8. **UMKM Sukajadi**: 3–6 kartu UMKM (foto produk, nama usaha, satu kalimat overview, tombol WA) → tautan ke halaman UMKM.
+9. **Testimoni** pengunjung/sekolah.
+10. **Cara Booking** dalam 4 langkah.
+11. **Lokasi** dengan peta Google Maps.
+12. **CTA penutup** "Datang, Belajar, Berkesan!" + tombol WhatsApp.
 
 Tombol **WhatsApp melayang** (floating) tampil di semua halaman.
+
+### 3.2 Halaman Profil Desa (data resmi pemerintah)
+
+Halaman berisi data resmi Desa Sukajadi. **Setiap angka ditampilkan bersama sumber & tahunnya** (misal *"Sumber: BPS, Kecamatan Tamansari Dalam Angka 2025"*), dan semua dapat diperbarui dari admin tanpa programmer.
+
+| Bagian | Isi |
+|---|---|
+| Identitas | Nama desa, kode wilayah (Kemendagri), kecamatan, kabupaten, provinsi, kode pos |
+| Sejarah singkat | Asal-usul nama & sejarah desa |
+| Visi & misi | Visi-misi pemerintah desa (dari RPJMDes) |
+| Geografi | Luas wilayah, ketinggian, batas wilayah (utara/selatan/barat/timur), jumlah dusun/RW/RT, peta wilayah |
+| Kependudukan | Jumlah penduduk (laki-laki/perempuan), jumlah KK, kepadatan, mata pencaharian utama |
+| Pemerintahan | Kepala desa, perangkat desa, BPD, struktur organisasi (bagan) |
+| Kelembagaan | Pokdarwis, BUMDes, PKK, Karang Taruna |
+| Status & prestasi | Status Indeks Desa (Kemendesa), SK/Perda penetapan desa wisata, penghargaan |
+| Potensi desa | Pertanian, peternakan, wisata, UMKM (menautkan ke halaman terkait) |
+| Kantor desa | Alamat, jam layanan, kontak, peta |
+
+**Data awal yang sudah ditemukan** (perlu dicocokkan dengan data kantor desa):
+
+| Data | Nilai | Sumber |
+|---|---|---|
+| Kode wilayah | 32.01.31.2008 | Wikipedia (mengutip BPS/Kemendagri) |
+| Luas wilayah | ± 3,04 km² | Wikipedia (mengutip BPS) |
+| Jumlah penduduk | ± 10.569 jiwa (perkiraan pertengahan 2024) | Wikipedia, mengutip BPS *Kecamatan Tamansari Dalam Angka 2025* |
+| Kecamatan | Tamansari, 8 desa; Kawasan Strategis Pariwisata Kab. Bogor | BPS Kab. Bogor; jurnal Poltekpar NHI |
+
+**Sumber resmi yang dipakai** (urut prioritas):
+1. **Kantor Desa Sukajadi**: profil/monografi desa, RPJMDes, struktur pemerintahan, sejarah. Ini sumber utama; mohon minta salinannya.
+2. **BPS Kabupaten Bogor**: publikasi *Kecamatan Tamansari Dalam Angka* (luas, penduduk, dll.).
+3. **Kemendagri**: kode & nama wilayah administrasi resmi.
+4. **Kemendesa**: status Indeks Desa.
+5. **Pemkab Bogor / Kecamatan Tamansari** (`kecamatantamansari.bogorkab.go.id`): SK/Perda terkait desa wisata.
+
+### 3.3 Halaman UMKM Sukajadi
+
+Direktori UMKM yang menampilkan **overview tiap UMKM satu per satu beserta kontaknya**, agar pengunjung bisa memesan produk langsung ke pelaku usaha.
+
+**Halaman daftar**: kartu per UMKM, filter kategori (Makanan, Minuman, Kerajinan, Pertanian, Lainnya).
+
+**Halaman detail tiap UMKM:**
+- Nama usaha, nama pemilik, kategori
+- Overview singkat (cerita usaha, sejak kapan, keunikan)
+- Produk unggulan (foto, nama, kisaran harga opsional)
+- Galeri foto usaha/proses produksi
+- **Kontak**: tombol WhatsApp (pesan otomatis *"Halo, saya melihat [nama UMKM] di website Desa Wisata Sukajadi…"*), Instagram, alamat + tautan Google Maps, jam buka
+- Info layanan: terima pesanan, bisa dikunjungi rombongan, ikut dalam paket wisata (ditautkan ke paket terkait, misal Paket UMKM)
+
+**UMKM awal (dari brosur, data kontak masih dummy):**
+
+| UMKM | Kategori | Produk |
+|---|---|---|
+| Sari Buah Pala | Minuman | Minuman sari buah pala |
+| Kue Noga | Makanan | Kue tradisional noga |
+| Kue Tradisional | Makanan | Kue lapis, onde-onde, kue talam |
+| Tempe | Makanan | Tempe |
+| Anggrek Bulan | Pertanian | Tanaman anggrek bulan |
+| Stroberi | Pertanian | Stroberi segar |
+
+> ⚠️ Nomor WA dan alamat pelaku UMKM adalah data pribadi. Mintalah **izin tiap pemilik** sebelum kontaknya ditampilkan. Jika ada yang tidak berkenan, tombol kontak bisa diarahkan ke WA admin desa.
 
 ---
 
@@ -173,7 +239,8 @@ Tombol **WhatsApp melayang** (floating) tampil di semua halaman.
 | Per paket (×5) | 6–10/paket | 3:2 | Aktivitas inti, peserta, pemandu, makanan |
 | Per destinasi (×12) | 5–10/destinasi | 3:2 & 4:5 | Suasana, detail, orang beraktivitas |
 | Galeri umum | 50–150 | campuran | Kegiatan, budaya, kuliner, alam |
-| UMKM/produk | 2–4/produk | 1:1 | Foto produk dengan latar bersih |
+| UMKM (×6+) | 4–8/UMKM | 1:1 & 3:2 | Foto produk berlatar bersih, pemilik, proses produksi, tempat usaha |
+| Profil desa | 5–10 | 3:2 | Kantor desa, perangkat desa, peta wilayah, kegiatan warga |
 | Tim/pemandu | 1/orang | 1:1 | Foto wajah pemandu & pengurus |
 
 Total kebutuhan awal: kira-kira **150–300 foto**.
@@ -237,6 +304,9 @@ Baru ─► Dikonfirmasi ─► Selesai
 | `bookings` | kode, paket, tingkat, tanggal, jumlah pax, data pemesan, jenis rombongan, **bahasa pemesan**, estimasi total, status, catatan internal |
 | `blocked_dates` / `capacity` | tanggal tutup & kuota harian per paket (kosong = tidak dibatasi) |
 | `addons` (Fase 2) | tambahan opsional: dokumentasi, oleh-oleh, menu tambahan |
+| `umkms` | nama usaha, slug, pemilik, kategori, overview, logo/foto sampul, WA, Instagram, alamat, link Maps, jam buka, terima pesanan/kunjungan, tampilkan kontak (ya/tidak), urutan |
+| `umkm_products` | UMKM, nama produk, foto, kisaran harga (opsional) |
+| `village_profile` | isian halaman Profil Desa per bagian, termasuk **sumber & tahun data** |
 | `testimonials`, `faqs`, `settings` | konten pendukung & pengaturan (kontak WA/IG, teks halaman) |
 | `users` | akun admin (lihat 6.5) |
 
@@ -328,15 +398,17 @@ Domain terpilih: **`desawisatasukajadi.com`**. Sekalian buat email resmi gratis 
 - [ ] Harga asli Paket UMKM & Anggrek Bulan (sementara pakai dummy)
 - [ ] Teks "Tentang Desa" (sejarah singkat, Pokdarwis, keunikan)
 - [ ] Rundown kegiatan per paket
+- [ ] Data resmi profil desa dari kantor desa (monografi/profil desa, RPJMDes, struktur pemerintahan)
+- [ ] Daftar UMKM + overview + kontak, **beserta izin pemilik** untuk menampilkan kontak
 - [ ] Mulai pengambilan foto sesuai shot list
 - [ ] Beli domain `desawisatasukajadi.com` & hosting
 
 ### Fase 1: MVP (showcase + booking dasar)
 - [ ] Setup Laravel + Filament + Tailwind, deploy ke hosting
-- [ ] Halaman: Beranda, Tentang, Paket (+detail), Destinasi (+detail), Galeri, FAQ, Kontak
+- [ ] Halaman: Beranda, Profil Desa, Desa Wisata, Paket (+detail), Destinasi (+detail), UMKM (+detail), Galeri, FAQ, Kontak
 - [ ] Placeholder foto berlabel di semua posisi foto
 - [ ] Dua bahasa (Indonesia + English): URL `/en`, tombol ganti bahasa, konten admin per bahasa, terjemahan awal
-- [ ] Admin: kelola paket, tingkat harga, destinasi, galeri, pengaturan, 2 akun (Super Admin & Admin)
+- [ ] Admin: kelola paket, tingkat harga, destinasi, UMKM, profil desa, galeri, pengaturan, 2 akun (Super Admin & Admin)
 - [ ] Form booking + kode booking + notifikasi email + tombol WA
 - [ ] Admin: daftar & status booking
 - [ ] SEO dasar, Google Analytics, Search Console
@@ -345,7 +417,7 @@ Domain terpilih: **`desawisatasukajadi.com`**. Sekalian buat email resmi gratis 
 - [ ] Kalender ketersediaan & kuota harian (diaktifkan setelah kuota ditentukan)
 - [ ] Halaman Cek Status Booking
 - [ ] Add-on (dokumentasi, oleh-oleh, menu tambahan)
-- [ ] Testimoni pengunjung, halaman UMKM & oleh-oleh
+- [ ] Testimoni pengunjung
 - [ ] Laporan sederhana (jumlah booking & peserta per bulan, ekspor Excel)
 
 ### Fase 3: Pengembangan lanjutan (opsional)
@@ -371,9 +443,13 @@ Domain terpilih: **`desawisatasukajadi.com`**. Sekalian buat email resmi gratis 
 | Admin | 2 akun: Anda (Super Admin) + 1 pengurus menyusul |
 | Domain | `desawisatasukajadi.com` |
 | Bahasa | Indonesia + English sejak awal |
+| UMKM | Satu section/halaman direktori: overview tiap UMKM + kontak |
+| Profil Desa | Halaman khusus berisi data resmi pemerintah, lengkap dengan sumber |
 
 ### Masih menunggu (tidak menghambat pengembangan)
 - Harga asli Paket UMKM & Anggrek Bulan
 - Kuota harian
 - Nama & email admin kedua
 - Foto asli & teks "Tentang Desa"
+- Data resmi profil desa dari kantor desa
+- Daftar UMKM, kontak, dan izin pemiliknya
