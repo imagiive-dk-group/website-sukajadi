@@ -9,6 +9,8 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\PlaceholderController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\UmkmController;
+use App\Http\Controllers\WhatsappController;
+use App\Http\Controllers\PartnerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,6 +46,10 @@ foreach (['id' => '', 'en' => 'en'] as $locale => $prefix) {
             Route::get($p['umkm'].'/{slug}', [UmkmController::class, 'show'])->name('umkm.show');
             Route::get($p['products'], [UmkmController::class, 'products'])->name('products');
 
+            Route::get($p['partners'], [PartnerController::class, 'index'])->name('partners.index');
+            Route::get($p['partners'].'/{slug}', [PartnerController::class, 'show'])->name('partners.show');
+            Route::get($p['team'], [PageController::class, 'team'])->name('team');
+
             Route::get($p['gallery'], [GalleryController::class, 'index'])->name('gallery.index');
             Route::get($p['gallery'].'/{slug}', [GalleryController::class, 'show'])->name('gallery.show');
 
@@ -58,5 +64,6 @@ foreach (['id' => '', 'en' => 'en'] as $locale => $prefix) {
 }
 
 Route::get('booking/availability', [BookingController::class, 'availability'])->middleware('throttle:60,1')->name('booking.availability');
+Route::get('wa', WhatsappController::class)->middleware('throttle:60,1')->name('wa');
 Route::get('placeholder.svg', PlaceholderController::class)->name('placeholder');
 Route::get('sitemap.xml', SitemapController::class)->name('sitemap');

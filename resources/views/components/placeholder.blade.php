@@ -1,4 +1,4 @@
-@props(['label' => null, 'ratio' => '3/2', 'dark' => false, 'fill' => false, 'compact' => false])
+@props(['label' => null, 'ratio' => '3/2', 'dark' => false, 'fill' => false, 'compact' => false, 'corner' => false])
 {{-- Placeholder berlabel: menjelaskan foto apa yang perlu diunggah ke posisi ini. --}}
 <div
     {{ $attributes->class([
@@ -21,8 +21,8 @@
             @endif
         </div>
     @else
-        @if($label)
-            <span class="absolute top-24 right-4 z-10 hidden sm:top-28 max-w-xs items-center gap-2 rounded-full bg-black/25 px-3 py-1.5 text-left text-[11px] text-white/80 backdrop-blur sm:flex">
+        @if($label && ! $compact)
+            <span @class(['absolute z-10 hidden max-w-xs items-center gap-2 rounded-full bg-black/25 px-3 py-1.5 text-left text-[11px] text-white/80 backdrop-blur sm:flex', 'top-3 right-3' => $corner, 'top-24 right-4 sm:top-28' => ! $corner])>
                 <x-heroicon-o-camera class="size-4 shrink-0" />
                 <span class="line-clamp-1">{{ __('site.common.photo') }}: {{ $label }}</span>
             </span>

@@ -12,7 +12,7 @@
             <p class="mt-2 font-display font-bold text-leaf-700">{{ $price }}</p>
         @endif
         <div class="mt-auto pt-4">
-            <a href="{{ $umkm->whatsappLink(__('site.umkm.wa_product', ['product' => $product->tr('name'), 'name' => $umkm->name])) }}" target="_blank" rel="noopener" class="btn-wa w-full !py-2 text-xs sm:text-sm">
+            <a href="{{ $umkm->whatsappLink(__('site.umkm.wa_product', ['product' => $product->tr('name'), 'name' => $umkm->name]), 'product', $product->id) }}" target="_blank" rel="noopener" class="btn-wa w-full !py-2 text-xs sm:text-sm">
                 <x-icons.whatsapp class="size-4" /> {{ __('site.umkm.order') }}
             </a>
         </div>

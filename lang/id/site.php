@@ -2,6 +2,8 @@
 
 return [
     'nav' => [
+        'team' => 'Tim Penggiat',
+        'explore' => 'Jelajah',
         'home' => 'Beranda',
         'about' => 'Tentang',
         'profile' => 'Profil Desa',
@@ -90,6 +92,83 @@ return [
         'other' => 'Lainnya',
     ],
 
+    'partner_categories' => [
+        'wisata' => 'Wisata Sekitar',
+        'penginapan' => 'Penginapan & Vila',
+        'kafe' => 'Kafe & Resto',
+        'lainnya' => 'Lainnya',
+    ],
+
+    'units' => [
+        'per_pax' => '/orang',
+        'per_ticket' => '/tiket',
+        'per_night' => '/malam',
+        'per_unit' => '/unit',
+        'per_group' => '/rombongan',
+    ],
+
+    'qty_labels' => [
+        'per_pax' => 'Jumlah orang',
+        'per_ticket' => 'Jumlah tiket',
+        'per_night' => 'Jumlah unit/kamar',
+        'per_unit' => 'Jumlah unit',
+        'per_group' => 'Jumlah rombongan',
+    ],
+
+    'lead_statuses' => [
+        'new' => 'Baru',
+        'contacted' => 'Sudah dihubungi',
+        'negotiating' => 'Negosiasi',
+        'won' => 'Berhasil (booking)',
+        'lost' => 'Batal',
+    ],
+
+    'lead_sources' => [
+        'booking' => 'Formulir booking',
+        'contact' => 'Formulir kontak',
+        'whatsapp' => 'WhatsApp',
+        'manual' => 'Input manual',
+    ],
+
+    'commission_statuses' => [
+        'none' => 'Tanpa komisi',
+        'pending' => 'Belum ditagih',
+        'invoiced' => 'Sudah ditagih',
+        'paid' => 'Sudah dibayar',
+    ],
+
+    'wa_contexts' => [
+        'general' => 'Umum',
+        'package' => 'Paket wisata',
+        'attraction' => 'Destinasi',
+        'umkm' => 'UMKM',
+        'product' => 'Produk UMKM',
+        'partner' => 'Mitra',
+        'offer' => 'Penawaran mitra',
+        'booking' => 'Konfirmasi booking',
+    ],
+
+    'partners' => [
+        'title' => 'Jelajah Tamansari',
+        'subtitle' => 'Wisata sekitar, penginapan, dan kafe pilihan di sekitar Desa Sukajadi. Pesan langsung lewat kami.',
+        'offers' => 'Pilihan & harga',
+        'book' => 'Pesan',
+        'ask' => 'Tanya via WhatsApp',
+        'wa_ask' => 'Halo Admin Desa Wisata Sukajadi, saya ingin bertanya tentang :name.',
+        'highlights' => 'Yang bisa dinikmati',
+        'address' => 'Alamat',
+        'hours' => 'Jam buka',
+        'min_qty' => 'Min. :count',
+        'via_us' => 'Pemesanan dibantu oleh admin Desa Wisata Sukajadi dan dikonfirmasi lewat WhatsApp.',
+        'other' => 'Tempat lain di sekitar',
+        'from' => 'Mulai',
+    ],
+
+    'team' => [
+        'title' => 'Tim Penggiat Desa Wisata',
+        'subtitle' => 'Warga Sukajadi yang menyambut, memandu, dan menjaga desa wisata ini.',
+    ],
+
     'status' => [
         'new' => 'Baru',
         'confirmed' => 'Dikonfirmasi',
@@ -108,11 +187,42 @@ return [
         'identitas' => 'Identitas Desa',
         'geografi' => 'Geografi',
         'kependudukan' => 'Kependudukan',
-        'pemerintahan' => 'Pemerintahan',
         'status' => 'Status & Penetapan',
     ],
 
     'home' => [
+        'story_eyebrow' => 'Kenali Sukajadi',
+        'story_cta' => 'Baca profil desa',
+        'explore_cta' => 'Kenali desa',
+        'gallery_cta' => 'Lihat galeri',
+        'facts_attractions' => 'destinasi & aktivitas',
+        'facts_umkm' => 'UMKM warga',
+        'facts_partners' => 'tempat wisata, penginapan & kafe sekitar',
+        'facts_packages' => 'paket kunjungan rombongan',
+        'facts_location' => 'Tamansari, Kabupaten Bogor',
+        'whats_eyebrow' => 'Ada apa di Sukajadi?',
+        'whats_title' => 'Sawah, kebun, curug, dan dapur warga',
+        'whats_subtitle' => 'Setiap sudut desa punya cerita. Ini yang bisa Anda temui saat berkunjung.',
+        'whats_alam' => 'Curug, perbukitan, dan udara sejuk pegunungan.',
+        'whats_tani' => 'Sawah, kebun ubi, stroberi, anggrek, dan peternakan kelinci.',
+        'whats_budaya' => 'Permainan tradisional dan keramahan khas Sunda.',
+        'whats_kuliner' => 'Nasi liwet, sari pala, kue noga, dan karya UMKM warga.',
+        'whats_inap' => 'Vila dan homestay untuk menginap lebih lama.',
+        'whats_kafe' => 'Kafe dan tempat makan untuk bersantai.',
+        'tani' => 'Pertanian & Peternakan',
+        'village_eyebrow' => 'Di dalam desa',
+        'village_title' => 'Tempat & kegiatan di Desa Sukajadi',
+        'explore_eyebrow' => 'Jelajah Tamansari',
+        'explore_title' => 'Wisata, penginapan, dan kafe di sekitar desa',
+        'explore_subtitle' => 'Pilihan tempat di sekitar Sukajadi yang bisa dipesan lewat kami.',
+        'umkm_title2' => 'Karya warga Sukajadi',
+        'visit_eyebrow' => 'Mau berkunjung bersama rombongan?',
+        'visit_title' => 'Paket kunjungan yang sudah kami siapkan',
+        'visit_subtitle' => 'Untuk sekolah, komunitas, instansi, dan keluarga. Atau susun sendiri aktivitasnya.',
+        'team_eyebrow' => 'Penggiat desa wisata',
+        'team_title' => 'Disambut langsung oleh warga',
+        'team_text' => 'Desa Wisata Sukajadi dikelola oleh warga sendiri: pemandu, petani, peternak, perajin, dan pelaku UMKM.',
+        'team_cta' => 'Kenali tim kami',
         'hero_cta_packages' => 'Lihat Paket Wisata',
         'pillars_eyebrow' => 'Pengalaman di Sukajadi',
         'pillars_title' => 'Empat pilar wisata desa',
@@ -291,6 +401,12 @@ return [
     ],
 
     'booking' => [
+        'partner_tab' => 'Mitra',
+        'partner' => 'Tempat (wisata, penginapan, kafe)',
+        'choose_partner' => '— Pilih tempat —',
+        'offer' => 'Pilihan',
+        'nights' => 'Jumlah malam',
+        'nights_short' => 'malam',
         'title' => 'Booking Kunjungan',
         'subtitle' => 'Isi formulir di bawah ini. Konfirmasi jadwal & pembayaran dilanjutkan melalui WhatsApp.',
         'step_package' => 'Paket',

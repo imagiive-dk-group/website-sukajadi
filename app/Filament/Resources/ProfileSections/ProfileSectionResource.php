@@ -31,7 +31,7 @@ class ProfileSectionResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentText;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Profil Desa';
+    protected static string|UnitEnum|null $navigationGroup = 'Tentang Desa';
 
     protected static ?int $navigationSort = 2;
 

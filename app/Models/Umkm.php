@@ -55,11 +55,11 @@ class Umkm extends Model
     }
 
     /** Tautan WA ke UMKM, atau ke admin desa bila kontak UMKM belum boleh ditampilkan. */
-    public function whatsappLink(?string $text = null): string
+    public function whatsappLink(?string $text = null, string $context = 'umkm', ?int $contextId = null): string
     {
         $text ??= __('site.umkm.wa_message', ['name' => $this->name]);
 
-        return wa_link($this->hasPublicContact() ? $this->whatsapp : null, $text);
+        return wa_track($context, $contextId ?? $this->id, $text, $this->hasPublicContact() ? $this->whatsapp : null);
     }
 
     public function url(?string $locale = null): string

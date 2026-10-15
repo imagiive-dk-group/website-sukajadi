@@ -19,6 +19,7 @@ use Filament\Schemas\Components\Form;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\Facades\Storage;
 use UnitEnum;
 
 /**
@@ -31,17 +32,18 @@ class Settings extends Page
     /** Kolom teks dua bahasa: ['id' => .., 'en' => ..]. */
     public const BILINGUAL = [
         'tagline', 'motto', 'hero_title', 'hero_subtitle', 'about_intro', 'about_body', 'address', 'opening_hours',
+        'story_title', 'story_body', 'managed_by',
     ];
 
     /** Kolom teks biasa. */
     public const STRINGS = [
-        'site_name', 'hero_image', 'whatsapp', 'instagram', 'email', 'maps_embed_url', 'maps_link',
+        'site_name', 'hero_image', 'hero_video', 'whatsapp', 'instagram', 'email', 'maps_embed_url', 'maps_link',
         'notification_email', 'ga_measurement_id',
     ];
 
     /** Kolom angka (null = tidak diisi). */
     public const INTEGERS = [
-        'min_lead_days', 'max_advance_days', 'daily_capacity', 'custom_min_pax', 'custom_base_price',
+        'min_lead_days', 'partner_min_lead_days', 'max_advance_days', 'daily_capacity', 'custom_min_pax', 'custom_base_price',
     ];
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCog6Tooth;
@@ -82,6 +84,8 @@ class Settings extends Page
             $values[$key] = $value;
         }
 
+        $values['hero_slides'] = array_values(array_filter((array) (Setting::get('hero_slides') ?? []), 'filled'));
+
         $this->form->fill($values);
     }
 
@@ -116,6 +120,42 @@ class Settings extends Page
                             Textarea::make("about_intro.$locale")->label('Pengantar "Tentang Desa"')->rows(3),
                             Fields::richEditor("about_body.$locale")->label('Isi "Tentang Desa"'),
                         ], 'identity-translations'),
+                    ]),
+
+                Section::make('Beranda')
+                    ->description('Video/slideshow latar, cerita desa, dan keterangan pengelola di halaman depan.')
+                    ->columns(2)
+                    ->collapsible()
+                    ->schema([
+                        FileUpload::make('hero_video')
+                            ->label('Video latar beranda')
+                            ->disk('uploads')
+                            ->directory('settings')
+                            ->visibility('public')
+                            ->acceptedFileTypes(['video/mp4', 'video/webm'])
+                            ->maxSize(30720)
+                            ->helperText('Video latar beranda (MP4, 10–30 detik, tanpa suara, maks. 30 MB). Kosongkan untuk memakai slideshow foto.'),
+                        FileUpload::make('hero_slides')
+                            ->label('Slideshow foto beranda')
+                            ->disk('uploads')
+                            ->directory('settings')
+                            ->visibility('public')
+                            ->image()
+                            ->multiple()
+                            ->reorderable()
+                            ->appendFiles()
+                            ->maxFiles(6)
+                            ->maxSize(10240)
+                            ->maxParallelUploads(3)
+                            ->helperText('Maks. 6 foto lanskap (min. lebar 1920px), urutan bisa diatur. Dipakai bila video kosong; bila slideshow juga kosong, dipakai foto hero.'),
+                        Fields::bilingual(fn (string $locale): array => [
+                            TextInput::make("story_title.$locale")->label('Judul cerita desa')->maxLength(255),
+                            Fields::richEditor("story_body.$locale")->label('Isi cerita desa'),
+                            TextInput::make("managed_by.$locale")
+                                ->label('Keterangan pengelola')
+                                ->placeholder($locale === 'id' ? 'Misal: Dikelola oleh penggiat Desa Wisata Sukajadi' : 'e.g. Run by the Sukajadi tourism village team')
+                                ->maxLength(255),
+                        ], 'home-translations'),
                     ]),
 
                 Section::make('Kontak')
@@ -160,6 +200,13 @@ class Settings extends Page
                     ->schema([
                         TextInput::make('min_lead_days')
                             ->label('Minimal hari sebelum kunjungan (H-x)')
+                            ->numeric()
+                            ->minValue(0)
+                            ->required()
+                            ->suffix('hari'),
+                        TextInput::make('partner_min_lead_days')
+                            ->label('Batas minimal hari booking untuk mitra')
+                            ->helperText('Minimal hari sebelum tanggal kunjungan/check-in untuk booking mitra bisnis (H-x).')
                             ->numeric()
                             ->minValue(0)
                             ->required()
@@ -232,6 +279,8 @@ class Settings extends Page
     {
         $data = $this->form->getState();
         $oldHero = Setting::get('hero_image');
+        $oldVideo = Setting::get('hero_video');
+        $oldSlides = array_values(array_filter((array) (Setting::get('hero_slides') ?? []), 'filled'));
 
         foreach (self::BILINGUAL as $key) {
             $value = $data[$key] ?? [];
@@ -255,6 +304,23 @@ class Settings extends Page
             if (filled($hero)) {
                 Images::generate($hero);
             }
+        }
+
+        // Video latar: hapus file lama bila diganti/dikosongkan.
+        $video = $data['hero_video'] ?? null;
+        if (filled($oldVideo) && $video !== $oldVideo) {
+            Storage::disk('uploads')->delete($oldVideo);
+        }
+
+        // Slideshow: simpan sebagai daftar path, buat varian WebP untuk foto baru, hapus foto yang dibuang.
+        $slides = array_values(array_filter((array) ($data['hero_slides'] ?? []), 'filled'));
+        Setting::put('hero_slides', $slides ?: null);
+
+        foreach (array_diff($slides, $oldSlides) as $path) {
+            Images::generate($path);
+        }
+        foreach (array_diff($oldSlides, $slides) as $path) {
+            Images::delete($path);
         }
 
         Notification::make()

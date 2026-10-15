@@ -4,6 +4,30 @@
 
 ---
 
+## 0. Revisi v2 (catatan pengelola, 15 Okt 2026)
+
+| No | Catatan | Penerapan di website |
+|---|---|---|
+| 1 | Daftar seluruh kebutuhan bahan | `docs/KEBUTUHAN-BAHAN.md` |
+| 2 | Beranda jangan langsung jualan; ceritakan desa dan apa saja yang ada | Urutan beranda baru: hero → **Cerita Sukajadi** → pita foto → **Ada apa di Sukajadi** → destinasi desa → galeri → Jelajah Tamansari → UMKM → tim penggiat → baru **paket kunjungan** di bagian bawah |
+| 3 | Pembuka berupa video/gerak, perbanyak gambar | Hero memakai **video latar** (unggah di Pengaturan) atau **slideshow foto bergerak** bila video belum ada; pita foto berjalan; kolase & bento galeri |
+| 4 | Identitas = penggiat desa wisata (bukan kades/perangkat); ada pengelolaan & monitoring leads | Halaman **Tim Penggiat** menggantikan perangkat desa; data pemerintahan dihapus dari profil. Menu admin **Prospek (Leads)** + halaman **Monitoring** |
+| 5 | Paket dari tempat lain (Highland Tamansari, Curug Nangka) dengan komisi 10% (model Traveloka) | Menu **Jelajah Tamansari** berisi **Mitra Bisnis**, bisa dipesan lewat formulir booking; komisi dihitung otomatis per booking |
+| 6 | Berlaku juga untuk penginapan/vila, kafe, dan tempat lain | Kategori mitra: Wisata Sekitar, Penginapan & Vila, Kafe & Resto, Lainnya; harga per orang/tiket/malam/unit/rombongan |
+| 7 | UMKM = fasilitasi pemasaran; pebisnis/PT = komisi | **UMKM**: tanpa komisi, kontak langsung ke pemilik (dengan izin). **Mitra Bisnis**: penjualan lewat admin desa wisata, komisi default 10% per mitra (bisa diubah) |
+
+### Model bisnis
+- **UMKM warga** → direktori & katalog gratis; klik WhatsApp ke UMKM tetap tercatat untuk laporan dampak pemasaran.
+- **Mitra bisnis** → pengunjung memesan lewat website, admin mengonfirmasi ke mitra, pengunjung membayar sesuai kesepakatan; website mencatat **nilai penjualan & komisi** (status: belum ditagih → sudah ditagih → sudah dibayar) dan bisa diekspor per periode.
+
+### Prospek (leads) & monitoring
+- Setiap **booking** dan **pesan formulir kontak** otomatis menjadi prospek. Admin juga bisa menambah prospek manual (mis. dari DM Instagram/telepon).
+- Status prospek: Baru → Sudah dihubungi → Negosiasi → Berhasil / Batal (otomatis berubah saat booking dikonfirmasi/dibatalkan); bisa ditugaskan ke admin tertentu dengan tanggal follow-up.
+- Setiap **klik tombol WhatsApp** di website tercatat (anonim): dari halaman/paket/UMKM/mitra mana minat datang.
+- Halaman **Monitoring**: corong prospek & tingkat konversi, sumber prospek, klik WhatsApp per konten, penjualan per jenis, dan komisi per mitra.
+
+> Asumsi: "Leads" diartikan sebagai prospek/calon pelanggan. Bila yang dimaksud adalah lembaga pendamping bernama Leads, cukup tambahkan nama & logonya di identitas pengelola.
+
 ## 1. Tujuan Website
 
 1. **Showcase**: menampilkan keindahan alam, budaya, edukasi, dan kuliner Desa Wisata Sukajadi dengan banyak foto berkualitas.

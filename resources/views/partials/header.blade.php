@@ -2,21 +2,27 @@
     $nav = [
         ['label' => __('site.nav.home'), 'route' => 'home'],
         ['label' => __('site.nav.about'), 'children' => [
-            ['label' => __('site.nav.profile'), 'route' => 'profile', 'icon' => 'heroicon-o-building-library'],
             ['label' => __('site.nav.tourism_village'), 'route' => 'about', 'icon' => 'heroicon-o-sparkles'],
+            ['label' => __('site.nav.profile'), 'route' => 'profile', 'icon' => 'heroicon-o-building-library'],
+            ['label' => __('site.nav.team'), 'route' => 'team', 'icon' => 'heroicon-o-user-group'],
+            ['label' => __('site.nav.news'), 'route' => 'news.index', 'icon' => 'heroicon-o-newspaper'],
+        ]],
+        ['label' => __('site.nav.explore'), 'children' => [
+            ['label' => __('site.nav.attractions'), 'route' => 'attractions.index', 'icon' => 'heroicon-o-map'],
+            ['label' => __('site.partner_categories.wisata'), 'route' => 'partners.index', 'params' => ['kategori' => 'wisata'], 'icon' => 'heroicon-o-globe-asia-australia'],
+            ['label' => __('site.partner_categories.penginapan'), 'route' => 'partners.index', 'params' => ['kategori' => 'penginapan'], 'icon' => 'heroicon-o-home-modern'],
+            ['label' => __('site.partner_categories.kafe'), 'route' => 'partners.index', 'params' => ['kategori' => 'kafe'], 'icon' => 'heroicon-o-cake'],
         ]],
         ['label' => __('site.nav.packages'), 'children' => [
             ['label' => __('site.nav.all_packages'), 'route' => 'packages.index', 'icon' => 'heroicon-o-ticket'],
             ['label' => __('site.nav.custom'), 'route' => 'custom', 'icon' => 'heroicon-o-adjustments-horizontal'],
             ['label' => __('site.nav.check_booking'), 'route' => 'booking.check', 'icon' => 'heroicon-o-magnifying-glass'],
         ]],
-        ['label' => __('site.nav.attractions'), 'route' => 'attractions.index'],
         ['label' => __('site.nav.umkm'), 'children' => [
             ['label' => __('site.nav.umkm_directory'), 'route' => 'umkm.index', 'icon' => 'heroicon-o-building-storefront'],
             ['label' => __('site.nav.products'), 'route' => 'products', 'icon' => 'heroicon-o-shopping-bag'],
         ]],
         ['label' => __('site.nav.gallery'), 'route' => 'gallery.index'],
-        ['label' => __('site.nav.news'), 'route' => 'news.index'],
         ['label' => __('site.nav.contact'), 'route' => 'contact'],
     ];
     $current = \Illuminate\Support\Str::after((string) request()->route()?->getName(), '.');
@@ -52,7 +58,7 @@
                         <div x-show="sub" x-cloak x-transition.opacity.duration.150ms class="absolute top-full left-0 pt-2">
                             <div class="w-60 rounded-2xl bg-white p-2 text-leaf-900 shadow-xl ring-1 ring-leaf-900/10">
                                 @foreach($item['children'] as $child)
-                                    <a href="{{ lroute($child['route']) }}" class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium hover:bg-leaf-50">
+                                    <a href="{{ lroute($child['route'], $child['params'] ?? []) }}" class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium hover:bg-leaf-50">
                                         <x-dynamic-component :component="$child['icon']" class="size-5 text-leaf-600" /> {{ $child['label'] }}
                                     </a>
                                 @endforeach
@@ -87,7 +93,7 @@
                 @if(isset($item['children']))
                     <p class="mt-3 px-3 pb-1 text-xs font-bold tracking-widest text-leaf-950/45 uppercase">{{ $item['label'] }}</p>
                     @foreach($item['children'] as $child)
-                        <a href="{{ lroute($child['route']) }}" class="flex items-center gap-3 rounded-xl px-3 py-2.5 font-medium hover:bg-leaf-50">
+                        <a href="{{ lroute($child['route'], $child['params'] ?? []) }}" class="flex items-center gap-3 rounded-xl px-3 py-2.5 font-medium hover:bg-leaf-50">
                             <x-dynamic-component :component="$child['icon']" class="size-5 text-leaf-600" /> {{ $child['label'] }}
                         </a>
                     @endforeach

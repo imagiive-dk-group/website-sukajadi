@@ -87,7 +87,7 @@ class Reports extends Page
         $end = $month ? $start->copy()->endOfMonth() : $start->copy()->endOfYear();
 
         return Booking::query()
-            ->with('package')
+            ->with(['package', 'partner'])
             ->whereDate('visit_date', '>=', $start)
             ->whereDate('visit_date', '<=', $end)
             ->orderBy('visit_date')
@@ -101,11 +101,15 @@ class Reports extends Page
             return 'Paket Custom';
         }
 
+        if ($booking->type === 'partner') {
+            return 'Mitra: '.($booking->partner?->name ?? $booking->package_name);
+        }
+
         return $booking->package ? (string) localized($booking->package->name, 'id') : $booking->package_name;
     }
 
     /**
-     * @return array{bookings: int, pax: int, revenue: int, cancelled: int}
+     * @return array{bookings: int, pax: int, revenue: int, commission: int, cancelled: int}
      */
     protected function summarize(Collection $bookings): array
     {
@@ -115,6 +119,7 @@ class Reports extends Page
             'bookings' => $active->count(),
             'pax' => (int) $active->sum('pax'),
             'revenue' => (int) $bookings->whereIn('status', self::REVENUE_STATUSES)->sum('total'),
+            'commission' => (int) $active->sum('commission_amount'),
             'cancelled' => $bookings->where('status', 'cancelled')->count(),
         ];
     }
@@ -164,6 +169,7 @@ class Reports extends Page
             'Kode', 'Tanggal kunjungan', 'Paket', 'Jenis', 'Pax', 'Harga per pax', 'Subtotal', 'Tambahan',
             'Total tambahan', 'Estimasi total', 'Status', 'Nama pemesan', 'WhatsApp', 'Email', 'Asal / instansi',
             'Jenis rombongan', 'Bahasa', 'Catatan pemesan', 'Catatan admin', 'Masuk', 'Dikonfirmasi',
+            'Mitra', 'Malam', 'Komisi (%)', 'Komisi', 'Status komisi',
         ];
 
         return response()->streamDownload(function () use ($bookings, $headers): void {
@@ -181,7 +187,11 @@ class Reports extends Page
                     $booking->code,
                     $booking->visit_date->format('Y-m-d'),
                     $booking->package_name,
-                    $booking->type === 'custom' ? 'Custom' : 'Paket',
+                    match ($booking->type) {
+                        'custom' => 'Custom',
+                        'partner' => 'Mitra',
+                        default => 'Paket',
+                    },
                     $booking->pax,
                     $booking->price_per_pax,
                     $booking->subtotal,
@@ -199,6 +209,11 @@ class Reports extends Page
                     $booking->admin_notes,
                     $booking->created_at?->format('Y-m-d H:i'),
                     $booking->confirmed_at?->format('Y-m-d H:i'),
+                    $booking->partner?->name,
+                    $booking->nights,
+                    $booking->commission_rate !== null ? str_replace('.', ',', (string) $booking->commission_rate) : '',
+                    $booking->commission_amount,
+                    __('site.commission_statuses.'.$booking->commission_status),
                 ], ';', '"', '');
             }
 

@@ -86,6 +86,23 @@ if (! function_exists('wa_link')) {
     }
 }
 
+if (! function_exists('wa_track')) {
+    /**
+     * Tautan WhatsApp lewat /wa agar setiap klik tercatat untuk monitoring,
+     * lalu diteruskan ke wa.me. $number kosong = WhatsApp admin desa.
+     */
+    function wa_track(string $type = 'general', ?int $id = null, ?string $text = null, ?string $number = null): string
+    {
+        return route('wa', array_filter([
+            'c' => $type,
+            'i' => $id,
+            'n' => wa_number($number),
+            't' => $text,
+            'l' => app()->getLocale(),
+        ], fn ($v) => $v !== null && $v !== ''));
+    }
+}
+
 if (! function_exists('instagram_url')) {
     function instagram_url(?string $handle): ?string
     {

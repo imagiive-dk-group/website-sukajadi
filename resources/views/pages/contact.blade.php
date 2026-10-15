@@ -9,7 +9,7 @@
     <section class="py-12 sm:py-16">
         <div class="container-site grid gap-8 lg:grid-cols-5">
             <div class="space-y-4 lg:col-span-2">
-                <a href="{{ wa_link(null, __('site.contact.wa_default')) }}" target="_blank" rel="noopener" class="card-hover flex items-center gap-4 p-5">
+                <a href="{{ wa_track('general', null, __('site.contact.wa_default')) }}" target="_blank" rel="noopener" class="card-hover flex items-center gap-4 p-5">
                     <span class="flex size-12 items-center justify-center rounded-2xl bg-[#25D366] text-white"><x-icons.whatsapp class="size-6" /></span>
                     <span><span class="block text-xs text-leaf-950/55">{{ __('site.contact.whatsapp') }}</span><span class="font-display text-lg font-bold text-leaf-900">{{ setting('whatsapp') }}</span></span>
                 </a>

@@ -75,7 +75,7 @@ class CommunitySeeder extends Seeder
             ],
             [
                 'slug' => 'tempe-sukajadi', 'slug_en' => 'sukajadi-tempeh',
-                'name' => 'Tempe Sukajadi', 'category' => 'makanan', 'accepts_visits' => true,
+                'name' => 'Tempe Sukajadi', 'category' => 'makanan', 'is_featured' => true, 'accepts_visits' => true,
                 'summary' => $this->t('Tempe segar bungkus daun pisang, sumber protein nabati kebanggaan Indonesia.', 'Fresh tempeh wrapped in banana leaves, Indonesia’s proud plant protein.'),
                 'description' => $this->t('<p>Produsen tempe rumahan yang tetap mempertahankan cara tradisional dengan bungkus daun pisang. Pengunjung dapat melihat proses fermentasi kedelai menjadi tempe.</p>', '<p>A home tempeh producer that keeps the traditional banana-leaf wrapping. Visitors can see how soybeans are fermented into tempeh.</p>'),
                 'placeholder_label' => 'Tempe bungkus daun pisang',
@@ -157,8 +157,7 @@ class CommunitySeeder extends Seeder
             ['kependudukan', $this->t('Kepadatan penduduk', 'Population density'), $this->t('± 3.477 jiwa/km² (dihitung dari data di atas)', '± 3,477 people/km² (calculated from the data above)'), null, '2024', true],
             ['kependudukan', $this->t('Jumlah kepala keluarga', 'Households'), $this->t($pending, $pendingEn), null, null, true],
             ['kependudukan', $this->t('Mata pencaharian utama', 'Main livelihoods'), $this->t('Pertanian, peternakan, UMKM, pariwisata', 'Farming, livestock, small businesses, tourism'), null, null, true],
-            ['pemerintahan', $this->t('Kepala desa', 'Village head'), $this->t($pending, $pendingEn), null, null, true],
-            ['pemerintahan', $this->t('Jumlah dusun / RW / RT', 'Hamlets / RW / RT'), $this->t($pending, $pendingEn), null, null, true],
+            ['identitas', $this->t('Jumlah dusun / RW / RT', 'Hamlets / RW / RT'), $this->t($pending, $pendingEn), null, null, true],
             ['status', $this->t('Status kawasan', 'Area status'), $this->t('Kecamatan Tamansari termasuk Kawasan Strategis Pariwisata Kab. Bogor', 'Tamansari District is a Bogor Regency Strategic Tourism Area'), 'Perda Kab. Bogor No. 3 Tahun 2019 (perubahan RPJPD 2005–2025)', '2019', true],
             ['status', $this->t('Status Indeks Desa (Kemendesa)', 'Village Index status (Ministry of Villages)'), $this->t($pending, $pendingEn), null, null, true],
         ];
@@ -180,7 +179,10 @@ class CommunitySeeder extends Seeder
 
         $sections = [
             ['sejarah', $this->t('Sejarah Desa', 'Village History'), $this->t($note, $noteEn)],
-            ['visi-misi', $this->t('Visi & Misi', 'Vision & Mission'), $this->t($note, $noteEn)],
+            ['visi-misi', $this->t('Visi & Misi Desa Wisata', 'Tourism Village Vision & Mission'), $this->t(
+                '<p><strong>Visi (draf):</strong> Menjadi desa wisata edukasi yang lestari, berdaya, dan membanggakan warganya.</p><ul><li>Mengembangkan wisata berbasis pertanian, alam, budaya, dan UMKM warga.</li><li>Melibatkan warga sebagai pemandu, tuan rumah, dan pelaku usaha.</li><li>Menjaga kelestarian alam dan budaya Sunda.</li></ul><p><em>Draf, mohon disesuaikan oleh pengelola desa wisata.</em></p>',
+                '<p><strong>Vision (draft):</strong> To be a sustainable, empowered educational tourism village its residents are proud of.</p><ul><li>Develop tourism based on farming, nature, culture and local businesses.</li><li>Involve residents as guides, hosts and entrepreneurs.</li><li>Preserve nature and Sundanese culture.</li></ul><p><em>Draft, to be adjusted by the tourism village team.</em></p>'
+            )],
             ['letak-geografis', $this->t('Letak Geografis', 'Geography'), $this->t(
                 '<p>Desa Sukajadi berada di Kecamatan Tamansari, Kabupaten Bogor, Jawa Barat. Kecamatan Tamansari terdiri dari delapan desa dan merupakan salah satu kawasan strategis pariwisata Kabupaten Bogor, dengan bentang alam perbukitan, sawah, kebun, dan air terjun.</p>'.$note,
                 '<p>Sukajadi Village lies in Tamansari District, Bogor Regency, West Java. Tamansari District consists of eight villages and is one of Bogor Regency’s strategic tourism areas, with hills, rice fields, gardens and waterfalls.</p>'.$noteEn
@@ -189,9 +191,9 @@ class CommunitySeeder extends Seeder
                 '<ul><li><strong>Pertanian:</strong> padi, ubi jalar, stroberi, anggrek bulan</li><li><strong>Peternakan:</strong> budidaya kelinci</li><li><strong>Wisata alam:</strong> Air Terjun Curug Aman</li><li><strong>Budaya:</strong> permainan tradisional Sunda</li><li><strong>UMKM:</strong> sari buah pala, kue noga, kue tradisional, tempe</li></ul>',
                 '<ul><li><strong>Farming:</strong> rice, sweet potatoes, strawberries, moon orchids</li><li><strong>Livestock:</strong> rabbit farming</li><li><strong>Nature:</strong> Curug Aman waterfall</li><li><strong>Culture:</strong> traditional Sundanese games</li><li><strong>Small businesses:</strong> nutmeg juice, noga cakes, traditional cakes, tempeh</li></ul>'
             )],
-            ['kelembagaan', $this->t('Kelembagaan Desa', 'Village Institutions'), $this->t(
-                '<p>Pemerintah Desa, Badan Permusyawaratan Desa (BPD), Kelompok Sadar Wisata (Pokdarwis), BUMDes, PKK, dan Karang Taruna.</p>'.$note,
-                '<p>Village Government, Village Consultative Body (BPD), Tourism Awareness Group (Pokdarwis), village-owned enterprise (BUMDes), PKK women’s group and Karang Taruna youth organisation.</p>'.$noteEn
+            ['pengelola', $this->t('Pengelola Desa Wisata', 'Who Runs the Tourism Village'), $this->t(
+                '<p>Desa Wisata Sukajadi dikelola oleh para <strong>penggiat desa wisata</strong>: pemandu lokal, petani, peternak, perajin, dan pelaku UMKM yang bergerak bersama. Kenali tim kami di halaman Tim Penggiat.</p>',
+                '<p>Sukajadi Tourism Village is run by its <strong>tourism activists</strong>: local guides, farmers, breeders, craftspeople and small business owners working together. Meet the team on the Our Team page.</p>'
             )],
         ];
 
@@ -199,11 +201,14 @@ class CommunitySeeder extends Seeder
             ProfileSection::create(['key' => $key, 'title' => $title, 'body' => $body, 'sort' => $sort]);
         }
 
+        // Tim penggiat desa wisata (bukan perangkat desa). Nama masih contoh.
         $officials = [
-            ['Nama Kepala Desa', $this->t('Kepala Desa', 'Village Head')],
-            ['Nama Sekretaris Desa', $this->t('Sekretaris Desa', 'Village Secretary')],
-            ['Nama Ketua BPD', $this->t('Ketua BPD', 'Head of Village Consultative Body')],
-            ['Nama Ketua Pokdarwis', $this->t('Ketua Pokdarwis', 'Head of Tourism Awareness Group')],
+            ['Nama Ketua', $this->t('Ketua Penggiat Desa Wisata', 'Head of Tourism Village Team')],
+            ['Nama Koordinator', $this->t('Koordinator Paket & Booking', 'Packages & Booking Coordinator')],
+            ['Nama Pemandu', $this->t('Pemandu Wisata', 'Tour Guide')],
+            ['Nama Pemandu', $this->t('Pemandu Edukasi Pertanian', 'Farming Education Guide')],
+            ['Nama Koordinator UMKM', $this->t('Koordinator UMKM', 'Local Business Coordinator')],
+            ['Nama Dokumentasi', $this->t('Media & Dokumentasi', 'Media & Documentation')],
         ];
 
         foreach ($officials as $sort => [$name, $position]) {

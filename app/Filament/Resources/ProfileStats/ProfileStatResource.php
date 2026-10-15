@@ -35,7 +35,7 @@ class ProfileStatResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChartBar;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Profil Desa';
+    protected static string|UnitEnum|null $navigationGroup = 'Tentang Desa';
 
     protected static ?int $navigationSort = 1;
 

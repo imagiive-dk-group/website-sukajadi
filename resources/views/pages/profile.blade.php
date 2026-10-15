@@ -51,23 +51,14 @@
                 @endforeach
             </div>
 
-            {{-- Perangkat desa --}}
-            @if($officials->isNotEmpty())
-                <div class="mt-16">
-                    <x-section-heading :title="__('site.profile.officials')" />
-                    <div class="mt-8 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
-                        @foreach($officials as $official)
-                            <div class="card text-center">
-                                <x-img :path="$official->photo_path" :label="__('site.common.photo').' '.$official->tr('position')" :alt="$official->name" ratio="1/1" compact />
-                                <div class="p-4">
-                                    <p class="font-display font-bold text-leaf-900">{{ $official->name }}</p>
-                                    <p class="text-sm text-leaf-950/60">{{ $official->tr('position') }}</p>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            @endif
+            {{-- Pengelola: penggiat desa wisata --}}
+            <a href="{{ lroute('team') }}" class="card-hover mt-12 flex flex-wrap items-center justify-between gap-4 p-6 sm:p-8">
+                <span>
+                    <span class="block font-display text-xl font-bold text-leaf-900">{{ __('site.team.title') }}</span>
+                    <span class="text-leaf-950/65">{{ setting_tr('managed_by') }}</span>
+                </span>
+                <span class="btn-outline">{{ __('site.home.team_cta') }} <x-heroicon-m-arrow-right class="size-4" /></span>
+            </a>
         </div>
     </section>
 

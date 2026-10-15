@@ -6,6 +6,8 @@ use App\Mail\BookingReceived;
 use App\Models\Attraction;
 use App\Models\BlockedDate;
 use App\Models\Booking;
+use App\Models\Lead;
+use App\Models\PartnerOffer;
 use App\Models\Package;
 use App\Models\PackageTier;
 use App\Models\Setting;
@@ -75,7 +77,7 @@ class BookingTest extends TestCase
         Mail::assertSent(BookingReceived::class, fn ($mail) => $mail->forAdmin && $mail->hasTo('admin@desawisatasukajadi.com'));
         Mail::assertSent(BookingReceived::class, fn ($mail) => ! $mail->forAdmin && $mail->hasTo('rina@example.com'));
 
-        $this->followRedirects($response)->assertOk()->assertSee($booking->code)->assertSee('wa.me/6285775194575', false);
+        $this->followRedirects($response)->assertOk()->assertSee($booking->code)->assertSee('/wa?c=booking&amp;i='.$booking->id, false);
     }
 
     public function test_thank_you_page_requires_signature(): void
@@ -153,6 +155,66 @@ class BookingTest extends TestCase
         $this->assertSame($perPax * 20, $booking->total);
         $this->assertStringStartsWith('Paket Custom:', $booking->package_name);
         $this->assertCount(2, $booking->custom_items);
+    }
+
+    public function test_partner_booking_calculates_nights_and_commission(): void
+    {
+        $offer = PartnerOffer::query()->where('unit', 'per_night')->whereHas('partner', fn ($q) => $q->where('slug', 'highland-tamansari'))->first();
+
+        $this->post(route('id.booking.store'), $this->payload([
+            'type' => 'partner',
+            'package_tier_id' => null,
+            'partner_offer_id' => $offer->id,
+            'visit_date' => today()->addDays(2)->toDateString(),
+            'pax' => 2,
+            'nights' => 3,
+            'addons' => [1],
+        ]))->assertSessionHasNoErrors();
+
+        $booking = Booking::first();
+        $this->assertSame('partner', $booking->type);
+        $this->assertSame($offer->partner_id, $booking->partner_id);
+        $this->assertSame(3, $booking->nights);
+        $this->assertSame($offer->price * 2 * 3, $booking->total);
+        $this->assertSame(0, $booking->addons_total);
+        $this->assertSame(10.0, $booking->commission_rate);
+        $this->assertSame((int) round($booking->total * 0.1), $booking->commission_amount);
+        $this->assertSame('pending', $booking->commission_status);
+        $this->assertStringContainsString('Highland Tamansari', $booking->package_name);
+
+        $this->get(route('id.booking.create', ['mitra' => 'highland-tamansari', 'offer' => $offer->id]))->assertOk();
+    }
+
+    public function test_partner_offer_minimum_quantity_is_enforced(): void
+    {
+        $offer = PartnerOffer::query()->where('min_qty', '>', 1)->first();
+
+        $this->post(route('id.booking.store'), $this->payload([
+            'type' => 'partner',
+            'partner_offer_id' => $offer->id,
+            'visit_date' => today()->addDays(5)->toDateString(),
+            'pax' => $offer->min_qty - 1,
+        ]))->assertSessionHasErrors('pax');
+    }
+
+    public function test_package_bookings_have_no_commission_and_create_a_lead_that_follows_status(): void
+    {
+        $this->post(route('id.booking.store'), $this->payload())->assertSessionHasNoErrors();
+        $booking = Booking::first();
+
+        $this->assertSame(0, $booking->commission_amount);
+        $this->assertSame('none', $booking->commission_status);
+
+        $lead = Lead::first();
+        $this->assertSame('booking', $lead->source);
+        $this->assertSame($booking->id, $lead->booking_id);
+        $this->assertSame($booking->total, $lead->estimated_value);
+
+        $booking->update(['status' => 'confirmed']);
+        $this->assertSame('won', $lead->fresh()->status);
+
+        $booking->update(['status' => 'cancelled']);
+        $this->assertSame('lost', $lead->fresh()->status);
     }
 
     public function test_check_booking_requires_matching_phone(): void

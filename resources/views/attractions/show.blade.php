@@ -54,7 +54,7 @@
                         <a href="{{ lroute('custom') }}" class="btn-outline mt-4 w-full">{{ __('site.nav.custom') }}</a>
                     </div>
                 @endif
-                <a href="{{ wa_link(null, __('site.packages.wa_ask', ['package' => $attraction->tr('name')])) }}" target="_blank" rel="noopener" class="btn-wa w-full !py-3"><x-icons.whatsapp /> {{ __('site.packages.ask_whatsapp') }}</a>
+                <a href="{{ wa_track('attraction', $attraction->id, __('site.packages.wa_ask', ['package' => $attraction->tr('name')])) }}" target="_blank" rel="noopener" class="btn-wa w-full !py-3"><x-icons.whatsapp /> {{ __('site.packages.ask_whatsapp') }}</a>
             </aside>
         </div>
     </section>

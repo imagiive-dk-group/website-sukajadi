@@ -7,7 +7,7 @@
             <p class="mx-auto mt-3 max-w-xl text-white/90">{{ __('site.home.cta_text') }}</p>
             <div class="mt-8 flex flex-wrap justify-center gap-3">
                 <a href="{{ lroute('booking.create') }}" class="btn !bg-white !px-7 !py-3.5 !text-base !text-sun-700 hover:!bg-sun-50">{{ __('site.nav.book_now') }}</a>
-                <a href="{{ wa_link(null, __('site.contact.wa_default')) }}" target="_blank" rel="noopener" class="btn-ghost-light !px-7 !py-3.5 !text-base"><x-icons.whatsapp /> {{ __('site.common.chat_whatsapp') }}</a>
+                <a href="{{ wa_track('general', null, __('site.contact.wa_default')) }}" target="_blank" rel="noopener" class="btn-ghost-light !px-7 !py-3.5 !text-base"><x-icons.whatsapp /> {{ __('site.common.chat_whatsapp') }}</a>
             </div>
         </div>
     </div>

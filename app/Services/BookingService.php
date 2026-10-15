@@ -6,7 +6,9 @@ use App\Models\Addon;
 use App\Models\Attraction;
 use App\Models\BlockedDate;
 use App\Models\Booking;
+use App\Models\Lead;
 use App\Models\Package;
+use App\Models\PartnerOffer;
 use App\Models\PackageTier;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -27,9 +29,14 @@ class BookingService
         return (int) setting('max_advance_days', 365);
     }
 
-    public function earliestDate(): Carbon
+    public function partnerLeadDays(): int
     {
-        return today()->addDays($this->leadDays());
+        return (int) setting('partner_min_lead_days', 1);
+    }
+
+    public function earliestDate(bool $partner = false): Carbon
+    {
+        return today()->addDays($partner ? $this->partnerLeadDays() : $this->leadDays());
     }
 
     public function latestDate(): Carbon
@@ -40,16 +47,21 @@ class BookingService
     /**
      * Pesan kesalahan bila tanggal tidak bisa dipesan, atau null bila tersedia.
      */
-    public function dateProblem(?Package $package, Carbon $date, int $pax): ?string
+    public function dateProblem(?Package $package, Carbon $date, int $pax, bool $partner = false): ?string
     {
         $date = $date->copy()->startOfDay();
 
-        if ($date->lt($this->earliestDate())) {
-            return __('site.booking.errors.too_soon', ['days' => $this->leadDays()]);
+        if ($date->lt($this->earliestDate($partner))) {
+            return __('site.booking.errors.too_soon', ['days' => $partner ? $this->partnerLeadDays() : $this->leadDays()]);
         }
 
         if ($date->gt($this->latestDate())) {
             return __('site.booking.errors.too_far', ['days' => $this->maxAdvanceDays()]);
+        }
+
+        // Ketersediaan mitra (penginapan, tiket wisata) dikonfirmasi admin ke mitra lewat WhatsApp.
+        if ($partner) {
+            return null;
         }
 
         $blocked = BlockedDate::query()
@@ -109,14 +121,24 @@ class BookingService
     public function quote(array $data): array
     {
         $pax = max(0, (int) ($data['pax'] ?? 0));
-        $type = ($data['type'] ?? 'package') === 'custom' ? 'custom' : 'package';
+        $type = in_array($data['type'] ?? null, ['custom', 'partner'], true) ? $data['type'] : 'package';
         $locale = app()->getLocale();
 
         $package = null;
         $tier = null;
+        $offer = null;
+        $nights = null;
         $customItems = null;
 
-        if ($type === 'custom') {
+        if ($type === 'partner') {
+            $offer = PartnerOffer::query()->with('partner')->where('is_active', true)->find($data['partner_offer_id'] ?? null);
+            $nights = $offer?->isPerNight() ? max(1, (int) ($data['nights'] ?? 1)) : null;
+            $pricePerPax = (int) ($offer?->price ?? 0);
+            $minPax = (int) ($offer?->min_qty ?? 1);
+            $packageName = $offer
+                ? $offer->partner->name.' — '.$offer->tr('name', 'id').($nights ? ' ('.$nights.' malam)' : '')
+                : '';
+        } elseif ($type === 'custom') {
             $items = $this->customAttractions()->whereIn('id', (array) ($data['attraction_ids'] ?? []));
             $pricePerPax = $this->customBasePrice() + (int) $items->sum('custom_price');
             $minPax = $this->customMinPax();
@@ -138,7 +160,7 @@ class BookingService
                 : '';
         }
 
-        $addons = Addon::query()->active()->whereIn('id', (array) ($data['addons'] ?? []))->get()
+        $addons = Addon::query()->active()->whereIn('id', $type === 'partner' ? [] : (array) ($data['addons'] ?? []))->get()
             ->map(fn (Addon $addon) => [
                 'id' => $addon->id,
                 'name' => $addon->name,
@@ -147,8 +169,13 @@ class BookingService
                 'subtotal' => $addon->totalFor($pax),
             ])->values()->all();
 
-        $subtotal = $pricePerPax * $pax;
+        $subtotal = $offer ? $offer->totalFor($pax, $nights) : $pricePerPax * $pax;
         $addonsTotal = (int) collect($addons)->sum('subtotal');
+        $total = $subtotal + $addonsTotal;
+
+        // Komisi hanya untuk penjualan mitra bisnis.
+        $commissionRate = $offer ? (float) $offer->partner->commission_rate : null;
+        $commissionAmount = $commissionRate ? (int) round($total * $commissionRate / 100) : 0;
 
         return [
             'type' => $type,
@@ -160,8 +187,13 @@ class BookingService
             'subtotal' => $subtotal,
             'addons' => $addons,
             'addons_total' => $addonsTotal,
-            'total' => $subtotal + $addonsTotal,
+            'total' => $total,
             'custom_items' => $customItems,
+            'offer' => $offer,
+            'partner' => $offer?->partner,
+            'nights' => $nights,
+            'commission_rate' => $commissionRate,
+            'commission_amount' => $commissionAmount,
             'locale' => $locale,
         ];
     }
@@ -170,11 +202,14 @@ class BookingService
     {
         $quote = $this->quote($data);
 
-        return Booking::create([
+        $booking = Booking::create([
             'code' => Booking::generateCode(),
             'type' => $quote['type'],
             'package_id' => $quote['package']?->id,
             'package_tier_id' => $quote['tier']?->id,
+            'partner_id' => $quote['partner']?->id,
+            'partner_offer_id' => $quote['offer']?->id,
+            'nights' => $quote['nights'],
             'package_name' => $quote['package_name'],
             'visit_date' => $data['visit_date'],
             'pax' => (int) $data['pax'],
@@ -191,7 +226,26 @@ class BookingService
             'subtotal' => $quote['subtotal'],
             'addons_total' => $quote['addons_total'],
             'total' => $quote['total'],
+            'commission_rate' => $quote['commission_rate'],
+            'commission_amount' => $quote['commission_amount'],
+            'commission_status' => $quote['commission_amount'] > 0 ? 'pending' : 'none',
             'status' => 'new',
         ]);
+
+        Lead::create([
+            'name' => $booking->customer_name,
+            'phone' => $booking->phone,
+            'email' => $booking->email,
+            'source' => 'booking',
+            'status' => 'new',
+            'interest' => $booking->package_name,
+            'package_id' => $booking->package_id,
+            'partner_id' => $booking->partner_id,
+            'booking_id' => $booking->id,
+            'estimated_value' => $booking->total,
+            'locale' => $booking->locale,
+        ]);
+
+        return $booking;
     }
 }

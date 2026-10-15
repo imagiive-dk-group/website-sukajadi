@@ -51,7 +51,7 @@
                     <div class="mt-6">@include('booking.details', ['booking' => $booking])</div>
 
                     @if($booking->status === 'new')
-                        <a href="{{ wa_link(null, $booking->customerWhatsappMessage()) }}" target="_blank" rel="noopener" class="btn-wa mt-6 w-full !py-3"><x-icons.whatsapp /> {{ __('site.booking.continue_wa') }}</a>
+                        <a href="{{ wa_track('booking', $booking->id, $booking->customerWhatsappMessage()) }}" target="_blank" rel="noopener" class="btn-wa mt-6 w-full !py-3"><x-icons.whatsapp /> {{ __('site.booking.continue_wa') }}</a>
                     @elseif($booking->status === 'completed')
                         <a href="{{ lroute('reviews') }}#tulis" class="btn-primary mt-6 w-full !py-3"><x-heroicon-o-star class="size-5" /> {{ __('site.booking.leave_review') }}</a>
                     @endif

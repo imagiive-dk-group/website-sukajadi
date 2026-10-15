@@ -68,7 +68,7 @@
     "src": "node_modules/@fontsource/poppins/files/poppins-latin-800-normal.woff2"
   },
   "resources/css/app.css": {
-    "file": "assets/app-DezKvdXg.css",
+    "file": "assets/app-Bt2c7wiI.css",
     "name": "app",
     "names": [
       "app.css"
@@ -96,7 +96,7 @@
     ]
   },
   "resources/js/app.js": {
-    "file": "assets/app-5pkQ3vNL.js",
+    "file": "assets/app-DIBu7DLu.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true

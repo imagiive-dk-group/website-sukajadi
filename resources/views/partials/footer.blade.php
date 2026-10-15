@@ -12,7 +12,7 @@
         <div>
             <h2 class="font-display text-sm font-bold tracking-widest !text-white uppercase">{{ __('site.footer.explore') }}</h2>
             <ul class="mt-4 space-y-2.5 text-sm">
-                @foreach(['packages.index' => 'packages', 'custom' => 'custom', 'attractions.index' => 'attractions', 'umkm.index' => 'umkm', 'products' => 'products', 'gallery.index' => 'gallery'] as $route => $key)
+                @foreach(['attractions.index' => 'attractions', 'partners.index' => 'explore', 'packages.index' => 'packages', 'custom' => 'custom', 'umkm.index' => 'umkm', 'products' => 'products', 'gallery.index' => 'gallery'] as $route => $key)
                     <li><a href="{{ lroute($route) }}" class="hover:text-white">{{ __('site.nav.'.$key) }}</a></li>
                 @endforeach
             </ul>
@@ -21,7 +21,7 @@
         <div>
             <h2 class="font-display text-sm font-bold tracking-widest !text-white uppercase">{{ __('site.footer.info') }}</h2>
             <ul class="mt-4 space-y-2.5 text-sm">
-                @foreach(['profile' => 'profile', 'about' => 'tourism_village', 'news.index' => 'news', 'reviews' => 'reviews', 'faq' => 'faq', 'booking.check' => 'check_booking'] as $route => $key)
+                @foreach(['about' => 'tourism_village', 'profile' => 'profile', 'team' => 'team', 'news.index' => 'news', 'reviews' => 'reviews', 'faq' => 'faq', 'booking.check' => 'check_booking'] as $route => $key)
                     <li><a href="{{ lroute($route) }}" class="hover:text-white">{{ __('site.nav.'.$key) }}</a></li>
                 @endforeach
             </ul>
@@ -31,7 +31,7 @@
             <h2 class="font-display text-sm font-bold tracking-widest !text-white uppercase">{{ __('site.footer.contact') }}</h2>
             <ul class="mt-4 space-y-3 text-sm">
                 <li>
-                    <a href="{{ wa_link(null, __('site.contact.wa_default')) }}" target="_blank" rel="noopener" class="flex items-start gap-3 hover:text-white">
+                    <a href="{{ wa_track('general', null, __('site.contact.wa_default')) }}" target="_blank" rel="noopener" class="flex items-start gap-3 hover:text-white">
                         <x-icons.whatsapp class="mt-0.5 size-5 shrink-0 text-[#25D366]" /> {{ setting('whatsapp') }}
                     </a>
                 </li>
@@ -58,7 +58,7 @@
     </div>
     <div class="border-t border-white/10">
         <div class="container-site flex flex-col gap-2 py-5 text-xs text-white/55 sm:flex-row sm:items-center sm:justify-between">
-            <p>© {{ now()->year }} {{ setting('site_name', 'Desa Wisata Sukajadi') }}. {{ __('site.footer.rights') }}</p>
+            <p>© {{ now()->year }} {{ setting('site_name', 'Desa Wisata Sukajadi') }} · {{ setting_tr('managed_by') }}</p>
             <p>{{ __('site.footer.support') }}</p>
         </div>
     </div>

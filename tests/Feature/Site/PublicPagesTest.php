@@ -5,6 +5,7 @@ namespace Tests\Feature\Site;
 use App\Models\Album;
 use App\Models\Attraction;
 use App\Models\Package;
+use App\Models\Partner;
 use App\Models\Post;
 use App\Models\Testimonial;
 use App\Models\Umkm;
@@ -27,7 +28,7 @@ class PublicPagesTest extends TestCase
 
     public static function staticRoutes(): array
     {
-        return collect(['home', 'profile', 'about', 'packages.index', 'custom', 'attractions.index', 'umkm.index', 'products', 'gallery.index', 'news.index', 'faq', 'contact', 'reviews', 'booking.create', 'booking.check'])
+        return collect(['home', 'profile', 'about', 'packages.index', 'custom', 'attractions.index', 'umkm.index', 'products', 'gallery.index', 'news.index', 'faq', 'contact', 'reviews', 'booking.create', 'booking.check', 'partners.index', 'team'])
             ->flatMap(fn ($name) => ["id $name" => ['id', $name], "en $name" => ['en', $name]])
             ->all();
     }
@@ -43,7 +44,7 @@ class PublicPagesTest extends TestCase
 
     public function test_detail_pages_render_with_localized_slugs(): void
     {
-        foreach ([Package::first(), Attraction::first(), Umkm::first(), Album::first(), Post::first()] as $model) {
+        foreach ([Package::first(), Attraction::first(), Umkm::first(), Album::first(), Post::first(), Partner::first()] as $model) {
             $this->get($model->url('id'))->assertOk();
             $this->get($model->url('en'))->assertOk();
         }
@@ -76,10 +77,10 @@ class PublicPagesTest extends TestCase
         $umkm = Umkm::first();
         $umkm->update(['whatsapp' => '0812-1111-2222', 'show_contact' => false]);
 
-        $this->get($umkm->url())->assertOk()->assertDontSee('0812-1111-2222')->assertSee('wa.me/6285775194575', false);
+        $this->get($umkm->url())->assertOk()->assertDontSee('0812-1111-2222')->assertDontSee('n=6281211112222', false)->assertSee('/wa?c=umkm', false);
 
         $umkm->update(['show_contact' => true]);
-        $this->get($umkm->url())->assertOk()->assertSee('0812-1111-2222')->assertSee('wa.me/6281211112222', false);
+        $this->get($umkm->url())->assertOk()->assertSee('0812-1111-2222')->assertSee('n=6281211112222', false);
     }
 
     public function test_profile_page_shows_sources_and_verification_badges(): void
@@ -123,6 +124,51 @@ class PublicPagesTest extends TestCase
             ->assertHeader('Content-Type', 'application/xml')
             ->assertSee(url('/paket/budidaya-kelinci'), false)
             ->assertSee(url('/en/packages/rabbit-farming'), false);
+    }
+
+    public function test_homepage_tells_the_village_story_before_packages(): void
+    {
+        $html = $this->get(route('id.home'))->assertOk()->getContent();
+
+        $story = strpos($html, 'id="cerita"');
+        $packages = strpos($html, 'Paket kunjungan yang sudah kami siapkan');
+        $this->assertNotFalse($story);
+        $this->assertNotFalse($packages);
+        $this->assertLessThan($packages, $story);
+        $this->assertStringContainsString('Cerita dari Sukajadi', $html);
+        $this->assertStringContainsString('Highland Tamansari', $html);
+    }
+
+    public function test_homepage_uses_hero_video_when_uploaded(): void
+    {
+        \App\Models\Setting::put('hero_video', 'settings/hero.mp4');
+
+        $this->get(route('id.home'))->assertOk()->assertSee('<video', false)->assertSee('/uploads/settings/hero.mp4', false);
+    }
+
+    public function test_profile_has_no_government_officials_and_team_page_lists_activists(): void
+    {
+        $this->get(route('id.profile'))->assertOk()->assertDontSee('Kepala desa')->assertDontSee('Kepala Desa');
+        $this->get(route('id.team'))->assertOk()->assertSee('Ketua Penggiat Desa Wisata');
+    }
+
+    public function test_whatsapp_clicks_are_tracked_and_redirect_to_wa_me(): void
+    {
+        $this->get(route('wa', ['c' => 'partner', 'i' => 1, 't' => 'Halo']))
+            ->assertRedirect('https://wa.me/6285775194575?text=Halo');
+
+        $this->get(route('wa', ['c' => 'evil', 'n' => 'https://evil.example']))
+            ->assertRedirect('https://wa.me/6285775194575');
+
+        $this->assertDatabaseHas('wa_clicks', ['context_type' => 'partner', 'context_id' => 1]);
+        $this->assertDatabaseHas('wa_clicks', ['context_type' => 'general']);
+    }
+
+    public function test_contact_message_creates_lead(): void
+    {
+        $this->post(route('id.contact.send'), ['name' => 'Rina', 'contact' => 'rina@example.com', 'message' => 'Mau tanya vila untuk 10 orang.']);
+
+        $this->assertDatabaseHas('leads', ['name' => 'Rina', 'source' => 'contact', 'email' => 'rina@example.com', 'status' => 'new']);
     }
 
     public function test_placeholder_svg_is_served(): void

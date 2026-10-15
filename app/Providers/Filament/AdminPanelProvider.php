@@ -42,10 +42,12 @@ class AdminPanelProvider extends PanelProvider
             ->sidebarCollapsibleOnDesktop()
             ->navigationGroups([
                 NavigationGroup::make('Booking'),
+                NavigationGroup::make('Prospek & Monitoring'),
                 NavigationGroup::make('Wisata'),
                 NavigationGroup::make('UMKM'),
+                NavigationGroup::make('Mitra Bisnis'),
                 NavigationGroup::make('Konten'),
-                NavigationGroup::make('Profil Desa'),
+                NavigationGroup::make('Tentang Desa'),
                 NavigationGroup::make('Pengaturan'),
             ])
             ->navigationItems([

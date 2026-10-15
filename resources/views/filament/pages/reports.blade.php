@@ -29,7 +29,7 @@
                 </x-filament::input.wrapper>
             </label>
             <p style="font-size:.8rem;opacity:.75;max-width:36rem;margin:0">
-                Jumlah booking & pax tidak menghitung booking yang dibatalkan. Estimasi pendapatan = total booking berstatus
+                Jumlah booking, pax, dan komisi mitra tidak menghitung booking yang dibatalkan. Estimasi pendapatan = total booking berstatus
                 <em>Dikonfirmasi</em> dan <em>Selesai</em> (pembayaran sebenarnya dicatat lewat WhatsApp).
             </p>
         </div>
@@ -44,6 +44,7 @@
                         <th style="{{ $head }};text-align:right">Booking</th>
                         <th style="{{ $head }};text-align:right">Pax</th>
                         <th style="{{ $head }};text-align:right">Estimasi pendapatan</th>
+                        <th style="{{ $head }};text-align:right">Komisi mitra</th>
                         <th style="{{ $head }};text-align:right">Batal</th>
                         <th style="{{ $head }}">Per paket</th>
                     </tr>
@@ -55,6 +56,7 @@
                             <td style="{{ $num }}">{{ number_format($row['bookings'], 0, ',', '.') }}</td>
                             <td style="{{ $num }}">{{ number_format($row['pax'], 0, ',', '.') }}</td>
                             <td style="{{ $num }}">{{ rupiah($row['revenue']) }}</td>
+                            <td style="{{ $num }}">{{ $row['commission'] ? rupiah($row['commission']) : '-' }}</td>
                             <td style="{{ $num }}">{{ $row['cancelled'] ?: '-' }}</td>
                             <td style="{{ $cell }};font-size:.8rem">{{ $row['packages'] ? implode(' · ', $row['packages']) : '-' }}</td>
                         </tr>
@@ -66,6 +68,7 @@
                         <td style="{{ $num }}">{{ number_format($total['bookings'], 0, ',', '.') }}</td>
                         <td style="{{ $num }}">{{ number_format($total['pax'], 0, ',', '.') }}</td>
                         <td style="{{ $num }}">{{ rupiah($total['revenue']) }}</td>
+                        <td style="{{ $num }}">{{ rupiah($total['commission']) }}</td>
                         <td style="{{ $num }}">{{ $total['cancelled'] ?: '-' }}</td>
                         <td style="{{ $cell }}"></td>
                     </tr>

@@ -182,3 +182,56 @@
 .glightbox-clean .gslide-description {
     background: #fff;
 }
+
+/* Hero bergerak: slideshow foto dengan efek Ken Burns (dipakai bila belum ada video) */
+@keyframes hero-fade {
+    0%, 30% { opacity: 1; }
+    36%, 94% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes ken-burns {
+    from { transform: scale(1.02) translate3d(0, 0, 0); }
+    to { transform: scale(1.14) translate3d(-2%, -2%, 0); }
+}
+
+.hero-slide {
+    animation: hero-fade 18s infinite;
+}
+
+.hero-slide > * {
+    animation: ken-burns 9s ease-out infinite alternate;
+}
+
+/* Pita foto berjalan */
+@keyframes marquee-left {
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(-50%, 0, 0); }
+}
+
+.marquee-track {
+    animation: marquee-left 60s linear infinite;
+}
+
+.marquee-track.reverse {
+    animation-direction: reverse;
+}
+
+.marquee:hover .marquee-track {
+    animation-play-state: paused;
+}
+
+@keyframes scroll-cue {
+    0%, 100% { transform: translateY(0); opacity: 0.6; }
+    50% { transform: translateY(6px); opacity: 1; }
+}
+
+.scroll-cue {
+    animation: scroll-cue 2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-slide { animation: none; opacity: 0; }
+    .hero-slide:first-child { opacity: 1; }
+    .hero-slide > *, .marquee-track, .scroll-cue { animation: none; }
+}

@@ -41,7 +41,7 @@
 
             <div class="rounded-3xl bg-leaf-700 p-8 text-center text-white">
                 <p class="text-lg">{{ __('site.faq.subtitle') }}</p>
-                <a href="{{ wa_link(null, __('site.contact.wa_default')) }}" target="_blank" rel="noopener" class="btn-wa mt-5"><x-icons.whatsapp /> {{ __('site.common.chat_whatsapp') }}</a>
+                <a href="{{ wa_track('general', null, __('site.contact.wa_default')) }}" target="_blank" rel="noopener" class="btn-wa mt-5"><x-icons.whatsapp /> {{ __('site.common.chat_whatsapp') }}</a>
             </div>
         </div>
     </section>

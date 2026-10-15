@@ -72,7 +72,7 @@
     @include('partials.footer')
 
     {{-- Tombol WhatsApp melayang --}}
-    <a href="{{ wa_link(null, __('site.contact.wa_default')) }}" target="_blank" rel="noopener"
+    <a href="{{ wa_track('general', null, __('site.contact.wa_default')) }}" target="_blank" rel="noopener"
        class="fixed right-4 bottom-4 z-40 flex items-center gap-2 rounded-full bg-[#25D366] p-3.5 text-white shadow-xl shadow-black/20 transition hover:scale-105 sm:right-6 sm:bottom-6 sm:px-5"
        aria-label="{{ __('site.common.chat_whatsapp') }}">
         <x-icons.whatsapp class="size-6" />

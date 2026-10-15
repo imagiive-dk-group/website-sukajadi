@@ -2,6 +2,8 @@
 
 return [
     'nav' => [
+        'team' => 'Our Team',
+        'explore' => 'Explore',
         'home' => 'Home',
         'about' => 'About',
         'profile' => 'Village Profile',
@@ -90,6 +92,83 @@ return [
         'other' => 'Other',
     ],
 
+    'partner_categories' => [
+        'wisata' => 'Nearby Attractions',
+        'penginapan' => 'Stays & Villas',
+        'kafe' => 'Cafés & Restaurants',
+        'lainnya' => 'Others',
+    ],
+
+    'units' => [
+        'per_pax' => '/person',
+        'per_ticket' => '/ticket',
+        'per_night' => '/night',
+        'per_unit' => '/unit',
+        'per_group' => '/group',
+    ],
+
+    'qty_labels' => [
+        'per_pax' => 'Number of people',
+        'per_ticket' => 'Number of tickets',
+        'per_night' => 'Number of units/rooms',
+        'per_unit' => 'Number of units',
+        'per_group' => 'Number of groups',
+    ],
+
+    'lead_statuses' => [
+        'new' => 'New',
+        'contacted' => 'Contacted',
+        'negotiating' => 'Negotiating',
+        'won' => 'Won (booked)',
+        'lost' => 'Lost',
+    ],
+
+    'lead_sources' => [
+        'booking' => 'Booking form',
+        'contact' => 'Contact form',
+        'whatsapp' => 'WhatsApp',
+        'manual' => 'Manual entry',
+    ],
+
+    'commission_statuses' => [
+        'none' => 'No commission',
+        'pending' => 'Not invoiced',
+        'invoiced' => 'Invoiced',
+        'paid' => 'Paid',
+    ],
+
+    'wa_contexts' => [
+        'general' => 'General',
+        'package' => 'Tour package',
+        'attraction' => 'Destination',
+        'umkm' => 'Local business',
+        'product' => 'Local product',
+        'partner' => 'Partner',
+        'offer' => 'Partner offer',
+        'booking' => 'Booking confirmation',
+    ],
+
+    'partners' => [
+        'title' => 'Explore Tamansari',
+        'subtitle' => 'Nearby attractions, stays and cafés around Sukajadi Village. Book directly through us.',
+        'offers' => 'Options & prices',
+        'book' => 'Book',
+        'ask' => 'Ask on WhatsApp',
+        'wa_ask' => 'Hello Sukajadi Tourism Village, I would like to ask about :name.',
+        'highlights' => 'Highlights',
+        'address' => 'Address',
+        'hours' => 'Opening hours',
+        'min_qty' => 'Min. :count',
+        'via_us' => 'Bookings are handled by the Sukajadi Tourism Village admin and confirmed on WhatsApp.',
+        'other' => 'Other places nearby',
+        'from' => 'From',
+    ],
+
+    'team' => [
+        'title' => 'Our Tourism Village Team',
+        'subtitle' => 'The Sukajadi residents who welcome, guide and look after this tourism village.',
+    ],
+
     'status' => [
         'new' => 'New',
         'confirmed' => 'Confirmed',
@@ -108,11 +187,42 @@ return [
         'identitas' => 'Village Identity',
         'geografi' => 'Geography',
         'kependudukan' => 'Population',
-        'pemerintahan' => 'Government',
         'status' => 'Status & Designations',
     ],
 
     'home' => [
+        'story_eyebrow' => 'Meet Sukajadi',
+        'story_cta' => 'Read the village profile',
+        'explore_cta' => 'Discover the village',
+        'gallery_cta' => 'View gallery',
+        'facts_attractions' => 'places & activities',
+        'facts_umkm' => 'local businesses',
+        'facts_partners' => 'nearby attractions, stays & cafés',
+        'facts_packages' => 'group visit packages',
+        'facts_location' => 'Tamansari, Bogor Regency',
+        'whats_eyebrow' => 'What is in Sukajadi?',
+        'whats_title' => 'Rice fields, gardens, waterfalls and village kitchens',
+        'whats_subtitle' => 'Every corner of the village has a story. Here is what you can find when you visit.',
+        'whats_alam' => 'Waterfalls, hills and cool mountain air.',
+        'whats_tani' => 'Rice fields, sweet potatoes, strawberries, orchids and a rabbit farm.',
+        'whats_budaya' => 'Traditional games and warm Sundanese hospitality.',
+        'whats_kuliner' => 'Nasi liwet, nutmeg juice, noga cakes and local crafts.',
+        'whats_inap' => 'Villas and homestays for a longer stay.',
+        'whats_kafe' => 'Cafés and places to eat and unwind.',
+        'tani' => 'Farming & Livestock',
+        'village_eyebrow' => 'In the village',
+        'village_title' => 'Places & activities in Sukajadi',
+        'explore_eyebrow' => 'Explore Tamansari',
+        'explore_title' => 'Attractions, stays and cafés around the village',
+        'explore_subtitle' => 'Places around Sukajadi you can book through us.',
+        'umkm_title2' => 'Made by Sukajadi residents',
+        'visit_eyebrow' => 'Visiting with a group?',
+        'visit_title' => 'Visit packages we have prepared',
+        'visit_subtitle' => 'For schools, communities, companies and families. Or put together your own activities.',
+        'team_eyebrow' => 'Tourism village team',
+        'team_title' => 'Welcomed by the villagers themselves',
+        'team_text' => 'Sukajadi Tourism Village is run by its residents: guides, farmers, breeders, craftspeople and small business owners.',
+        'team_cta' => 'Meet our team',
         'hero_cta_packages' => 'View Tour Packages',
         'pillars_eyebrow' => 'Experiences in Sukajadi',
         'pillars_title' => 'Four pillars of village tourism',
@@ -291,6 +401,12 @@ return [
     ],
 
     'booking' => [
+        'partner_tab' => 'Partners',
+        'partner' => 'Place (attraction, stay, café)',
+        'choose_partner' => '— Choose a place —',
+        'offer' => 'Option',
+        'nights' => 'Number of nights',
+        'nights_short' => 'nights',
         'title' => 'Book a Visit',
         'subtitle' => 'Fill in the form below. Schedule & payment are confirmed with our admin on WhatsApp.',
         'step_package' => 'Package',

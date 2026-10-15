@@ -17,6 +17,8 @@ class ViewBooking extends ViewRecord
             BookingResource::confirmAction(),
             BookingResource::completeAction(),
             BookingResource::cancelAction(),
+            BookingResource::commissionAction('invoiced'),
+            BookingResource::commissionAction('paid'),
             EditAction::make(),
         ];
     }

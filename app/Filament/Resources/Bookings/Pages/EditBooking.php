@@ -23,9 +23,14 @@ class EditBooking extends EditRecord
     protected function mutateFormDataBeforeSave(array $data): array
     {
         $pax = (int) ($data['pax'] ?? $this->record->pax);
+        $nights = array_key_exists('nights', $data) && $this->record->nights !== null ? max(1, (int) $data['nights']) : $this->record->nights;
 
-        if ($pax !== (int) $this->record->pax) {
-            $data = [...$data, ...BookingResource::recalculate($this->record, $pax)];
+        if ($pax !== (int) $this->record->pax || $nights !== $this->record->nights) {
+            $data = [...$data, ...BookingResource::recalculate($this->record, $pax, $nights)];
+        }
+
+        if ($nights !== null && $nights !== $this->record->nights) {
+            $data['package_name'] = preg_replace('/\(\d+ malam\)$/', '('.$nights.' malam)', (string) $this->record->package_name);
         }
 
         if (in_array($data['status'] ?? null, ['confirmed', 'completed'], true) && $this->record->confirmed_at === null) {

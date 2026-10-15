@@ -6,6 +6,7 @@ use App\Filament\Resources\Bookings\Pages\CreateBooking;
 use App\Filament\Resources\Bookings\Pages\EditBooking;
 use App\Filament\Resources\Bookings\Pages\ListBookings;
 use App\Filament\Resources\Bookings\Pages\ViewBooking;
+use App\Filament\Resources\Partners\PartnerResource;
 use App\Filament\Support\Fields;
 use App\Models\Addon;
 use App\Models\Booking;
@@ -14,6 +15,8 @@ use App\Models\PackageTier;
 use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
+use Filament\Actions\BulkAction;
+use Filament\Actions\BulkActionGroup;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\CheckboxList;
@@ -35,6 +38,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use UnitEnum;
 
@@ -143,11 +147,11 @@ class BookingResource extends Resource
     }
 
     /**
-     * Hitung ulang subtotal & tambahan per pax bila jumlah peserta berubah.
+     * Hitung ulang subtotal, tambahan, dan komisi bila jumlah peserta (atau malam, untuk mitra) berubah.
      *
-     * @return array{addons: array, subtotal: int, addons_total: int, total: int}
+     * @return array{addons: array, subtotal: int, addons_total: int, total: int, commission_amount?: int}
      */
-    public static function recalculate(Booking $booking, int $pax): array
+    public static function recalculate(Booking $booking, int $pax, ?int $nights = null): array
     {
         $addons = collect($booking->addons ?? [])
             ->map(function (array $addon) use ($pax): array {
@@ -159,15 +163,39 @@ class BookingResource extends Resource
             ->values()
             ->all();
 
-        $subtotal = (int) $booking->price_per_pax * $pax;
+        $nights ??= $booking->nights;
+        $subtotal = (int) $booking->price_per_pax * $pax * ($nights ? max(1, $nights) : 1);
         $addonsTotal = (int) collect($addons)->sum('subtotal');
+        $total = $subtotal + $addonsTotal;
 
-        return [
+        $result = [
             'addons' => $addons,
             'subtotal' => $subtotal,
             'addons_total' => $addonsTotal,
-            'total' => $subtotal + $addonsTotal,
+            'total' => $total,
         ];
+
+        if ($booking->commission_rate) {
+            $result['commission_amount'] = static::commissionFor($total, $booking->commission_rate);
+        }
+
+        return $result;
+    }
+
+    public static function commissionFor(int $total, ?float $rate): int
+    {
+        return $rate ? (int) round($total * $rate / 100) : 0;
+    }
+
+    public static function typeLabel(?string $type): string
+    {
+        return Fields::bookingTypes()[$type] ?? 'Paket';
+    }
+
+    /** @return array<string, string> */
+    public static function commissionStatusOptions(): array
+    {
+        return Fields::options('commission_statuses', 'site.commission_statuses');
     }
 
     /** Rincian biaya yang mudah dibaca (paket custom, tambahan, total). */
@@ -185,7 +213,14 @@ class BookingResource extends Resource
             }
         }
 
-        $html .= $row('Harga per pax × '.$booking->pax.' pax', rupiah($booking->price_per_pax).' × '.$booking->pax.' = '.rupiah($booking->subtotal));
+        if ($booking->type === 'partner') {
+            $unit = $booking->offer ? __('site.units.'.$booking->offer->unit) : '';
+            $label = 'Harga '.$unit.' × '.$booking->pax.($booking->nights ? ' × '.$booking->nights.' malam' : '');
+            $calc = rupiah($booking->price_per_pax).' × '.$booking->pax.($booking->nights ? ' × '.$booking->nights : '').' = '.rupiah($booking->subtotal);
+            $html .= $row($label, $calc);
+        } else {
+            $html .= $row('Harga per pax × '.$booking->pax.' pax', rupiah($booking->price_per_pax).' × '.$booking->pax.' = '.rupiah($booking->subtotal));
+        }
 
         foreach ($booking->addons ?? [] as $addon) {
             $unit = ($addon['unit'] ?? 'per_pax') === 'per_group' ? '1 rombongan' : $booking->pax.' pax';
@@ -198,6 +233,12 @@ class BookingResource extends Resource
 
         $html .= '<tr><td colspan="2" style="border-top:1px solid rgba(127,127,127,.35);padding-top:4px"></td></tr>';
         $html .= $row('Estimasi total', rupiah($booking->total), true);
+
+        if ($booking->commission_rate || $booking->commission_amount) {
+            $rate = rtrim(rtrim(number_format((float) $booking->commission_rate, 2, ',', '.'), '0'), ',');
+            $html .= $row('Komisi desa ('.$rate.'%) · '.__('site.commission_statuses.'.$booking->commission_status), rupiah($booking->commission_amount));
+        }
+
         $html .= '</table>';
 
         return new HtmlString($html);
@@ -217,7 +258,7 @@ class BookingResource extends Resource
                             ->dehydrated(false)
                             ->visibleOn('edit'),
                         TextInput::make('package_name')
-                            ->label('Paket')
+                            ->label(fn (?Booking $record): string => $record?->type === 'partner' ? 'Mitra & penawaran' : 'Paket')
                             ->disabled()
                             ->dehydrated(false)
                             ->visibleOn('edit'),
@@ -245,12 +286,18 @@ class BookingResource extends Resource
                             ->label('Tanggal kunjungan')
                             ->required(),
                         TextInput::make('pax')
-                            ->label('Jumlah peserta (pax)')
+                            ->label(fn (?Booking $record): string => $record?->type === 'partner' ? 'Jumlah (orang/tiket/unit)' : 'Jumlah peserta (pax)')
                             ->numeric()
                             ->minValue(1)
                             ->required()
                             ->live(onBlur: true)
-                            ->helperText(fn (string $operation): ?string => $operation === 'edit' ? 'Bila diubah, subtotal & total dihitung ulang dengan harga per pax yang sama.' : null),
+                            ->helperText(fn (string $operation): ?string => $operation === 'edit' ? 'Bila diubah, subtotal, total, dan komisi dihitung ulang dengan harga satuan yang sama.' : null),
+                        TextInput::make('nights')
+                            ->label('Jumlah malam')
+                            ->numeric()
+                            ->minValue(1)
+                            ->required()
+                            ->visible(fn (?Booking $record): bool => $record?->type === 'partner' && $record->nights !== null),
                         Select::make('status')
                             ->label('Status')
                             ->options(static::statusOptions())
@@ -324,6 +371,18 @@ class BookingResource extends Resource
                             ->visibleOn('edit'),
                     ]),
 
+                Section::make('Komisi mitra')
+                    ->description(fn (?Booking $record): string => 'Komisi '.rtrim(rtrim(number_format((float) $record?->commission_rate, 2, ',', '.'), '0'), ',').'% dari total = '.rupiah($record?->commission_amount))
+                    ->columns(2)
+                    ->columnSpanFull()
+                    ->visible(fn (?Booking $record): bool => $record?->type === 'partner')
+                    ->schema([
+                        Select::make('commission_status')
+                            ->label('Status komisi')
+                            ->options(static::commissionStatusOptions())
+                            ->required(),
+                    ]),
+
                 Section::make('Catatan internal')
                     ->columnSpanFull()
                     ->schema([
@@ -350,12 +409,35 @@ class BookingResource extends Resource
                             ->formatStateUsing(fn (?string $state): string => __('site.status.'.$state))
                             ->color(fn (?string $state): string => Fields::statusColor($state)),
                         TextEntry::make('created_at')->label('Masuk')->dateTime('j M Y H:i'),
-                        TextEntry::make('package_name')->label('Paket')->columnSpan(2),
+                        TextEntry::make('package_name')
+                            ->label(fn (Booking $record): string => $record->type === 'partner' ? 'Mitra & penawaran' : 'Paket')
+                            ->columnSpan(2),
                         TextEntry::make('type')
                             ->label('Jenis')
-                            ->formatStateUsing(fn (?string $state): string => $state === 'custom' ? 'Paket custom' : 'Paket'),
-                        TextEntry::make('visit_date')->label('Tanggal kunjungan')->date('l, j F Y'),
-                        TextEntry::make('pax')->label('Peserta')->suffix(' pax'),
+                            ->badge()
+                            ->formatStateUsing(fn (?string $state): string => static::typeLabel($state)),
+                        TextEntry::make('partner.name')
+                            ->label('Mitra')
+                            ->url(fn (Booking $record): ?string => $record->partner ? PartnerResource::getUrl('edit', ['record' => $record->partner]) : null)
+                            ->visible(fn (Booking $record): bool => $record->type === 'partner')
+                            ->placeholder('-'),
+                        TextEntry::make('offer_name')
+                            ->label('Penawaran')
+                            ->state(fn (Booking $record): ?string => $record->offer
+                                ? $record->offer->tr('name', 'id').' ('.rupiah($record->offer->price).' '.__('site.units.'.$record->offer->unit).')'
+                                : null)
+                            ->visible(fn (Booking $record): bool => $record->type === 'partner')
+                            ->placeholder('-'),
+                        TextEntry::make('nights')
+                            ->label('Jumlah malam')
+                            ->suffix(' malam')
+                            ->visible(fn (Booking $record): bool => $record->nights !== null),
+                        TextEntry::make('visit_date')
+                            ->label(fn (Booking $record): string => $record->type === 'partner' ? 'Tanggal (kunjungan/check-in)' : 'Tanggal kunjungan')
+                            ->date('l, j F Y'),
+                        TextEntry::make('pax')
+                            ->label(fn (Booking $record): string => $record->type === 'partner' ? 'Jumlah' : 'Peserta')
+                            ->suffix(fn (Booking $record): string => $record->type === 'partner' ? '' : ' pax'),
                         TextEntry::make('confirmed_at')->label('Dikonfirmasi')->dateTime('j M Y H:i')->placeholder('-'),
                     ]),
                 Section::make('Pemesan')
@@ -380,6 +462,25 @@ class BookingResource extends Resource
                             ->state(fn (Booking $record): HtmlString => static::costSummary($record))
                             ->html(),
                     ]),
+                Section::make('Komisi mitra')
+                    ->columns(3)
+                    ->columnSpanFull()
+                    ->visible(fn (Booking $record): bool => $record->type === 'partner' || $record->commission_amount > 0)
+                    ->schema([
+                        TextEntry::make('commission_rate')
+                            ->label('Persentase')
+                            ->formatStateUsing(fn ($state): string => rtrim(rtrim(number_format((float) $state, 2, ',', '.'), '0'), ',').'%')
+                            ->placeholder('-'),
+                        TextEntry::make('commission_amount')
+                            ->label('Nilai komisi')
+                            ->formatStateUsing(fn ($state): string => rupiah($state))
+                            ->weight('bold'),
+                        TextEntry::make('commission_status')
+                            ->label('Status komisi')
+                            ->badge()
+                            ->formatStateUsing(fn (?string $state): string => __('site.commission_statuses.'.$state))
+                            ->color(fn (?string $state): string => Fields::commissionColor($state)),
+                    ]),
                 Section::make('Catatan internal')
                     ->columnSpanFull()
                     ->schema([
@@ -403,10 +504,18 @@ class BookingResource extends Resource
                     ->date('D, j M Y')
                     ->sortable(),
                 TextColumn::make('package_name')
-                    ->label('Paket')
+                    ->label('Paket / mitra')
+                    ->description(fn (Booking $record): ?string => $record->type === 'package' ? null
+                        : static::typeLabel($record->type).($record->nights ? ' · '.$record->nights.' malam' : ''))
                     ->searchable()
                     ->wrap()
                     ->limit(50),
+                TextColumn::make('type')
+                    ->label('Jenis')
+                    ->badge()
+                    ->formatStateUsing(fn (?string $state): string => static::typeLabel($state))
+                    ->color(fn (?string $state): string => $state === 'partner' ? 'primary' : 'gray')
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('pax')
                     ->label('Pax')
                     ->numeric()
@@ -431,6 +540,17 @@ class BookingResource extends Resource
                     ->badge()
                     ->formatStateUsing(fn (?string $state): string => __('site.status.'.$state))
                     ->color(fn (?string $state): string => Fields::statusColor($state)),
+                TextColumn::make('commission_amount')
+                    ->label('Komisi')
+                    ->formatStateUsing(fn ($state): string => $state ? rupiah($state) : '-')
+                    ->sortable()
+                    ->toggleable(),
+                TextColumn::make('commission_status')
+                    ->label('Status komisi')
+                    ->badge()
+                    ->formatStateUsing(fn (?string $state): string => __('site.commission_statuses.'.$state))
+                    ->color(fn (?string $state): string => Fields::commissionColor($state))
+                    ->toggleable(),
                 TextColumn::make('created_at')
                     ->label('Masuk')
                     ->dateTime('j M Y H:i')
@@ -442,9 +562,19 @@ class BookingResource extends Resource
                     ->label('Status')
                     ->options(static::statusOptions())
                     ->multiple(),
+                SelectFilter::make('type')
+                    ->label('Jenis')
+                    ->options(Fields::bookingTypes()),
                 SelectFilter::make('package_id')
                     ->label('Paket')
                     ->options(fn (): array => static::packageOptions()),
+                SelectFilter::make('partner_id')
+                    ->label('Mitra')
+                    ->relationship('partner', 'name'),
+                SelectFilter::make('commission_status')
+                    ->label('Status komisi')
+                    ->options(static::commissionStatusOptions())
+                    ->multiple(),
                 Filter::make('visit_date')
                     ->label('Tanggal kunjungan')
                     ->schema([
@@ -476,10 +606,72 @@ class BookingResource extends Resource
                     static::confirmAction(),
                     static::completeAction(),
                     static::cancelAction(),
+                    static::commissionAction('invoiced'),
+                    static::commissionAction('paid'),
                     ViewAction::make(),
                     EditAction::make(),
                 ]),
+            ])
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    static::commissionBulkAction('invoiced'),
+                    static::commissionBulkAction('paid'),
+                ]),
             ]);
+    }
+
+    /** Booking yang komisinya bisa ditandai: ada komisi & tidak dibatalkan. */
+    public static function canMarkCommission(Booking $record, string $status): bool
+    {
+        if ($record->commission_amount <= 0 || $record->status === 'cancelled') {
+            return false;
+        }
+
+        return $status === 'invoiced'
+            ? $record->commission_status === 'pending'
+            : in_array($record->commission_status, ['pending', 'invoiced'], true);
+    }
+
+    public static function commissionAction(string $status): Action
+    {
+        return Action::make($status === 'paid' ? 'commissionPaid' : 'commissionInvoiced')
+            ->label($status === 'paid' ? 'Tandai komisi sudah dibayar' : 'Tandai komisi sudah ditagih')
+            ->icon($status === 'paid' ? Heroicon::OutlinedBanknotes : Heroicon::OutlinedReceiptPercent)
+            ->color($status === 'paid' ? 'success' : 'info')
+            ->visible(fn (Booking $record): bool => static::canMarkCommission($record, $status))
+            ->action(function (Booking $record) use ($status): void {
+                $record->update(['commission_status' => $status]);
+
+                Notification::make()
+                    ->title('Komisi '.$record->code.' ditandai '.mb_strtolower(__('site.commission_statuses.'.$status)))
+                    ->success()
+                    ->send();
+            });
+    }
+
+    public static function commissionBulkAction(string $status): BulkAction
+    {
+        return BulkAction::make($status === 'paid' ? 'commissionPaidBulk' : 'commissionInvoicedBulk')
+            ->label($status === 'paid' ? 'Tandai komisi sudah dibayar' : 'Tandai komisi sudah ditagih')
+            ->icon($status === 'paid' ? Heroicon::OutlinedBanknotes : Heroicon::OutlinedReceiptPercent)
+            ->color($status === 'paid' ? 'success' : 'info')
+            ->requiresConfirmation()
+            ->modalDescription('Hanya booking mitra dengan komisi (tidak dibatalkan) yang diubah.')
+            ->deselectRecordsAfterCompletion()
+            ->action(function (Collection $records) use ($status): void {
+                $updated = 0;
+                foreach ($records as $record) {
+                    if (static::canMarkCommission($record, $status)) {
+                        $record->update(['commission_status' => $status]);
+                        $updated++;
+                    }
+                }
+
+                Notification::make()
+                    ->title($updated.' komisi ditandai '.mb_strtolower(__('site.commission_statuses.'.$status)))
+                    ->success()
+                    ->send();
+            });
     }
 
     public static function whatsappAction(): Action

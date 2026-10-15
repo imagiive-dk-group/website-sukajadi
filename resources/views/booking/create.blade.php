@@ -9,10 +9,15 @@
         'type' => $old['type'] ?? null,
         'package_tier_id' => $old['package_tier_id'] ?? null,
         'attraction_ids' => $old['attraction_ids'] ?? null,
+        'partner_offer_id' => $old['partner_offer_id'] ?? null,
+        'nights' => $old['nights'] ?? null,
         'visit_date' => $old['visit_date'] ?? null,
         'pax' => $old['pax'] ?? null,
         'addons' => $old['addons'] ?? null,
     ], fn ($v) => $v !== null));
+    if (! empty($old['partner_offer_id'])) {
+        $preset['partner_id'] = $partners->first(fn ($p) => $p->offers->contains('id', (int) $old['partner_offer_id']))?->id;
+    }
     if (! empty($old['package_tier_id'])) {
         $preset['package_id'] = $packages->first(fn ($p) => $p->tiers->contains('id', (int) $old['package_tier_id']))?->id;
     }
@@ -20,8 +25,8 @@
     $startStep = 1;
     if ($errors->any()) {
         $startStep = match (true) {
-            $errors->hasAny(['type', 'package_tier_id', 'attraction_ids', 'attraction_ids.*']) => 1,
-            $errors->hasAny(['visit_date', 'pax', 'addons', 'addons.*']) => 2,
+            $errors->hasAny(['type', 'package_tier_id', 'partner_offer_id', 'attraction_ids', 'attraction_ids.*']) => 1,
+            $errors->hasAny(['visit_date', 'pax', 'nights', 'addons', 'addons.*']) => 2,
             default => 3,
         };
     }
@@ -44,6 +49,12 @@
             'tiers' => $p->tiers->map(fn ($t) => ['id' => $t->id, 'name' => $t->tr('name'), 'price' => $t->price, 'min_pax' => $t->min_pax, 'duration' => $t->tr('duration')])->values(),
         ])->values(),
         'attractions' => $attractions->map(fn ($a) => ['id' => $a->id, 'name' => $a->tr('name'), 'price' => $a->custom_price])->values(),
+        'partners' => $partners->map(fn ($p) => [
+            'id' => $p->id,
+            'name' => $p->name,
+            'category' => __('site.partner_categories.'.$p->category),
+            'offers' => $p->offers->map(fn ($o) => ['id' => $o->id, 'name' => $o->tr('name'), 'price' => $o->price, 'unit' => $o->unit, 'unit_label' => $o->unitLabel(), 'qty_label' => __('site.qty_labels.'.$o->unit), 'min_qty' => $o->min_qty])->values(),
+        ])->values(),
         'addons' => $addons->map(fn ($a) => ['id' => $a->id, 'name' => $a->tr('name'), 'price' => $a->price, 'unit' => $a->unit])->values(),
         'labels' => [
             'checking' => __('site.booking.checking'),
@@ -51,6 +62,9 @@
             'chooseActivity' => __('site.custom.select_one'),
             'chooseDate' => __('validation.required', ['attribute' => __('site.booking.date')]),
             'minPax' => __('site.booking.errors.min_pax'),
+            'chooseOffer' => __('validation.required', ['attribute' => __('site.booking.offer')]),
+            'pax' => __('site.booking.pax'),
+            'nights' => __('site.booking.nights_short'),
         ],
     ]))">
         <div class="container-site" x-ref="top">
@@ -83,9 +97,12 @@
                     {{-- LANGKAH 1: Paket --}}
                     <div x-show="step === 1">
                         <h2 class="text-2xl font-bold">1. {{ __('site.booking.step_package') }}</h2>
-                        <div class="mt-5 grid grid-cols-2 gap-2 rounded-2xl bg-cream p-1.5">
-                            <button type="button" @click="type = 'package'" class="rounded-xl px-4 py-2.5 text-sm font-semibold transition" :class="type === 'package' ? 'bg-white shadow text-leaf-800' : 'text-leaf-950/55'">{{ __('site.nav.packages') }}</button>
-                            <button type="button" @click="type = 'custom'" class="rounded-xl px-4 py-2.5 text-sm font-semibold transition" :class="type === 'custom' ? 'bg-white shadow text-leaf-800' : 'text-leaf-950/55'">{{ __('site.nav.custom') }}</button>
+                        <div class="mt-5 grid grid-cols-3 gap-1.5 rounded-2xl bg-cream p-1.5">
+                            <button type="button" @click="type = 'package'" class="rounded-xl px-2 py-2.5 text-xs font-semibold transition sm:text-sm" :class="type === 'package' ? 'bg-white shadow text-leaf-800' : 'text-leaf-950/55'">{{ __('site.nav.packages') }}</button>
+                            <button type="button" @click="type = 'custom'" class="rounded-xl px-2 py-2.5 text-xs font-semibold transition sm:text-sm" :class="type === 'custom' ? 'bg-white shadow text-leaf-800' : 'text-leaf-950/55'">{{ __('site.nav.custom') }}</button>
+                            @if($partners->isNotEmpty())
+                                <button type="button" @click="type = 'partner'" class="rounded-xl px-2 py-2.5 text-xs font-semibold transition sm:text-sm" :class="type === 'partner' ? 'bg-white shadow text-leaf-800' : 'text-leaf-950/55'">{{ __('site.booking.partner_tab') }}</button>
+                            @endif
                         </div>
 
                         <div x-show="type === 'package'" class="mt-6 space-y-5">
@@ -114,6 +131,38 @@
                             </div>
                         </div>
 
+                        @if($partners->isNotEmpty())
+                            <div x-show="type === 'partner'" x-cloak class="mt-6 space-y-5">
+                                <div>
+                                    <label class="label" for="partner">{{ __('site.booking.partner') }}</label>
+                                    <select id="partner" class="input" x-model="partnerId">
+                                        <option value="">{{ __('site.booking.choose_partner') }}</option>
+                                        @foreach($partners->groupBy('category') as $cat => $group)
+                                            <optgroup label="{{ __('site.partner_categories.'.$cat) }}">
+                                                @foreach($group as $partner)
+                                                    <option value="{{ $partner->id }}">{{ $partner->name }}</option>
+                                                @endforeach
+                                            </optgroup>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div x-show="offers.length" x-cloak>
+                                    <span class="label">{{ __('site.booking.offer') }}</span>
+                                    <div class="grid gap-3 sm:grid-cols-2">
+                                        <template x-for="offer in offers" :key="offer.id">
+                                            <label class="cursor-pointer rounded-2xl border-2 p-4 transition" :class="offerId === String(offer.id) ? 'border-sun-500 bg-sun-50' : 'border-leaf-900/10 hover:border-leaf-300'">
+                                                <input type="radio" name="partner_offer_id" class="sr-only" :value="offer.id" x-model="offerId">
+                                                <span class="block font-display font-bold text-leaf-900" x-text="offer.name"></span>
+                                                <span class="mt-1 block font-display font-bold text-leaf-700"><span x-text="money(offer.price)"></span><span class="text-xs font-medium text-leaf-950/50" x-text="offer.unit_label"></span></span>
+                                                <span class="block text-xs text-leaf-950/55" x-show="offer.min_qty > 1" x-text="@js(__('site.partners.min_qty', ['count' => '__N__'])).replace('__N__', offer.min_qty)"></span>
+                                            </label>
+                                        </template>
+                                    </div>
+                                </div>
+                                <p class="text-xs text-leaf-950/55">{{ __('site.partners.via_us') }}</p>
+                            </div>
+                        @endif
+
                         <div x-show="type === 'custom'" x-cloak class="mt-6">
                             <span class="label">{{ __('site.custom.step_activities') }}</span>
                             <div class="grid gap-3 sm:grid-cols-2">
@@ -137,14 +186,18 @@
                         <div class="mt-6 grid gap-5 sm:grid-cols-2">
                             <div>
                                 <label class="label" for="visit_date">{{ __('site.booking.date') }}</label>
-                                <input id="visit_date" type="date" name="visit_date" class="input" x-model="date" min="{{ $earliest->toDateString() }}" max="{{ $latest->toDateString() }}" required>
-                                <p class="mt-1.5 text-xs text-leaf-950/55">{{ __('site.booking.lead_days', ['days' => $leadDays]) }}</p>
+                                <input id="visit_date" type="date" name="visit_date" class="input" x-model="date" :min="type === 'partner' ? '{{ $partnerEarliest->toDateString() }}' : '{{ $earliest->toDateString() }}'" max="{{ $latest->toDateString() }}" required>
+                                <p class="mt-1.5 text-xs text-leaf-950/55" x-show="type !== 'partner'">{{ __('site.booking.lead_days', ['days' => $leadDays]) }}</p>
                             </div>
                             <div>
-                                <label class="label" for="pax">{{ __('site.booking.pax') }}</label>
+                                <label class="label" for="pax" x-text="qtyLabel">{{ __('site.booking.pax') }}</label>
                                 <input id="pax" type="number" name="pax" class="input" x-model="pax" :min="minPax" max="2000" inputmode="numeric" required>
                                 <p class="mt-1.5 text-xs text-leaf-950/55" x-text="@js(__('site.booking.errors.min_pax', ['count' => '__N__'])).replace('__N__', minPax)"></p>
                             </div>
+                        </div>
+                        <div class="mt-5 sm:w-1/2" x-show="isPerNight" x-cloak>
+                            <label class="label" for="nights">{{ __('site.booking.nights') }}</label>
+                            <input id="nights" type="number" name="nights" class="input" x-model="nights" min="1" max="30" inputmode="numeric" :disabled="!isPerNight">
                         </div>
                         <div class="mt-3 flex items-center gap-2 text-sm" x-show="availability.state !== 'idle'" x-cloak
                              :class="{ 'text-leaf-700': availability.state === 'ok', 'text-red-600': availability.state === 'error', 'text-leaf-950/55': availability.state === 'checking' }">
@@ -154,7 +207,7 @@
                         </div>
 
                         @if($addons->isNotEmpty())
-                            <div class="mt-8">
+                            <div class="mt-8" x-show="type !== 'partner'">
                                 <span class="label">{{ __('site.booking.addons') }}</span>
                                 <div class="grid gap-3 sm:grid-cols-2">
                                     @foreach($addons as $addon)
@@ -238,10 +291,10 @@
                             </div>
                             <div class="grid grid-cols-2 gap-3">
                                 <div><dt class="text-xs text-leaf-950/50">{{ __('site.booking.date') }}</dt><dd class="font-semibold" x-text="date ? new Date(date + 'T00:00:00').toLocaleDateString('{{ app()->getLocale() === 'en' ? 'en-GB' : 'id-ID' }}', { day: 'numeric', month: 'short', year: 'numeric' }) : '—'"></dd></div>
-                                <div><dt class="text-xs text-leaf-950/50">{{ __('site.booking.pax') }}</dt><dd class="font-semibold" x-text="paxNumber || '—'"></dd></div>
+                                <div><dt class="text-xs text-leaf-950/50" x-text="qtyLabel">{{ __('site.booking.pax') }}</dt><dd class="font-semibold" x-text="(paxNumber || '—') + (isPerNight ? ' × ' + nightsNumber + ' ' + @js(__('site.booking.nights_short')) : '')"></dd></div>
                             </div>
                             <div class="space-y-2 border-t border-leaf-900/10 pt-3">
-                                <div class="flex justify-between gap-3"><dt class="text-leaf-950/65"><span>{{ __('site.booking.subtotal') }}</span> <span class="text-xs" x-show="pricePerPax" x-text="'(' + money(pricePerPax) + ' × ' + paxNumber + ')'"></span></dt><dd class="font-semibold" x-text="money(subtotal)"></dd></div>
+                                <div class="flex justify-between gap-3"><dt class="text-leaf-950/65"><span>{{ __('site.booking.subtotal') }}</span> <span class="text-xs" x-show="pricePerPax" x-text="'(' + money(pricePerPax) + ' × ' + paxNumber + (isPerNight ? ' × ' + nightsNumber : '') + ')'"></span></dt><dd class="font-semibold" x-text="money(subtotal)"></dd></div>
                                 <template x-for="line in addonLines" :key="line.id">
                                     <div class="flex justify-between gap-3"><dt class="text-leaf-950/65" x-text="'+ ' + line.name"></dt><dd class="font-semibold" x-text="money(line.subtotal)"></dd></div>
                                 </template>

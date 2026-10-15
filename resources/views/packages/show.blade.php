@@ -119,7 +119,7 @@
                     <p class="text-sm text-leaf-950/55">{{ __('site.common.starting_from') }}</p>
                     <p class="font-display text-3xl font-extrabold text-leaf-700">{{ rupiah($package->startingPrice()) }}<span class="text-base font-medium text-leaf-950/50">{{ __('site.common.per_pax') }}</span></p>
                     <a href="{{ lroute('booking.create', ['paket' => $package->slugFor()]) }}" class="btn-primary mt-5 w-full !py-3">{{ __('site.nav.book_now') }}</a>
-                    <a href="{{ wa_link(null, __('site.packages.wa_ask', ['package' => $package->tr('name')])) }}" target="_blank" rel="noopener" class="btn-wa mt-3 w-full !py-3"><x-icons.whatsapp /> {{ __('site.packages.ask_whatsapp') }}</a>
+                    <a href="{{ wa_track('package', $package->id, __('site.packages.wa_ask', ['package' => $package->tr('name')])) }}" target="_blank" rel="noopener" class="btn-wa mt-3 w-full !py-3"><x-icons.whatsapp /> {{ __('site.packages.ask_whatsapp') }}</a>
                 </div>
 
                 @if($package->facilities)

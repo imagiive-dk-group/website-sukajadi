@@ -27,15 +27,15 @@ class OfficialResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUserGroup;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Profil Desa';
+    protected static string|UnitEnum|null $navigationGroup = 'Tentang Desa';
 
     protected static ?int $navigationSort = 3;
 
-    protected static ?string $navigationLabel = 'Perangkat Desa';
+    protected static ?string $navigationLabel = 'Tim Penggiat';
 
-    protected static ?string $modelLabel = 'perangkat desa';
+    protected static ?string $modelLabel = 'anggota tim';
 
-    protected static ?string $pluralModelLabel = 'perangkat desa';
+    protected static ?string $pluralModelLabel = 'anggota tim';
 
     protected static ?string $recordTitleAttribute = 'name';
 
@@ -43,7 +43,7 @@ class OfficialResource extends Resource
     {
         return $schema
             ->components([
-                Section::make('Perangkat desa')
+                Section::make('Anggota tim penggiat')
                     ->columns(2)
                     ->columnSpanFull()
                     ->schema([
@@ -56,15 +56,15 @@ class OfficialResource extends Resource
                             ->numeric()
                             ->default(0),
                         TextInput::make('position.id')
-                            ->label('Jabatan (Indonesia)')
-                            ->placeholder('Misal: Kepala Desa')
+                            ->label('Peran (Indonesia)')
+                            ->placeholder('Misal: Ketua Pokdarwis')
                             ->required()
                             ->maxLength(255),
                         TextInput::make('position.en')
-                            ->label('Jabatan (English)')
-                            ->placeholder('e.g. Village Head')
+                            ->label('Peran (English)')
+                            ->placeholder('e.g. Tourism group chair')
                             ->maxLength(255),
-                        Fields::image('photo_path', 'officials', 'Foto'),
+                        Fields::image('photo_path', 'team', 'Foto'),
                     ]),
             ]);
     }
@@ -79,7 +79,7 @@ class OfficialResource extends Resource
                 TextColumn::make('name')
                     ->label('Nama')
                     ->searchable(),
-                Fields::trColumn('position', 'Jabatan'),
+                Fields::trColumn('position', 'Peran'),
             ])
             ->recordActions([
                 EditAction::make(),

@@ -180,4 +180,32 @@ class Fields
             default => 'gray',
         };
     }
+
+    public static function commissionColor(?string $status): string
+    {
+        return match ($status) {
+            'pending' => 'warning',
+            'invoiced' => 'info',
+            'paid' => 'success',
+            default => 'gray',
+        };
+    }
+
+    public static function leadStatusColor(?string $status): string
+    {
+        return match ($status) {
+            'new' => 'warning',
+            'contacted' => 'info',
+            'negotiating' => 'primary',
+            'won' => 'success',
+            'lost' => 'danger',
+            default => 'gray',
+        };
+    }
+
+    /** @return array<string, string> */
+    public static function bookingTypes(): array
+    {
+        return ['package' => 'Paket', 'custom' => 'Paket Custom', 'partner' => 'Mitra'];
+    }
 }

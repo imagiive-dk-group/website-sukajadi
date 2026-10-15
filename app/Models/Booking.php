@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
 
 class Booking extends Model
@@ -17,6 +18,9 @@ class Booking extends Model
         'custom_items' => 'array',
         'confirmed_at' => 'datetime',
         'pax' => 'integer',
+        'nights' => 'integer',
+        'commission_rate' => 'float',
+        'commission_amount' => 'integer',
         'price_per_pax' => 'integer',
         'subtotal' => 'integer',
         'addons_total' => 'integer',
@@ -31,6 +35,45 @@ class Booking extends Model
     public function tier(): BelongsTo
     {
         return $this->belongsTo(PackageTier::class, 'package_tier_id');
+    }
+
+    public function partner(): BelongsTo
+    {
+        return $this->belongsTo(Partner::class);
+    }
+
+    public function offer(): BelongsTo
+    {
+        return $this->belongsTo(PartnerOffer::class, 'partner_offer_id');
+    }
+
+    public function lead(): HasOne
+    {
+        return $this->hasOne(Lead::class);
+    }
+
+    protected static function booted(): void
+    {
+        // Status prospek mengikuti status booking.
+        static::updated(function (Booking $booking) {
+            if (! $booking->wasChanged('status')) {
+                return;
+            }
+
+            $leadStatus = match ($booking->status) {
+                'confirmed', 'completed' => 'won',
+                'cancelled' => 'lost',
+                default => null,
+            };
+
+            if ($leadStatus) {
+                $booking->lead()->update(['status' => $leadStatus]);
+            }
+
+            if ($booking->status === 'cancelled' && $booking->commission_status === 'pending') {
+                $booking->updateQuietly(['commission_status' => 'none']);
+            }
+        });
     }
 
     /** Booking yang masih memakai kuota (belum dibatalkan). */

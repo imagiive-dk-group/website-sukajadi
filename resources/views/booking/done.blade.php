@@ -19,7 +19,7 @@
                 </div>
                 <div class="p-6 sm:p-8">
                     @include('booking.details', ['booking' => $booking])
-                    <a href="{{ wa_link(null, $booking->customerWhatsappMessage()) }}" target="_blank" rel="noopener" class="btn-wa mt-8 w-full !py-4 !text-base">
+                    <a href="{{ wa_track('booking', $booking->id, $booking->customerWhatsappMessage()) }}" target="_blank" rel="noopener" class="btn-wa mt-8 w-full !py-4 !text-base">
                         <x-icons.whatsapp class="size-6" /> {{ __('site.booking.continue_wa') }}
                     </a>
                     <p class="mt-4 text-center text-sm text-leaf-950/60">{{ __('site.booking.check_later') }}</p>

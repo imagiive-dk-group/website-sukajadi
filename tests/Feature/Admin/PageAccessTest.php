@@ -3,6 +3,7 @@
 namespace Tests\Feature\Admin;
 
 use App\Filament\Pages\BookingCalendar;
+use App\Filament\Pages\Monitoring;
 use App\Filament\Pages\Reports;
 use App\Filament\Pages\Settings;
 use App\Filament\RelationManagers\PhotosRelationManager;
@@ -14,10 +15,15 @@ use App\Filament\Resources\Attractions\Pages\EditAttraction;
 use App\Filament\Resources\BlockedDates\BlockedDateResource;
 use App\Filament\Resources\Bookings\BookingResource;
 use App\Filament\Resources\Faqs\FaqResource;
+use App\Filament\Resources\Leads\LeadResource;
 use App\Filament\Resources\Messages\MessageResource;
 use App\Filament\Resources\Officials\OfficialResource;
 use App\Filament\Resources\Packages\PackageResource;
 use App\Filament\Resources\Packages\Pages\EditPackage;
+use App\Filament\Resources\Partners\PartnerResource;
+use App\Filament\Resources\Partners\Pages\EditPartner;
+use App\Filament\Resources\Partners\RelationManagers\BookingsRelationManager;
+use App\Filament\Resources\Partners\RelationManagers\OffersRelationManager;
 use App\Filament\Resources\Posts\PostResource;
 use App\Filament\Resources\ProfileSections\ProfileSectionResource;
 use App\Filament\Resources\ProfileStats\ProfileStatResource;
@@ -33,9 +39,12 @@ use App\Models\Album;
 use App\Models\Attraction;
 use App\Models\BlockedDate;
 use App\Models\Booking;
+use App\Models\Lead;
 use App\Models\Message;
 use App\Models\Package;
+use App\Models\Partner;
 use App\Models\Umkm;
+use App\Models\WaClick;
 use Livewire\Livewire;
 
 class PageAccessTest extends AdminTestCase
@@ -48,9 +57,11 @@ class PageAccessTest extends AdminTestCase
         BlockedDateResource::class,
         BookingResource::class,
         FaqResource::class,
+        LeadResource::class,
         MessageResource::class,
         OfficialResource::class,
         PackageResource::class,
+        PartnerResource::class,
         PostResource::class,
         ProfileSectionResource::class,
         ProfileStatResource::class,
@@ -86,6 +97,41 @@ class PageAccessTest extends AdminTestCase
 
         Message::create(['name' => 'Budi', 'contact' => '0857 1234 5678', 'message' => 'Halo, mau tanya paket.']);
         BlockedDate::create(['date' => today()->addDays(7), 'reason' => 'Acara desa']);
+
+        $partner = Partner::query()->has('offers')->with('offers')->firstOrFail();
+        $offer = $partner->offers->first();
+        $partnerBooking = Booking::create([
+            'code' => Booking::generateCode(),
+            'type' => 'partner',
+            'partner_id' => $partner->id,
+            'partner_offer_id' => $offer->id,
+            'nights' => $offer->isPerNight() ? 2 : null,
+            'package_name' => $partner->name.' — '.$offer->tr('name', 'id'),
+            'visit_date' => today()->addDays(3),
+            'pax' => 2,
+            'customer_name' => 'Pak Tamu Vila',
+            'phone' => '081377778888',
+            'group_type' => 'family',
+            'price_per_pax' => $offer->price,
+            'subtotal' => $offer->totalFor(2, 2),
+            'addons_total' => 0,
+            'total' => $offer->totalFor(2, 2),
+            'commission_rate' => 10,
+            'commission_amount' => (int) round($offer->totalFor(2, 2) * 0.1),
+            'commission_status' => 'pending',
+        ]);
+
+        Lead::create([
+            'name' => 'Pak Tamu Vila',
+            'phone' => '081377778888',
+            'source' => 'booking',
+            'interest' => $partnerBooking->package_name,
+            'partner_id' => $partner->id,
+            'booking_id' => $partnerBooking->id,
+            'estimated_value' => $partnerBooking->total,
+        ]);
+
+        WaClick::create(['context_type' => 'partner', 'context_id' => $partner->id, 'page' => '/jelajah']);
     }
 
     public function test_super_admin_can_open_every_resource_page(): void
@@ -122,7 +168,13 @@ class PageAccessTest extends AdminTestCase
         $this->get(Settings::getUrl())->assertOk()->assertSee('Pengaturan Website');
         $this->get(BookingCalendar::getUrl())->assertOk()->assertSee('Kalender Booking');
         $this->get(BookingCalendar::getUrl().'?bulan='.today()->addDays(5)->format('Y-m'))->assertOk();
-        $this->get(Reports::getUrl())->assertOk()->assertSee('Ekspor CSV (Excel)');
+        $this->get(Reports::getUrl())->assertOk()->assertSee('Ekspor CSV (Excel)')->assertSee('Komisi mitra');
+        $this->get(Monitoring::getUrl())->assertOk()->assertSee('Komisi per mitra');
+        $this->get(LeadResource::getUrl('index', ['tab' => 'follow_up']))->assertOk();
+        // Halaman detail & ubah booking mitra.
+        $partnerBooking = Booking::query()->where('type', 'partner')->firstOrFail();
+        $this->get(BookingResource::getUrl('view', ['record' => $partnerBooking]))->assertOk()->assertSee('Komisi mitra')->assertSee($partnerBooking->partner->name);
+        $this->get(BookingResource::getUrl('edit', ['record' => $partnerBooking]))->assertOk()->assertSee('Status komisi');
     }
 
     public function test_relation_managers_render_for_every_owner(): void
@@ -143,6 +195,17 @@ class PageAccessTest extends AdminTestCase
                 ->assertCanSeeTableRecords($owner->photos()->get())
                 ->assertSee('Unggah banyak foto');
         }
+
+        $partner = Partner::query()->has('bookings')->firstOrFail();
+        Livewire::test(OffersRelationManager::class, ['ownerRecord' => $partner, 'pageClass' => EditPartner::class])
+            ->assertOk()
+            ->assertCanSeeTableRecords($partner->offers()->get());
+        Livewire::test(PhotosRelationManager::class, ['ownerRecord' => $partner, 'pageClass' => EditPartner::class])
+            ->assertOk();
+        Livewire::test(BookingsRelationManager::class, ['ownerRecord' => $partner, 'pageClass' => EditPartner::class])
+            ->assertOk()
+            ->assertCanSeeTableRecords($partner->bookings()->get())
+            ->assertSee('Belum ditagih');
 
         $umkm = Umkm::query()->has('products')->firstOrFail();
         Livewire::test(ProductsRelationManager::class, ['ownerRecord' => $umkm, 'pageClass' => EditUmkm::class])

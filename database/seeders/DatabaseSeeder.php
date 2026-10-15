@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             SettingSeeder::class,
             TourismSeeder::class,
             CommunitySeeder::class,
+            PartnerSeeder::class,
         ]);
     }
 }
