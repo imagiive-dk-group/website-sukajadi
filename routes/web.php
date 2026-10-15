@@ -6,11 +6,11 @@ use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\PlaceholderController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\UmkmController;
 use App\Http\Controllers\WhatsappController;
-use App\Http\Controllers\PartnerController;
 use Illuminate\Support\Facades\Route;
 
 /*

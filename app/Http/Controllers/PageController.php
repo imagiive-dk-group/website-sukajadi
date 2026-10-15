@@ -20,6 +20,7 @@ use App\Models\Umkm;
 use App\Support\Notifier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class PageController extends Controller
 {
@@ -108,7 +109,7 @@ class PageController extends Controller
             'phone' => str_contains($message->contact, '@') ? null : $message->contact,
             'email' => str_contains($message->contact, '@') ? $message->contact : null,
             'source' => 'contact',
-            'interest' => \Illuminate\Support\Str::limit($message->message, 120),
+            'interest' => Str::limit($message->message, 120),
             'message_id' => $message->id,
             'locale' => $message->locale,
         ]);

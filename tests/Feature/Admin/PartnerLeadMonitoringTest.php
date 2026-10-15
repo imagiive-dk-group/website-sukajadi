@@ -152,7 +152,8 @@ class PartnerLeadMonitoringTest extends AdminTestCase
             ->assertCanSeeTableRecords([$one, $two, $three])
             ->callAction(TestAction::make('commissionInvoiced')->table($one))
             ->assertActionHidden(TestAction::make('commissionInvoiced')->table($one))
-            ->callAction(TestAction::make('commissionPaidBulk')->table()->bulk(), records: [$two, $three]);
+            ->selectTableRecords([$two, $three])
+            ->callAction(TestAction::make('commissionPaidBulk')->table()->bulk());
 
         $this->assertSame('invoiced', $one->refresh()->commission_status);
         $this->assertSame('paid', $two->refresh()->commission_status);

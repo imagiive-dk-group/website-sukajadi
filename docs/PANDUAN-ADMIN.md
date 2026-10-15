@@ -78,3 +78,22 @@ Nama & slogan, teks beranda dan "Tentang", foto hero, nomor WhatsApp, Instagram,
 - [ ] Kontak UMKM (dengan izin pemilik)
 - [ ] Hapus berita & ulasan contoh
 - [ ] Cek ulang teks "Tentang" dan rundown paket
+
+## Revisi v2: Mitra bisnis, prospek, dan monitoring
+
+### Mitra bisnis (komisi)
+- **Mitra Bisnis → Mitra Bisnis**: tempat wisata sekitar, penginapan/vila, kafe yang dijual lewat website. Isi kategori, deskripsi, foto, dan **Komisi (%)** (bawaan 10%). Bagian *Data internal* (PIC, status perjanjian, catatan) tidak tampil di website.
+- Tab **Penawaran**: produk yang bisa dipesan (tiket, per orang, per malam, per unit, per rombongan) beserta harga & minimal pemesanan.
+- Setiap booking mitra otomatis mencatat **nilai komisi**. Tandai di Daftar Booking: *Tandai komisi sudah ditagih* → *sudah dibayar*.
+- **UMKM** tetap gratis (fasilitasi pemasaran), tidak ada komisi.
+
+### Prospek (Leads)
+- **Prospek & Monitoring → Prospek (Leads)**: semua booking & pesan formulir kontak otomatis masuk sebagai prospek. Tambahkan juga prospek dari DM Instagram/telepon secara manual.
+- Ubah status: Baru → Sudah dihubungi → Negosiasi → Berhasil/Batal (otomatis mengikuti status booking). Gunakan *Ambil prospek ini* dan isi tanggal *follow-up*; tab *Follow-up hari ini/terlambat* menampilkan yang harus dihubungi.
+
+### Monitoring
+- **Prospek & Monitoring → Monitoring**: corong prospek & konversi, sumber prospek, **klik WhatsApp** per konten (paket, UMKM, mitra, dll.), penjualan per jenis, dan **komisi per mitra** (bisa diekspor CSV).
+
+### Beranda
+- **Pengaturan Website → Beranda**: unggah **video pembuka** (MP4, 10–30 detik, tanpa suara, maks. 30 MB) atau **foto slideshow** (maks. 6), serta teks **Cerita desa** dan identitas pengelola.
+- **Tentang Desa → Tim Penggiat**: nama, peran, dan foto penggiat desa wisata.

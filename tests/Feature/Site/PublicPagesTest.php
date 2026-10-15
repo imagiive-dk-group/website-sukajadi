@@ -7,6 +7,7 @@ use App\Models\Attraction;
 use App\Models\Package;
 use App\Models\Partner;
 use App\Models\Post;
+use App\Models\Setting;
 use App\Models\Testimonial;
 use App\Models\Umkm;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -141,7 +142,7 @@ class PublicPagesTest extends TestCase
 
     public function test_homepage_uses_hero_video_when_uploaded(): void
     {
-        \App\Models\Setting::put('hero_video', 'settings/hero.mp4');
+        Setting::put('hero_video', 'settings/hero.mp4');
 
         $this->get(route('id.home'))->assertOk()->assertSee('<video', false)->assertSee('/uploads/settings/hero.mp4', false);
     }
