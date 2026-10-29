@@ -2,105 +2,131 @@
 
 Website ini dibangun dengan **Laravel 13 + Filament 5** (PHP). Semua perangkat lunaknya gratis; biaya hanya **domain + hosting**.
 
-## 1. Syarat hosting
+Panduan ini ditulis dari pemasangan nyata di **Hostinger (hPanel, LiteSpeed)**, satu akun dengan website lain. Catatan untuk cPanel ada di bagian 7.
 
-Pilih paket shared hosting (cPanel) yang memiliki:
+## 1. Syarat hosting
 
 | Kebutuhan | Keterangan |
 |---|---|
 | PHP **8.3+** | ekstensi: `gd`, `intl`, `mbstring`, `pdo_mysql`, `zip`, `fileinfo`, `exif` |
 | MySQL / MariaDB | 1 database |
-| **Akses SSH** + Composer | untuk instalasi & update |
-| SSL gratis (AutoSSL / Let's Encrypt) | wajib untuk https |
-| Akun email | untuk notifikasi booking (`info@desawisatasukajadi.com`) |
+| **Akses SSH** + Composer + git | untuk instalasi & update |
+| SSL gratis | wajib untuk https |
+| Akun email | untuk notifikasi booking |
 | Penyimpanan ≥ 5–10 GB | foto otomatis dikompres ke WebP |
 
 Node.js **tidak** diperlukan di server: file CSS/JS sudah dibangun dan disimpan di `public/build`.
 
-## 2. Instalasi pertama
+## 2. Instalasi pertama (hPanel)
 
-1. **Domain**: arahkan domain `desawisatasukajadi.com` ke hosting (nameserver dari penyedia hosting).
-2. **Database**: di cPanel → *MySQL Databases*, buat database + user, beri semua hak akses. Catat nama database, user, dan password.
-3. **Email**: di cPanel → *Email Accounts*, buat `info@desawisatasukajadi.com`. Catat host SMTP, port, dan password.
-4. **Ambil kode** (via SSH):
+Bagian A–C dikerjakan di panel; D dan seterusnya lewat SSH.
 
-   ```bash
-   cd ~
-   git clone https://github.com/imagiive-dk-group/website-sukajadi.git desawisatasukajadi
-   cd desawisatasukajadi
-   composer install --no-dev --optimize-autoloader
-   cp .env.example .env
-   php artisan key:generate
-   ```
+**A. Tambahkan domain.** hPanel → *Websites → Add website* → *Empty PHP / Custom website* → isi domain. Folder website dibuat di `~/domains/<domain>/public_html` dan terpisah dari website lain di akun yang sama.
 
-5. **Isi `.env`** (pakai `nano .env`):
+**B. SSL.** *Security → SSL*, pasang SSL gratis (setelah DNS aktif), lalu aktifkan *Force HTTPS*.
 
-   ```dotenv
-   APP_ENV=production
-   APP_DEBUG=false
-   APP_URL=https://desawisatasukajadi.com
+**C. Database.** *Databases → Management → Create new database*. hPanel menambahkan **awalan akun** pada nama database dan user, misalnya `u123456789_desasukajadi` dan `u123456789_admin`. Pakai nama lengkap itu di `.env`. Simpan password di password manager, **jangan dikirim lewat chat atau disimpan di repo**.
 
-   DB_CONNECTION=mysql
-   DB_HOST=localhost
-   DB_PORT=3306
-   DB_DATABASE=nama_database
-   DB_USERNAME=user_database
-   DB_PASSWORD=password_database
+**D. Ambil kode** (SSH, folder di luar `domains/` supaya tidak terjangkau web):
 
-   MAIL_MAILER=smtp
-   MAIL_HOST=mail.desawisatasukajadi.com
-   MAIL_PORT=465
-   MAIL_SCHEME=smtps
-   MAIL_USERNAME=info@desawisatasukajadi.com
-   MAIL_PASSWORD=password_email
-   MAIL_FROM_ADDRESS=info@desawisatasukajadi.com
+```bash
+cd ~
+git clone https://github.com/imagiive-dk-group/website-sukajadi.git sukajadi-app
+cd sukajadi-app
+php -d disable_functions= /usr/local/bin/composer install --no-dev --optimize-autoloader
+```
 
-   ADMIN_EMAIL=email-anda@gmail.com
-   ADMIN_PASSWORD=password-kuat-anda
-   ```
+> Hostinger mematikan `proc_open`, padahal Composer membutuhkannya. Awalan `php -d disable_functions=` mengaktifkannya hanya untuk satu perintah itu. Gunakan juga untuk `artisan` bila ada pesan serupa.
 
-6. **Buat tabel & isi data awal** (paket, destinasi, UMKM, profil desa, akun Super Admin):
+**E. Isi `.env`.** Salin dari `.env.example`, lalu isi:
 
-   ```bash
-   php artisan migrate --seed --force
-   php artisan optimize
-   ```
+```dotenv
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://desawisatasukajadi.com
+LOG_STACK=daily
+LOG_LEVEL=error
 
-7. **Document root**: arahkan domain ke folder `public`.
-   - cPanel → *Domains* → ubah *Document Root* menjadi `desawisatasukajadi/public`, **atau**
-   - jika tidak bisa diubah:
-     ```bash
-     mv ~/public_html ~/public_html_lama
-     ln -s ~/desawisatasukajadi/public ~/public_html
-     ```
-8. **Folder foto**: pastikan folder unggahan bisa ditulis:
-   ```bash
-   mkdir -p public/uploads && chmod -R 775 public/uploads storage bootstrap/cache
-   ```
-9. **SSL**: cPanel → *SSL/TLS Status* → *Run AutoSSL*.
-10. Buka `https://desawisatasukajadi.com/admin`, login dengan `ADMIN_EMAIL` & `ADMIN_PASSWORD`, lalu **ganti password** dari menu profil.
+DB_CONNECTION=mysql
+DB_HOST=localhost
+DB_PORT=3306
+DB_DATABASE=<awalan>_desasukajadi
+DB_USERNAME=<awalan>_admin
+DB_PASSWORD=
+
+SESSION_SECURE_COOKIE=true
+
+MAIL_MAILER=smtp
+MAIL_SCHEME=smtps
+MAIL_HOST=smtp.hostinger.com
+MAIL_PORT=465
+MAIL_USERNAME=admin@desawisatasukajadi.com
+MAIL_PASSWORD=
+MAIL_FROM_ADDRESS="admin@desawisatasukajadi.com"
+
+ADMIN_EMAIL=admin@desawisatasukajadi.com
+ADMIN_PASSWORD=
+```
+
+Lalu:
+
+```bash
+php artisan key:generate --force
+chmod 600 .env
+nano .env        # isi DB_PASSWORD, MAIL_PASSWORD, ADMIN_PASSWORD sendiri
+```
+
+Dari laptop, sekali jalan:
+
+```bash
+ssh -t -i ~/.ssh/<kunci> -p <port> <user>@<ip-server> "nano ~/sukajadi-app/.env"
+```
+
+Jangan menjalankan `nano` di PowerShell laptop; file `.env` ada di server.
+
+**F. Tabel dan data awal** (hanya sekali, termasuk akun Super Admin):
+
+```bash
+php artisan migrate --seed --force
+php artisan optimize
+mkdir -p public/uploads && chmod -R 775 public/uploads storage bootstrap/cache
+```
+
+**G. Document root.** Pada Hostinger, folder `public_html` tidak bisa dipindah, jadi diganti tautan simbolik ke folder `public`:
+
+```bash
+cd ~/domains/desawisatasukajadi.com
+mv public_html public_html_default
+ln -s ~/sukajadi-app/public public_html
+```
+
+**H. Uji.** Buka `https://desawisatasukajadi.com`, lalu `/admin` dan login dengan `ADMIN_EMAIL` & `ADMIN_PASSWORD`. Buat satu booking percobaan dan pastikan emailnya masuk.
+
+> Pesan `SQLSTATE[HY000] [1045] Access denied` di `storage/logs` berarti nama/user/password database di `.env` salah (cek awalan akun). Setelah mengubah `.env`, jalankan `php artisan config:clear`.
+
+Website ini **tidak memakai cron**: tidak ada tugas terjadwal.
 
 ## 3. Update website
 
 Setiap ada perubahan kode di GitHub:
 
 ```bash
-cd ~/desawisatasukajadi
-php artisan down
+cd ~/sukajadi-app
+php -d disable_functions= artisan down
 git pull
-composer install --no-dev --optimize-autoloader
-php artisan migrate --force
-php artisan optimize
-php artisan up
+php -d disable_functions= /usr/local/bin/composer install --no-dev --optimize-autoloader
+php -d disable_functions= artisan migrate --force
+php -d disable_functions= artisan optimize
+php -d disable_functions= artisan up
 ```
 
-> Jangan jalankan `composer run setup`, `migrate:fresh`, atau `db:seed` di server produksi setelah website berjalan: perintah itu menghapus/menimpa data.
+> Jangan jalankan `composer run setup`, `migrate:fresh`, atau `db:seed` di server produksi setelah website berjalan: perintah itu menghapus/menimpa data. `.env` dan `public/uploads` tidak ikut git dan tidak tersentuh `git pull`.
 
 ## 4. Backup
 
-- **Database**: cPanel → *Backup* → unduh backup MySQL, minimal seminggu sekali.
-- **Foto**: folder `public/uploads` (semua foto yang diunggah dari admin).
-- **File `.env`**: simpan salinannya di tempat aman.
+- **Database**: hPanel → *Backups* (backup harian tersedia), atau unduh lewat *phpMyAdmin → Export*, minimal seminggu sekali.
+- **Foto**: folder `~/sukajadi-app/public/uploads` (semua foto yang diunggah dari admin).
+- **File `.env`**: simpan salinannya di password manager. File ini tidak ada di GitHub.
 
 ## 5. Setelah online
 
@@ -125,3 +151,10 @@ php artisan test     # menjalankan semua tes
 ```
 
 Setelah mengubah CSS/JS, jalankan `npm run build` lalu commit folder `public/build`.
+
+## 7. Bila memakai cPanel
+
+- Database: *MySQL Databases*, buat database + user, beri semua hak akses.
+- Email: *Email Accounts*; host SMTP biasanya `mail.<domain>`.
+- Document root: *Domains* → ubah *Document Root* menjadi `sukajadi-app/public`; jika tidak bisa, gunakan tautan simbolik seperti langkah G.
+- SSL: *SSL/TLS Status* → *Run AutoSSL*.
