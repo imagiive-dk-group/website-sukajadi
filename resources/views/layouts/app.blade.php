@@ -51,7 +51,7 @@
             'addressRegion' => 'Kabupaten Bogor, Jawa Barat',
             'addressCountry' => 'ID',
         ],
-        'sameAs' => array_values(array_filter([instagram_url(setting('instagram'))])),
+        'sameAs' => array_values(array_filter([instagram_url(setting('instagram')), tiktok_url(setting('tiktok'))])),
     ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG) !!}</script>
     @stack('head')
 

@@ -42,6 +42,13 @@
                         </a>
                     </li>
                 @endif
+                @if(setting('tiktok'))
+                    <li>
+                        <a href="{{ tiktok_url(setting('tiktok')) }}" target="_blank" rel="noopener" class="flex items-start gap-3 hover:text-white">
+                            <x-icons.tiktok class="mt-0.5 size-5 shrink-0 text-sun-300" /> {{ '@'.ltrim(setting('tiktok'), '@') }}
+                        </a>
+                    </li>
+                @endif
                 @if(setting('email'))
                     <li>
                         <a href="mailto:{{ setting('email') }}" class="flex items-start gap-3 break-all hover:text-white">
@@ -56,6 +63,22 @@
             </ul>
         </div>
     </div>
+    @if($supporter = setting('supporter_name'))
+        <div class="border-t border-white/10">
+            <div class="container-site flex flex-col gap-4 py-6 text-sm sm:flex-row sm:items-center">
+                <span class="shrink-0 text-xs font-bold tracking-widest text-white/55 uppercase">{{ __('site.footer.supported_by') }}</span>
+                <a @if(setting('supporter_url')) href="{{ setting('supporter_url') }}" target="_blank" rel="noopener" @endif class="flex shrink-0 items-center gap-3 font-semibold text-white">
+                    @if(setting('supporter_logo'))
+                        <img src="{{ \App\Support\Images::url(setting('supporter_logo')) }}" alt="" class="h-10 w-auto rounded-md bg-white p-1" height="40" loading="lazy">
+                    @endif
+                    {{ $supporter }}
+                </a>
+                @if(setting_tr('supporter_text'))
+                    <p class="text-white/65 sm:border-l sm:border-white/15 sm:pl-4">{{ setting_tr('supporter_text') }}</p>
+                @endif
+            </div>
+        </div>
+    @endif
     <div class="border-t border-white/10">
         <div class="container-site flex flex-col gap-2 py-5 text-xs text-white/55 sm:flex-row sm:items-center sm:justify-between">
             <p>© {{ now()->year }} {{ setting('site_name', 'Desa Wisata Sukajadi') }} · {{ setting_tr('managed_by') }}</p>

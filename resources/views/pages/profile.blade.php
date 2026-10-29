@@ -59,6 +59,25 @@
                 </span>
                 <span class="btn-outline">{{ __('site.home.team_cta') }} <x-heroicon-m-arrow-right class="size-4" /></span>
             </a>
+
+            {{-- Pendamping program (Yayasan LEADS, CSR) --}}
+            @if($supporter = setting('supporter_name'))
+                <div class="card mt-6 flex flex-wrap items-center gap-5 p-6 sm:p-8">
+                    @if(setting('supporter_logo'))
+                        <img src="{{ \App\Support\Images::url(setting('supporter_logo')) }}" alt="{{ $supporter }}" class="h-14 w-auto" height="56" loading="lazy">
+                    @endif
+                    <span class="min-w-0 flex-1">
+                        <span class="block text-xs font-bold tracking-widest text-leaf-950/55 uppercase">{{ __('site.footer.supported_by') }}</span>
+                        <span class="block font-display text-xl font-bold text-leaf-900">{{ $supporter }}</span>
+                        @if(setting_tr('supporter_text'))
+                            <span class="mt-1 block text-leaf-950/65">{{ setting_tr('supporter_text') }}</span>
+                        @endif
+                    </span>
+                    @if(setting('supporter_url'))
+                        <a href="{{ setting('supporter_url') }}" target="_blank" rel="noopener" class="btn-outline">{{ __('site.footer.visit_supporter') }} <x-heroicon-m-arrow-top-right-on-square class="size-4" /></a>
+                    @endif
+                </div>
+            @endif
         </div>
     </section>
 

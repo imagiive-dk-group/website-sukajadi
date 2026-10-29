@@ -192,8 +192,8 @@ class CommunitySeeder extends Seeder
                 '<ul><li><strong>Farming:</strong> rice, sweet potatoes, strawberries, moon orchids</li><li><strong>Livestock:</strong> rabbit farming</li><li><strong>Nature:</strong> Curug Aman waterfall</li><li><strong>Culture:</strong> traditional Sundanese games</li><li><strong>Small businesses:</strong> nutmeg juice, noga cakes, traditional cakes, tempeh</li></ul>'
             )],
             ['pengelola', $this->t('Pengelola Desa Wisata', 'Who Runs the Tourism Village'), $this->t(
-                '<p>Desa Wisata Sukajadi dikelola oleh para <strong>penggiat desa wisata</strong>: pemandu lokal, petani, peternak, perajin, dan pelaku UMKM yang bergerak bersama. Kenali tim kami di halaman Tim Penggiat.</p>',
-                '<p>Sukajadi Tourism Village is run by its <strong>tourism activists</strong>: local guides, farmers, breeders, craftspeople and small business owners working together. Meet the team on the Our Team page.</p>'
+                '<p>Desa Wisata Sukajadi dikelola oleh para <strong>penggiat desa wisata</strong>: pemandu lokal, petani, peternak, perajin, dan pelaku UMKM yang bergerak bersama. Program Sukajadi Mandiri didampingi <strong>Yayasan LEADS</strong> dengan dukungan dana CSR PT RATU, agar desa wisata mandiri dalam pemasaran. Kenali tim kami di halaman Tim Penggiat.</p>',
+                '<p>Sukajadi Tourism Village is run by its <strong>tourism activists</strong>: local guides, farmers, breeders, craftspeople and small business owners working together. The Sukajadi Mandiri program is mentored by the <strong>LEADS Foundation</strong> with CSR funding from PT RATU, helping the village run its own marketing. Meet the team on the Our Team page.</p>'
             )],
         ];
 

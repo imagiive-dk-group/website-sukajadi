@@ -11,7 +11,7 @@
 | 1 | Daftar seluruh kebutuhan bahan | `docs/KEBUTUHAN-BAHAN.md` |
 | 2 | Beranda jangan langsung jualan; ceritakan desa dan apa saja yang ada | Urutan beranda baru: hero → **Cerita Sukajadi** → pita foto → **Ada apa di Sukajadi** → destinasi desa → galeri → Jelajah Tamansari → UMKM → tim penggiat → baru **paket kunjungan** di bagian bawah |
 | 3 | Pembuka berupa video/gerak, perbanyak gambar | Hero memakai **video latar** (unggah di Pengaturan) atau **slideshow foto bergerak** bila video belum ada; pita foto berjalan; kolase & bento galeri |
-| 4 | Identitas = penggiat desa wisata (bukan kades/perangkat); ada pengelolaan & monitoring leads | Halaman **Tim Penggiat** menggantikan perangkat desa; data pemerintahan dihapus dari profil. Menu admin **Prospek (Leads)** + halaman **Monitoring** |
+| 4 | Identitas = penggiat desa wisata (bukan kades/perangkat), didampingi Yayasan LEADS; ada pengelolaan & monitoring prospek | Halaman **Tim Penggiat** menggantikan perangkat desa; data pemerintahan dihapus dari profil. **Yayasan LEADS** tampil sebagai pendamping program. Menu admin **Prospek** + halaman **Monitoring** |
 | 5 | Paket dari tempat lain (Highland Tamansari, Curug Nangka) dengan komisi 10% (model Traveloka) | Menu **Jelajah Tamansari** berisi **Mitra Bisnis**, bisa dipesan lewat formulir booking; komisi dihitung otomatis per booking |
 | 6 | Berlaku juga untuk penginapan/vila, kafe, dan tempat lain | Kategori mitra: Wisata Sekitar, Penginapan & Vila, Kafe & Resto, Lainnya; harga per orang/tiket/malam/unit/rombongan |
 | 7 | UMKM = fasilitasi pemasaran; pebisnis/PT = komisi | **UMKM**: tanpa komisi, kontak langsung ke pemilik (dengan izin). **Mitra Bisnis**: penjualan lewat admin desa wisata, komisi default 10% per mitra (bisa diubah) |
@@ -20,13 +20,13 @@
 - **UMKM warga** → direktori & katalog gratis; klik WhatsApp ke UMKM tetap tercatat untuk laporan dampak pemasaran.
 - **Mitra bisnis** → pengunjung memesan lewat website, admin mengonfirmasi ke mitra, pengunjung membayar sesuai kesepakatan; website mencatat **nilai penjualan & komisi** (status: belum ditagih → sudah ditagih → sudah dibayar) dan bisa diekspor per periode.
 
-### Prospek (leads) & monitoring
+### Prospek & monitoring
 - Setiap **booking** dan **pesan formulir kontak** otomatis menjadi prospek. Admin juga bisa menambah prospek manual (mis. dari DM Instagram/telepon).
 - Status prospek: Baru → Sudah dihubungi → Negosiasi → Berhasil / Batal (otomatis berubah saat booking dikonfirmasi/dibatalkan); bisa ditugaskan ke admin tertentu dengan tanggal follow-up.
 - Setiap **klik tombol WhatsApp** di website tercatat (anonim): dari halaman/paket/UMKM/mitra mana minat datang.
 - Halaman **Monitoring**: corong prospek & tingkat konversi, sumber prospek, klik WhatsApp per konten, penjualan per jenis, dan komisi per mitra.
 
-> Asumsi: "Leads" diartikan sebagai prospek/calon pelanggan. Bila yang dimaksud adalah lembaga pendamping bernama Leads, cukup tambahkan nama & logonya di identitas pengelola.
+> Koreksi (29 Okt 2026): **LEADS adalah yayasan** yang mengelola program Sukajadi Mandiri dari dana CSR PT RATU, bukan prospek. Menu admin diganti nama menjadi **Prospek**, dan Yayasan LEADS tampil sebagai lembaga pendamping (Pengaturan → Pendamping program).
 
 ## 1. Tujuan Website
 
@@ -457,14 +457,17 @@ Domain terpilih: **`desawisatasukajadi.com`**. Sekalian buat email resmi gratis 
 |---|---|
 | Instagram | `@desawisatasukajadi` |
 | WhatsApp | +62 857-7519-4575 |
-| TikTok | Tidak ada |
+| TikTok | Belum ada akun. Kolom **TikTok** tersedia di Pengaturan; ikon muncul otomatis setelah diisi |
+| LEADS | **Yayasan LEADS**: yayasan yang mengelola program **Sukajadi Mandiri** dari dana CSR **PT RATU**, agar desa wisata mandiri dari sisi pemasaran. Tampil sebagai lembaga pendamping di footer & Profil Desa (Pengaturan → Pendamping program). Bukan prospek; menu prospek di admin bernama **Prospek** |
+| Mitra bisnis contoh | Curug Nangka, Highland Tamansari, vila, kafe: data contoh, diganti data asli setelah ada kesepakatan kerja sama |
+| Hosting | **Shared hosting + domain** (bukan Vercel: paket gratis Vercel tidak untuk komersial, file unggahan tidak tersimpan permanen, dan Laravel tidak didukung resmi) |
 | Logo | Lencana bundar (`assets/brand/logo-desa-wisata-sukajadi.webp`) |
 | Paket Budidaya Padi | Satu paket (dua panel di brosur = paket yang sama) |
-| Satuan harga | Semua **per pax** |
+| Satuan harga | Semua **per pax**; "per pack/paket" di brosur Ubi Jalar & Padi = per orang |
 | Harga UMKM & Anggrek Bulan | Dummy dulu, diisi kemudian |
 | Pembayaran | Tidak diatur di website, cukup lewat WhatsApp |
-| Kuota harian | Belum ditentukan → default tidak dibatasi, bisa diatur nanti |
-| Admin | 2 akun: Anda (Super Admin) + 1 pengurus menyusul |
+| Kuota harian | Tidak dibatasi secara bawaan: setiap booking tetap dikonfirmasi admin lewat WhatsApp. Bila perlu, isi kuota global (Pengaturan → Booking) atau per paket, dan tutup tanggal tertentu di **Tanggal Ditutup** |
+| Admin | 1 Super Admin (pengelola utama) + akun **Admin** untuk pengurus, sebanyak yang dibutuhkan (dibuat sendiri dari menu Pengguna) |
 | Domain | `desawisatasukajadi.com` |
 | Bahasa | Indonesia + English sejak awal |
 | UMKM | Satu section/halaman direktori: overview tiap UMKM + kontak |
@@ -472,7 +475,8 @@ Domain terpilih: **`desawisatasukajadi.com`**. Sekalian buat email resmi gratis 
 
 ### Masih menunggu (tidak menghambat pengembangan)
 - Harga asli Paket UMKM & Anggrek Bulan
-- Kuota harian
+- Logo, nama resmi, dan website Yayasan LEADS
+- Data asli mitra bisnis setelah kesepakatan kerja sama
 - Nama & email admin kedua
 - Foto asli & teks "Tentang Desa"
 - Data resmi profil desa dari kantor desa

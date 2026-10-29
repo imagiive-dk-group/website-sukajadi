@@ -103,6 +103,17 @@ if (! function_exists('wa_track')) {
     }
 }
 
+if (! function_exists('tiktok_url')) {
+    function tiktok_url(?string $handle): ?string
+    {
+        if (blank($handle)) {
+            return null;
+        }
+
+        return 'https://www.tiktok.com/@'.ltrim(trim($handle), '@');
+    }
+}
+
 if (! function_exists('instagram_url')) {
     function instagram_url(?string $handle): ?string
     {

@@ -19,6 +19,12 @@
                         <span><span class="block text-xs text-leaf-950/55">{{ __('site.contact.instagram') }}</span><span class="font-display text-lg font-bold text-leaf-900">{{ '@'.ltrim(setting('instagram'), '@') }}</span></span>
                     </a>
                 @endif
+                @if(setting('tiktok'))
+                    <a href="{{ tiktok_url(setting('tiktok')) }}" target="_blank" rel="noopener" class="card-hover flex items-center gap-4 p-5">
+                        <span class="flex size-12 items-center justify-center rounded-2xl bg-leaf-950 text-white"><x-icons.tiktok class="size-6" /></span>
+                        <span><span class="block text-xs text-leaf-950/55">{{ __('site.contact.tiktok') }}</span><span class="font-display text-lg font-bold text-leaf-900">{{ '@'.ltrim(setting('tiktok'), '@') }}</span></span>
+                    </a>
+                @endif
                 @if(setting('email'))
                     <a href="mailto:{{ setting('email') }}" class="card-hover flex items-center gap-4 p-5">
                         <span class="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-sky-soft text-leaf-900"><x-heroicon-o-envelope class="size-6" /></span>

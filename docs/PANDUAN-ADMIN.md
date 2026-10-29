@@ -67,7 +67,7 @@ Kuota harian: isi di **Pengaturan Website → Booking** (berlaku untuk semua pak
 
 ## Pengaturan Website (Super Admin)
 
-Nama & slogan, teks beranda dan "Tentang", foto hero, nomor WhatsApp, Instagram, email, alamat, jam operasional, peta Google Maps, aturan booking (batas H-, kuota, paket custom), email notifikasi tambahan, dan Google Analytics.
+Nama & slogan, teks beranda dan "Tentang", foto hero, **pendamping program** (nama, logo, dan keterangan Yayasan LEADS & pendukung CSR; tampil di footer dan Profil Desa), nomor WhatsApp, Instagram, TikTok, email, alamat, jam operasional, peta Google Maps, aturan booking (batas H-, kuota, paket custom), email notifikasi tambahan, dan Google Analytics.
 
 ## Yang perlu diganti sebelum diluncurkan
 
@@ -76,6 +76,8 @@ Nama & slogan, teks beranda dan "Tentang", foto hero, nomor WhatsApp, Instagram,
 - [ ] Harga asli Paket UMKM & Anggrek Bulan (matikan *Harga sementara*)
 - [ ] Data resmi profil desa, nama perangkat desa
 - [ ] Kontak UMKM (dengan izin pemilik)
+- [ ] Logo & website Yayasan LEADS (Pengaturan → Pendamping program)
+- [ ] Data asli mitra bisnis (ganti Curug Nangka, Highland Tamansari, dll. setelah kerja sama disepakati)
 - [ ] Hapus berita & ulasan contoh
 - [ ] Cek ulang teks "Tentang" dan rundown paket
 
@@ -87,8 +89,8 @@ Nama & slogan, teks beranda dan "Tentang", foto hero, nomor WhatsApp, Instagram,
 - Setiap booking mitra otomatis mencatat **nilai komisi**. Tandai di Daftar Booking: *Tandai komisi sudah ditagih* → *sudah dibayar*.
 - **UMKM** tetap gratis (fasilitasi pemasaran), tidak ada komisi.
 
-### Prospek (Leads)
-- **Prospek & Monitoring → Prospek (Leads)**: semua booking & pesan formulir kontak otomatis masuk sebagai prospek. Tambahkan juga prospek dari DM Instagram/telepon secara manual.
+### Prospek
+- **Prospek & Monitoring → Prospek**: semua booking & pesan formulir kontak otomatis masuk sebagai prospek. Tambahkan juga prospek dari DM Instagram/telepon secara manual.
 - Ubah status: Baru → Sudah dihubungi → Negosiasi → Berhasil/Batal (otomatis mengikuti status booking). Gunakan *Ambil prospek ini* dan isi tanggal *follow-up*; tab *Follow-up hari ini/terlambat* menampilkan yang harus dihubungi.
 
 ### Monitoring

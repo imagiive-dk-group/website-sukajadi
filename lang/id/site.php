@@ -377,6 +377,7 @@ return [
         'subtitle' => 'Hubungi kami untuk informasi dan reservasi.',
         'whatsapp' => 'WhatsApp',
         'instagram' => 'Instagram',
+        'tiktok' => 'TikTok',
         'email' => 'Email',
         'address' => 'Alamat',
         'hours' => 'Jam operasional',
@@ -482,6 +483,8 @@ return [
         'contact' => 'Kontak',
         'support' => 'Mari dukung pariwisata desa dan ekonomi masyarakat lokal!',
         'rights' => 'Hak cipta dilindungi.',
+        'supported_by' => 'Didampingi oleh',
+        'visit_supporter' => 'Kunjungi website',
     ],
 
     'placeholder' => [

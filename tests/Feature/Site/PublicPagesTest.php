@@ -147,6 +147,26 @@ class PublicPagesTest extends TestCase
         $this->get(route('id.home'))->assertOk()->assertSee('<video', false)->assertSee('/uploads/settings/hero.mp4', false);
     }
 
+    public function test_supporter_foundation_shows_in_footer_and_profile(): void
+    {
+        $this->get(route('id.home'))->assertOk()->assertSee('Didampingi oleh')->assertSee('Yayasan LEADS')->assertSee('CSR PT RATU');
+        $this->get(route('id.profile'))->assertOk()->assertSee('Yayasan LEADS');
+        $this->get(route('en.home'))->assertOk()->assertSee('Supported by');
+
+        Setting::put('supporter_name', null);
+
+        $this->get(route('id.home'))->assertOk()->assertDontSee('Didampingi oleh');
+    }
+
+    public function test_tiktok_link_appears_only_when_filled(): void
+    {
+        $this->get(route('id.contact'))->assertOk()->assertDontSee('tiktok.com');
+
+        Setting::put('tiktok', '@desawisatasukajadi');
+
+        $this->get(route('id.contact'))->assertOk()->assertSee('https://www.tiktok.com/@desawisatasukajadi', false);
+    }
+
     public function test_profile_has_no_government_officials_and_team_page_lists_activists(): void
     {
         $this->get(route('id.profile'))->assertOk()->assertDontSee('Kepala desa')->assertDontSee('Kepala Desa');

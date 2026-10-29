@@ -32,13 +32,13 @@ class Settings extends Page
     /** Kolom teks dua bahasa: ['id' => .., 'en' => ..]. */
     public const BILINGUAL = [
         'tagline', 'motto', 'hero_title', 'hero_subtitle', 'about_intro', 'about_body', 'address', 'opening_hours',
-        'story_title', 'story_body', 'managed_by',
+        'story_title', 'story_body', 'managed_by', 'supporter_text',
     ];
 
     /** Kolom teks biasa. */
     public const STRINGS = [
-        'site_name', 'hero_image', 'hero_video', 'whatsapp', 'instagram', 'email', 'maps_embed_url', 'maps_link',
-        'notification_email', 'ga_measurement_id',
+        'site_name', 'hero_image', 'hero_video', 'whatsapp', 'instagram', 'tiktok', 'email', 'maps_embed_url', 'maps_link',
+        'notification_email', 'ga_measurement_id', 'supporter_name', 'supporter_logo', 'supporter_url', 'sponsor_name',
     ];
 
     /** Kolom angka (null = tidak diisi). */
@@ -158,6 +158,42 @@ class Settings extends Page
                         ], 'home-translations'),
                     ]),
 
+                Section::make('Pendamping program')
+                    ->description('Lembaga pendamping (Yayasan LEADS) dan pendukung dana CSR. Tampil di footer dan halaman Profil Desa; kosongkan nama lembaga untuk menyembunyikan.')
+                    ->columns(2)
+                    ->collapsible()
+                    ->schema([
+                        TextInput::make('supporter_name')
+                            ->label('Nama lembaga pendamping')
+                            ->placeholder('Yayasan LEADS')
+                            ->maxLength(255),
+                        TextInput::make('sponsor_name')
+                            ->label('Pendukung dana (CSR)')
+                            ->placeholder('PT RATU')
+                            ->maxLength(255),
+                        FileUpload::make('supporter_logo')
+                            ->label('Logo lembaga pendamping')
+                            ->disk('uploads')
+                            ->directory('settings')
+                            ->visibility('public')
+                            ->image()
+                            ->maxSize(2048)
+                            ->helperText('PNG/SVG/WebP dengan latar transparan, maks. 2 MB. Ditampilkan apa adanya (tidak diubah ke WebP).'),
+                        TextInput::make('supporter_url')
+                            ->label('Website lembaga pendamping')
+                            ->url()
+                            ->maxLength(1000),
+                        Fields::bilingual(fn (string $locale): array => [
+                            Textarea::make("supporter_text.$locale")
+                                ->label('Keterangan program')
+                                ->placeholder($locale === 'id'
+                                    ? 'Misal: Program Sukajadi Mandiri didampingi Yayasan LEADS dengan dukungan dana CSR PT RATU.'
+                                    : 'e.g. The Sukajadi Mandiri program is supported by the LEADS Foundation, funded by PT RATU CSR.')
+                                ->rows(2)
+                                ->maxLength(500),
+                        ], 'supporter-translations'),
+                    ]),
+
                 Section::make('Kontak')
                     ->description('Dipakai di header, footer, tombol WhatsApp, dan halaman Kontak.')
                     ->columns(2)
@@ -172,6 +208,11 @@ class Settings extends Page
                         TextInput::make('instagram')
                             ->label('Instagram')
                             ->prefix('@')
+                            ->maxLength(100),
+                        TextInput::make('tiktok')
+                            ->label('TikTok')
+                            ->prefix('@')
+                            ->helperText('Kosongkan bila belum punya akun; ikon TikTok otomatis disembunyikan.')
                             ->maxLength(100),
                         TextInput::make('email')
                             ->label('Email')
@@ -280,6 +321,7 @@ class Settings extends Page
         $data = $this->form->getState();
         $oldHero = Setting::get('hero_image');
         $oldVideo = Setting::get('hero_video');
+        $oldLogo = Setting::get('supporter_logo');
         $oldSlides = array_values(array_filter((array) (Setting::get('hero_slides') ?? []), 'filled'));
 
         foreach (self::BILINGUAL as $key) {
@@ -310,6 +352,11 @@ class Settings extends Page
         $video = $data['hero_video'] ?? null;
         if (filled($oldVideo) && $video !== $oldVideo) {
             Storage::disk('uploads')->delete($oldVideo);
+        }
+
+        // Logo pendamping: hapus file lama bila diganti/dikosongkan.
+        if (filled($oldLogo) && ($data['supporter_logo'] ?? null) !== $oldLogo) {
+            Storage::disk('uploads')->delete($oldLogo);
         }
 
         // Slideshow: simpan sebagai daftar path, buat varian WebP untuk foto baru, hapus foto yang dibuang.

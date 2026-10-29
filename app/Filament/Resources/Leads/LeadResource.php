@@ -44,7 +44,7 @@ class LeadResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
-    protected static ?string $navigationLabel = 'Prospek (Leads)';
+    protected static ?string $navigationLabel = 'Prospek';
 
     protected static ?string $modelLabel = 'prospek';
 

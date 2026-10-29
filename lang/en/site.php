@@ -377,6 +377,7 @@ return [
         'subtitle' => 'Get in touch for information and reservations.',
         'whatsapp' => 'WhatsApp',
         'instagram' => 'Instagram',
+        'tiktok' => 'TikTok',
         'email' => 'Email',
         'address' => 'Address',
         'hours' => 'Opening hours',
@@ -482,6 +483,8 @@ return [
         'contact' => 'Contact',
         'support' => 'Support village tourism and the local economy!',
         'rights' => 'All rights reserved.',
+        'supported_by' => 'Supported by',
+        'visit_supporter' => 'Visit website',
     ],
 
     'placeholder' => [
