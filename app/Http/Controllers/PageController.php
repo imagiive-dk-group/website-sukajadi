@@ -18,6 +18,7 @@ use App\Models\ProfileStat;
 use App\Models\Testimonial;
 use App\Models\Umkm;
 use App\Support\Notifier;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -39,6 +40,15 @@ class PageController extends Controller
             'photos' => $albumPhotos->slice(5, 10)->values(),
             'marquee' => $albumPhotos->slice(15)->merge(Photo::query()->whereIn('photoable_type', [Attraction::class, Package::class])->orderByRaw('path is null')->orderBy('id')->take(30)->get())->take(24),
             'team' => Official::query()->orderBy('sort')->take(6)->get(),
+            // Foto sampul pertama per kategori untuk kotak "Ada apa di Sukajadi" (null = placeholder).
+            'whatsCovers' => [
+                'alam' => $this->firstCover(Attraction::query(), 'alam'),
+                'tani' => $this->firstCover(Attraction::query(), 'edukasi'),
+                'budaya' => $this->firstCover(Attraction::query(), 'budaya'),
+                'kuliner' => $this->firstCover(Attraction::query(), 'kuliner'),
+                'inap' => $this->firstCover(Partner::query(), 'penginapan'),
+                'kafe' => $this->firstCover(Partner::query(), 'kafe'),
+            ],
             'counts' => [
                 'attractions' => Attraction::query()->where('is_active', true)->count(),
                 'umkm' => Umkm::query()->where('is_active', true)->count(),
@@ -151,5 +161,11 @@ class PageController extends Controller
         ]);
 
         return back()->with('status', __('site.reviews.sent'));
+    }
+
+    protected function firstCover(Builder $query, string $category): ?string
+    {
+        return $query->where('is_active', true)->where('category', $category)
+            ->whereNotNull('cover_path')->orderBy('sort')->value('cover_path');
     }
 }

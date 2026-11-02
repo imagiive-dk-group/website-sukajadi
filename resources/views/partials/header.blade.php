@@ -37,7 +37,7 @@
     @scroll.window="scrolled = window.scrollY > 20"
     @keydown.escape.window="open = false"
     :class="scrolled || open ? 'bg-white/95 shadow-sm backdrop-blur text-leaf-900' : 'bg-transparent text-white'"
-    class="fixed inset-x-0 top-0 z-50 text-white transition-colors duration-300"
+    class="fixed inset-x-0 top-0 z-50 transition-colors duration-300"
 >
     <div class="container-site flex h-16 items-center justify-between gap-4 sm:h-20">
         <a href="{{ lroute('home') }}" class="flex shrink-0 items-center gap-2.5">

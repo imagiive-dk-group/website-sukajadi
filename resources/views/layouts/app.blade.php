@@ -34,6 +34,8 @@
     <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('images/apple-touch-icon.png') }}">
 
+    {{-- Tandai JS aktif sebelum render: elemen [data-reveal] hanya disembunyikan bila skrip gerak bisa menampilkannya lagi. --}}
+    <script>document.documentElement.classList.add('js')</script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <script type="application/ld+json">{!! json_encode([

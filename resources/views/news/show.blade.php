@@ -46,7 +46,7 @@
         <section class="bg-white py-16">
             <div class="container-site">
                 <h2 class="text-2xl font-bold">{{ __('site.news.latest') }}</h2>
-                <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <div data-stagger class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     @foreach($others as $other)
                         <x-post-card :post="$other" />
                     @endforeach

@@ -9,7 +9,7 @@
     <section class="py-12 sm:py-16">
         <div class="container-site">
             <x-category-filter :categories="config('sukajadi.partner_categories')" :active="$category" route="partners.index" labels="site.partner_categories" />
-            <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div data-stagger class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 @forelse($partners as $partner)
                     <x-partner-card :partner="$partner" />
                 @empty

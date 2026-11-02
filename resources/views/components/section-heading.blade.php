@@ -1,5 +1,5 @@
 @props(['eyebrow' => null, 'title', 'subtitle' => null, 'center' => false, 'light' => false])
-<div {{ $attributes->class(['max-w-2xl', 'mx-auto text-center' => $center]) }}>
+<div {{ $attributes->class(['max-w-2xl', 'mx-auto text-center' => $center])->merge(['data-reveal' => 'rise']) }}>
     @if($eyebrow)
         <p @class(['eyebrow', '!text-sun-300' => $light])>
             <x-heroicon-s-sparkles class="size-3.5" />{{ $eyebrow }}

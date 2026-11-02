@@ -8,7 +8,7 @@
 
     <section class="py-12 sm:py-16">
         <div class="container-site">
-            <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div data-stagger class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 @forelse($posts as $post)
                     <x-post-card :post="$post" />
                 @empty

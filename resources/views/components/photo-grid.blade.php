@@ -1,6 +1,6 @@
 @props(['photos', 'gallery' => 'gallery'])
 {{-- Grid foto dengan lightbox (GLightbox). Placeholder dibuka sebagai SVG berlabel. --}}
-<div class="columns-2 gap-3 sm:gap-4 md:columns-3 [&>*]:mb-3 sm:[&>*]:mb-4">
+<div class="columns-2 gap-3 sm:gap-4 md:columns-3 [&>*]:mb-3 sm:[&>*]:mb-4" data-stagger="photo">
     @foreach($photos as $photo)
         @php
             $caption = $photo->tr('caption') ?? $photo->placeholder_label;

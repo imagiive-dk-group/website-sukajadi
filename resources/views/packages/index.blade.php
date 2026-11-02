@@ -10,7 +10,7 @@
         <div class="container-site">
             <x-category-filter :categories="config('sukajadi.package_categories')" :active="$category" route="packages.index" />
 
-            <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div data-stagger class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 @forelse($packages as $package)
                     <x-package-card :package="$package" />
                 @empty

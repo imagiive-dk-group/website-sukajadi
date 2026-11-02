@@ -5,23 +5,28 @@
 @section('content')
     {{-- 1. HERO BERGERAK: video atau slideshow foto, tanpa jualan --}}
     <section class="relative isolate flex min-h-[100svh] items-end overflow-hidden bg-leaf-950 pt-28 pb-14 sm:pb-20">
-        <div class="absolute inset-0 -z-10">
-            @include('partials.hero-media')
+        <div class="hero-drift absolute inset-0 -z-10">
+            <div class="hero-media absolute inset-0">
+                @include('partials.hero-media')
+            </div>
             <div class="absolute inset-0 z-20 bg-gradient-to-t from-leaf-950/90 via-leaf-950/35 to-leaf-950/30"></div>
         </div>
-        <div class="container-site">
-            <p class="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-1.5 font-display text-xs font-semibold tracking-[0.2em] text-white uppercase backdrop-blur">
+        <div class="hero-exit container-site">
+            <p class="hero-in inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-1.5 font-display text-xs font-semibold tracking-[0.2em] text-white uppercase backdrop-blur" style="--hd: 250ms">
                 <x-heroicon-s-map-pin class="size-4 text-sun-400" /> Desa Wisata · Tamansari, Bogor
             </p>
-            <h1 class="mt-5 text-6xl leading-[0.95] font-extrabold !text-white sm:text-8xl lg:text-9xl">Sukajadi</h1>
-            <p class="mt-3 font-hand text-3xl text-sun-300 sm:text-4xl">{{ setting_tr('tagline') }}</p>
-            <p class="mt-4 max-w-xl text-lg text-white/85">{{ setting_tr('hero_subtitle') }}</p>
-            <div class="mt-8 flex flex-wrap gap-3">
+            {{-- Huruf naik satu per satu dari balik "cakrawala" (lihat .hero-word di app.css) --}}
+            <h1 class="hero-word mt-5 text-6xl leading-[0.95] font-extrabold !text-white sm:text-8xl lg:text-9xl" aria-label="Sukajadi">
+                @foreach(mb_str_split('Sukajadi') as $i => $letter)<span aria-hidden="true" style="--i: {{ $i }}">{{ $letter }}</span>@endforeach
+            </h1>
+            <p class="hero-write mt-3 font-hand text-3xl text-sun-300 sm:text-4xl">{{ setting_tr('tagline') }}</p>
+            <p class="hero-in mt-4 max-w-xl text-lg text-white/85" style="--hd: 1150ms">{{ setting_tr('hero_subtitle') }}</p>
+            <div class="hero-in mt-8 flex flex-wrap gap-3" style="--hd: 1300ms">
                 <a href="#cerita" class="btn-primary !px-7 !py-3.5 !text-base">{{ __('site.home.explore_cta') }} <x-heroicon-m-arrow-down class="size-5" /></a>
                 <a href="{{ lroute('gallery.index') }}" class="btn-ghost-light !px-7 !py-3.5 !text-base"><x-heroicon-o-photo class="size-5" /> {{ __('site.home.gallery_cta') }}</a>
             </div>
         </div>
-        <a href="#cerita" class="scroll-cue absolute bottom-5 left-1/2 hidden -translate-x-1/2 text-white/70 sm:block" aria-label="{{ __('site.home.explore_cta') }}">
+        <a href="#cerita" class="hero-in scroll-cue absolute bottom-5 left-1/2 hidden -translate-x-1/2 text-white/70 sm:block" aria-label="{{ __('site.home.explore_cta') }}">
             <x-heroicon-o-chevron-double-down class="size-7" />
         </a>
     </section>
@@ -29,7 +34,7 @@
     {{-- 2. CERITA DESA --}}
     <section id="cerita" class="scroll-mt-16 py-16 sm:py-24">
         <div class="container-site grid items-center gap-12 lg:grid-cols-2">
-            <div>
+            <div data-reveal="rise">
                 <p class="eyebrow"><x-heroicon-s-sparkles class="size-3.5" /> {{ __('site.home.story_eyebrow') }}</p>
                 <h2 class="mt-3 text-4xl leading-tight font-extrabold sm:text-5xl">{{ setting_tr('story_title') }}</h2>
                 <div class="prose-site mt-6 text-lg">{!! setting_tr('story_body') !!}</div>
@@ -38,7 +43,7 @@
                     <a href="{{ lroute('about') }}" class="btn-outline">{{ __('site.nav.tourism_village') }}</a>
                 </div>
             </div>
-            <div class="grid grid-cols-6 grid-rows-6 gap-3 sm:gap-4" style="aspect-ratio: 1/1">
+            <div class="grid grid-cols-6 grid-rows-6 gap-3 sm:gap-4" style="aspect-ratio: 1/1" data-stagger="photo">
                 @foreach($storyPhotos as $i => $photo)
                     <div @class([
                         'relative overflow-hidden rounded-3xl',
@@ -54,7 +59,7 @@
 
         {{-- Fakta singkat --}}
         <div class="container-site mt-14">
-            <dl class="grid grid-cols-2 gap-px overflow-hidden rounded-3xl bg-leaf-900/10 ring-1 ring-leaf-900/10 lg:grid-cols-4">
+            <dl class="grid grid-cols-2 gap-px overflow-hidden rounded-3xl bg-leaf-900/10 ring-1 ring-leaf-900/10 lg:grid-cols-4" data-reveal="rise">
                 @foreach([
                     [$counts['attractions'], __('site.home.facts_attractions')],
                     [$counts['umkm'], __('site.home.facts_umkm')],
@@ -63,7 +68,7 @@
                 ] as [$value, $label])
                     <div class="flex flex-col-reverse justify-end bg-cream p-5 sm:p-7">
                         <dt class="mt-1 text-sm text-leaf-950/65">{{ $label }}</dt>
-                        <dd class="font-display text-4xl font-extrabold text-leaf-700 sm:text-5xl">{{ $value }}</dd>
+                        <dd class="font-display text-4xl font-extrabold text-leaf-700 tabular-nums sm:text-5xl" data-count="{{ $value }}">{{ $value }}</dd>
                     </div>
                 @endforeach
             </dl>
@@ -79,7 +84,7 @@
     <section class="bg-leaf-900 py-16 text-white sm:py-24">
         <div class="container-site">
             <x-section-heading :eyebrow="__('site.home.whats_eyebrow')" :title="__('site.home.whats_title')" :subtitle="__('site.home.whats_subtitle')" light />
-            <div class="mt-10 grid auto-rows-[220px] grid-cols-1 gap-4 sm:grid-cols-2 sm:auto-rows-[240px] lg:grid-cols-4">
+            <div class="mt-10 grid auto-rows-[220px] grid-cols-1 gap-4 sm:grid-cols-2 sm:auto-rows-[240px] lg:grid-cols-4" data-stagger="photo">
                 @foreach([
                     ['alam', __('site.categories.alam'), __('site.home.whats_alam'), lroute('attractions.index', ['kategori' => 'alam']), 'Air terjun & perbukitan Sukajadi', 'lg:col-span-2 lg:row-span-2'],
                     ['tani', __('site.home.tani'), __('site.home.whats_tani'), lroute('attractions.index', ['kategori' => 'edukasi']), 'Petani & pengunjung di sawah', ''],
@@ -89,7 +94,7 @@
                     ['kafe', __('site.partner_categories.kafe'), __('site.home.whats_kafe'), lroute('partners.index', ['kategori' => 'kafe']), 'Kafe dengan pemandangan sawah', 'lg:col-span-2'],
                 ] as [$key, $title, $text, $url, $label, $span])
                     <a href="{{ $url }}" class="group relative block overflow-hidden rounded-3xl {{ $span }}">
-                        <x-placeholder :label="$label" fill dark corner class="transition duration-700 group-hover:scale-105" />
+                        <x-img :path="$whatsCovers[$key] ?? null" :label="$label" :alt="$title" fill dark size="md" sizes="(min-width: 1024px) 50vw, 100vw" class="transition duration-700 group-hover:scale-105" />
                         <div class="absolute inset-0 bg-gradient-to-t from-leaf-950/90 via-leaf-950/30 to-transparent"></div>
                         <div class="absolute inset-x-0 bottom-0 p-5 sm:p-6">
                             <h3 class="text-xl font-bold !text-white sm:text-2xl">{{ $title }}</h3>
@@ -111,7 +116,7 @@
             </div>
         </div>
         <div class="container-site">
-            <div class="-mx-4 mt-10 flex snap-x snap-mandatory scroll-px-4 gap-4 overflow-x-auto px-4 pb-4 sm:-mx-6 sm:scroll-px-6 sm:px-6 lg:-mx-8 lg:scroll-px-8 lg:px-8">
+            <div data-stagger class="-mx-4 mt-10 flex snap-x snap-mandatory scroll-px-4 gap-4 overflow-x-auto px-4 pb-4 sm:-mx-6 sm:scroll-px-6 sm:px-6 lg:-mx-8 lg:scroll-px-8 lg:px-8">
                 @foreach($attractions as $attraction)
                     <div class="w-[72%] shrink-0 snap-start sm:w-[40%] lg:w-[23%]">
                         <x-attraction-card :attraction="$attraction" />
@@ -128,7 +133,7 @@
                 <x-section-heading :eyebrow="__('site.home.gallery_eyebrow')" :title="__('site.home.gallery_title')" />
                 <a href="{{ lroute('gallery.index') }}" class="btn-outline">{{ __('site.common.see_all') }} <x-heroicon-m-arrow-right class="size-4" /></a>
             </div>
-            <div class="mt-10 grid grid-flow-dense auto-rows-[150px] grid-cols-2 gap-3 sm:auto-rows-[190px] sm:gap-4 md:grid-cols-4">
+            <div data-stagger="photo" class="mt-10 grid grid-flow-dense auto-rows-[150px] grid-cols-2 gap-3 sm:auto-rows-[190px] sm:gap-4 md:grid-cols-4">
                 @foreach($photos as $photo)
                     @php($full = \App\Support\Images::url($photo->path, 'lg') ?? route('placeholder', ['w' => 1600, 'h' => 1066, 'label' => $photo->placeholder_label]))
                     <a href="{{ $full }}" data-gallery="home" data-type="image" data-description="{{ $photo->tr('caption') ?? $photo->placeholder_label }}"
@@ -148,7 +153,7 @@
                     <x-section-heading :eyebrow="__('site.home.explore_eyebrow')" :title="__('site.home.explore_title')" :subtitle="__('site.home.explore_subtitle')" />
                     <a href="{{ lroute('partners.index') }}" class="btn-outline">{{ __('site.common.see_all') }} <x-heroicon-m-arrow-right class="size-4" /></a>
                 </div>
-                <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                <div data-stagger class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
                     @foreach($partners->take(4) as $partner)
                         <x-partner-card :partner="$partner" />
                     @endforeach
@@ -165,7 +170,7 @@
                     <x-section-heading :eyebrow="__('site.home.umkm_eyebrow')" :title="__('site.home.umkm_title2')" :subtitle="__('site.home.umkm_subtitle')" />
                     <a href="{{ lroute('umkm.index') }}" class="btn-outline">{{ __('site.common.see_all') }} <x-heroicon-m-arrow-right class="size-4" /></a>
                 </div>
-                <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <div data-stagger class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     @foreach($umkms as $umkm)
                         <x-umkm-card :umkm="$umkm" />
                     @endforeach
@@ -182,7 +187,7 @@
                 <p class="mt-4 max-w-xl text-lg text-leaf-950/70">{{ __('site.home.team_text') }}</p>
                 <a href="{{ lroute('team') }}" class="btn-outline mt-6">{{ __('site.home.team_cta') }} <x-heroicon-m-arrow-right class="size-4" /></a>
             </div>
-            <div class="grid grid-cols-3 gap-3 sm:gap-4">
+            <div data-stagger class="grid grid-cols-3 gap-3 sm:gap-4">
                 @foreach($team as $member)
                     <figure class="overflow-hidden rounded-2xl bg-white ring-1 ring-leaf-900/5">
                         <x-img :path="$member->photo_path" :label="$member->tr('position')" :alt="$member->name" ratio="1/1" size="sm" compact />
@@ -200,7 +205,7 @@
                 <x-section-heading :eyebrow="__('site.home.visit_eyebrow')" :title="__('site.home.visit_title')" :subtitle="__('site.home.visit_subtitle')" light />
                 <a href="{{ lroute('packages.index') }}" class="btn-ghost-light">{{ __('site.common.see_all') }} <x-heroicon-m-arrow-right class="size-4" /></a>
             </div>
-            <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div data-stagger class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 @foreach($packages as $package)
                     <a href="{{ $package->url() }}" class="group flex gap-4 rounded-3xl bg-white/5 p-3 ring-1 ring-white/10 transition hover:bg-white/10">
                         <span class="relative w-28 shrink-0 overflow-hidden rounded-2xl sm:w-32">
@@ -230,7 +235,7 @@
                     <x-section-heading :eyebrow="__('site.home.testimonials_eyebrow')" :title="__('site.home.testimonials_title')" />
                     <a href="{{ lroute('reviews') }}" class="btn-outline">{{ __('site.common.see_all') }} <x-heroicon-m-arrow-right class="size-4" /></a>
                 </div>
-                <div class="mt-10 grid gap-6 md:grid-cols-3">
+                <div data-stagger class="mt-10 grid gap-6 md:grid-cols-3">
                     @foreach($testimonials as $testimonial)
                         @include('partials.testimonial', ['testimonial' => $testimonial])
                     @endforeach
@@ -247,7 +252,7 @@
                     <x-section-heading :eyebrow="__('site.home.news_eyebrow')" :title="__('site.home.news_title')" />
                     <a href="{{ lroute('news.index') }}" class="btn-outline">{{ __('site.common.see_all') }} <x-heroicon-m-arrow-right class="size-4" /></a>
                 </div>
-                <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <div data-stagger class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     @foreach($posts as $post)
                         <x-post-card :post="$post" />
                     @endforeach

@@ -26,7 +26,7 @@
     <section class="bg-white py-16 sm:py-20">
         <div class="container-site">
             <x-section-heading :title="__('site.about.why_title')" center />
-            <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <div data-stagger class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
                 @foreach([1 => 'heroicon-o-hand-raised', 2 => 'heroicon-o-map', 3 => 'heroicon-o-heart', 4 => 'heroicon-o-user-group'] as $i => $icon)
                     <div class="rounded-3xl bg-cream p-6">
                         <x-dynamic-component :component="$icon" class="size-9 text-leaf-600" />
@@ -44,7 +44,7 @@
                 <x-section-heading :eyebrow="__('site.home.attractions_eyebrow')" :title="__('site.home.attractions_title')" />
                 <a href="{{ lroute('attractions.index') }}" class="btn-outline">{{ __('site.common.see_all') }} <x-heroicon-m-arrow-right class="size-4" /></a>
             </div>
-            <div class="mt-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
+            <div data-stagger class="mt-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
                 @foreach($attractions as $attraction)
                     <x-attraction-card :attraction="$attraction" />
                 @endforeach

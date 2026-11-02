@@ -63,7 +63,7 @@
         <section class="bg-white py-16">
             <div class="container-site">
                 <h2 class="text-2xl font-bold">{{ __('site.attractions.title') }}</h2>
-                <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                <div data-stagger class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                     @foreach($others as $other)
                         <x-attraction-card :attraction="$other" />
                     @endforeach

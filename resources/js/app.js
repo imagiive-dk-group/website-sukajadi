@@ -3,6 +3,7 @@ import collapse from '@alpinejs/collapse';
 import GLightbox from 'glightbox';
 import bookingForm from './booking-form';
 import customPackage from './custom-package';
+import { initMotion } from './motion';
 
 window.rupiah = (n) => 'Rp' + Math.round(Number(n) || 0).toLocaleString('id-ID');
 
@@ -13,6 +14,8 @@ Alpine.data('customPackage', customPackage);
 Alpine.start();
 
 document.addEventListener('DOMContentLoaded', () => {
+    initMotion();
+
     if (document.querySelector('.glightbox')) {
         GLightbox({ selector: '.glightbox', touchNavigation: true, loop: true });
     }

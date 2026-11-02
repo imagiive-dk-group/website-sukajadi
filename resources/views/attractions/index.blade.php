@@ -9,7 +9,7 @@
     <section class="py-12 sm:py-16">
         <div class="container-site">
             <x-category-filter :categories="config('sukajadi.attraction_categories')" :active="$category" route="attractions.index" />
-            <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <div data-stagger class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 @forelse($attractions as $attraction)
                     <x-attraction-card :attraction="$attraction" />
                 @empty

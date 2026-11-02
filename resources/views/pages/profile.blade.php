@@ -14,7 +14,7 @@
             </div>
 
             {{-- Data resmi per kelompok --}}
-            <div class="mt-10 grid gap-6 lg:grid-cols-2">
+            <div data-stagger class="mt-10 grid gap-6 lg:grid-cols-2">
                 @foreach(config('sukajadi.profile_groups') as $group)
                     @continue(! isset($stats[$group]))
                     <div class="card p-6 sm:p-8">
@@ -42,7 +42,7 @@
             </div>
 
             {{-- Bagian naratif --}}
-            <div class="mt-12 grid gap-6 lg:grid-cols-2">
+            <div data-stagger class="mt-12 grid gap-6 lg:grid-cols-2">
                 @foreach($sections as $section)
                     <div class="card p-6 sm:p-8" id="{{ $section->key }}">
                         <h2 class="text-xl font-bold">{{ $section->tr('title') }}</h2>

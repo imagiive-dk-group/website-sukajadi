@@ -221,6 +221,10 @@
     animation-play-state: paused;
 }
 
+.marquee.is-offscreen .marquee-track {
+    animation-play-state: paused;
+}
+
 @keyframes scroll-cue {
     0%, 100% { transform: translateY(0); opacity: 0.6; }
     50% { transform: translateY(6px); opacity: 1; }
@@ -230,8 +234,174 @@
     animation: scroll-cue 2s ease-in-out infinite;
 }
 
+/* ------------------------------------------------------------------
+   Gerak
+   Momen utama: hero. Foto tampil dari kabur ke tajam, huruf "Sukajadi"
+   naik dari balik cakrawala, tagline tertulis seperti tulisan tangan.
+   Saat digulir, foto tersingkap seperti tirai dibuka dari bawah.
+   Default tetap terlihat; hanya disembunyikan bila .js aktif.
+   ------------------------------------------------------------------ */
+:root {
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+::selection {
+    background: var(--color-sun-200);
+    color: var(--color-leaf-950);
+}
+
+html {
+    scrollbar-color: var(--color-leaf-300) var(--color-cream);
+}
+
+@keyframes hero-media-in {
+    from { transform: scale(1.12); filter: blur(14px) brightness(0.55); }
+    to { transform: scale(1); filter: blur(0) brightness(1); }
+}
+
+@keyframes rise-in {
+    from { opacity: 0; transform: translate3d(0, 22px, 0); filter: blur(6px); }
+    to { opacity: 1; transform: none; filter: blur(0); }
+}
+
+@keyframes letter-up {
+    from { transform: translate3d(0, 105%, 0) rotate(6deg); }
+    to { transform: none; }
+}
+
+@keyframes write-in {
+    from { clip-path: inset(-10% 100% -10% 0); }
+    to { clip-path: inset(-10% 0 -10% 0); }
+}
+
+@keyframes hero-exit {
+    to { opacity: 0; transform: translate3d(0, -12vh, 0) scale(0.97); filter: blur(4px); }
+}
+
+@keyframes hero-media-drift {
+    to { transform: scale(1.06) translate3d(0, 2vh, 0); }
+}
+
+@keyframes page-in {
+    from { opacity: 0; transform: translate3d(0, 10px, 0); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    @view-transition {
+        navigation: auto;
+    }
+
+    ::view-transition-old(root) {
+        animation: 220ms ease-in both rise-out;
+    }
+
+    ::view-transition-new(root) {
+        animation: 420ms var(--ease-out) both page-in;
+    }
+
+    .hero-media {
+        animation: hero-media-in 1.8s var(--ease-out) both;
+        transform-origin: 50% 60%;
+    }
+
+    .hero-in {
+        animation: rise-in 0.9s var(--ease-out) both;
+        animation-delay: var(--hd, 0ms);
+    }
+
+    .hero-word {
+        display: flex;
+        overflow: clip;
+        overflow-clip-margin: 0.12em;
+        padding-bottom: 0.08em;
+    }
+
+    .hero-word > span {
+        display: inline-block;
+        animation: letter-up 1s var(--ease-out) both;
+        animation-delay: calc(450ms + var(--i) * 55ms);
+    }
+
+    .hero-write {
+        animation: write-in 1.3s cubic-bezier(0.45, 0, 0.2, 1) both;
+        animation-delay: 950ms;
+    }
+
+    /* Isi hero menjauh pelan saat digulir (browser yang mendukung scroll-driven animation). */
+    @supports (animation-timeline: scroll()) {
+        .hero-exit {
+            animation: hero-exit linear both;
+            animation-timeline: scroll(root);
+            animation-range: 0 70vh;
+        }
+
+        .hero-drift {
+            animation: hero-media-drift linear both;
+            animation-timeline: scroll(root);
+            animation-range: 0 100vh;
+        }
+    }
+
+    .js [data-reveal] {
+        transition:
+            opacity 0.8s var(--ease-out),
+            transform 1s var(--ease-out),
+            filter 0.8s var(--ease-out),
+            clip-path 1.15s var(--ease-out);
+        transition-delay: var(--d, 0ms);
+    }
+
+    .js [data-reveal="rise"]:not(.is-in) {
+        opacity: 0;
+        transform: translate3d(0, 28px, 0);
+        filter: blur(6px);
+    }
+
+    /* Foto: tirai dibuka dari bawah, gambar mengendur dari zoom. */
+    .js [data-reveal="photo"]:not(.is-in) {
+        clip-path: inset(100% 0 0 0 round var(--r, 1.5rem));
+    }
+
+    .js [data-reveal="photo"].is-in {
+        clip-path: inset(0 0 0 0 round var(--r, 1.5rem));
+    }
+
+    .js [data-reveal="photo"].is-done {
+        clip-path: none;
+    }
+
+    .js [data-reveal="photo"] :is(img, .ph, .ph-dark) {
+        transition: transform 1.4s var(--ease-out);
+        transition-delay: var(--d, 0ms);
+    }
+
+    .js [data-reveal="photo"]:not(.is-in) :is(img, .ph, .ph-dark) {
+        transform: scale(1.18);
+    }
+
+    /* Setelah tersingkap, kembalikan efek hover bawaan (group-hover:scale-105). */
+    .js [data-reveal="photo"].is-done :is(img, .ph, .ph-dark) {
+        transition: transform 0.5s var(--ease-out);
+        transition-delay: 0ms;
+    }
+}
+
+@keyframes rise-out {
+    to { opacity: 0; transform: translate3d(0, -10px, 0); }
+}
+
 @media (prefers-reduced-motion: reduce) {
     .hero-slide { animation: none; opacity: 0; }
     .hero-slide:first-child { opacity: 1; }
     .hero-slide > *, .marquee-track, .scroll-cue { animation: none; }
+
+    /* Tanpa gerak spasial: cukup pudar. */
+    .js [data-reveal] {
+        transition: opacity 0.4s ease;
+        transition-delay: var(--d, 0ms);
+    }
+
+    .js [data-reveal]:not(.is-in) {
+        opacity: 0;
+    }
 }
