@@ -76,6 +76,7 @@ Nama & slogan, teks beranda dan "Tentang", foto hero, **pendamping program** (na
 - [ ] Harga asli Paket UMKM & Anggrek Bulan (matikan *Harga sementara*)
 - [ ] Data resmi profil desa, nama perangkat desa
 - [ ] Kontak UMKM (dengan izin pemilik)
+- [ ] Ganti foto berketerangan **"Ilustrasi"** (dari Wikimedia Commons: kelinci, anggrek, pala, tempe, noga, permainan tradisional, homestay & kafe contoh) dengan foto asli Sukajadi, lalu hapus paragraf kredit "Foto ilustrasi via Wikimedia Commons" di deskripsinya. Selama masih dipakai, kredit itu wajib dibiarkan (syarat lisensi CC BY/BY-SA).
 - [ ] Logo & website Yayasan LEADS (Pengaturan → Pendamping program)
 - [ ] Data asli mitra bisnis (ganti Curug Nangka, Highland Tamansari, dll. setelah kerja sama disepakati)
 - [ ] Hapus berita & ulasan contoh
