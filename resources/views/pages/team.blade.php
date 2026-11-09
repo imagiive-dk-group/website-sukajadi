@@ -8,17 +8,22 @@
 
     <section class="py-12 sm:py-16">
         <div class="container-site">
-            <div class="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
-                @foreach($team as $member)
-                    <figure class="card">
-                        <x-img :path="$member->photo_path" :label="__('site.common.photo').': '.$member->tr('position')" :alt="$member->name" ratio="4/5" />
-                        <figcaption class="p-4">
-                            <span class="block font-display font-bold text-leaf-900">{{ $member->name }}</span>
-                            <span class="text-sm text-leaf-950/60">{{ $member->tr('position') }}</span>
-                        </figcaption>
-                    </figure>
-                @endforeach
-            </div>
+            @if($team->isNotEmpty())
+                <div data-stagger class="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
+                    @foreach($team as $member)
+                        <figure class="card">
+                            <x-img :path="$member->photo_path" :label="__('site.common.photo').': '.$member->tr('position')" :alt="$member->name" ratio="4/5" />
+                            <figcaption class="p-4">
+                                <span class="block font-display font-bold text-leaf-900">{{ $member->name }}</span>
+                                <span class="text-sm text-leaf-950/60">{{ $member->tr('position') }}</span>
+                            </figcaption>
+                        </figure>
+                    @endforeach
+                </div>
+            @else
+                <h2 class="mb-6 text-2xl font-bold" data-reveal="rise">{{ __('site.team.roles_title') }}</h2>
+                <x-team-roles />
+            @endif
             <p class="mt-10 max-w-2xl text-leaf-950/70">{{ setting_tr('managed_by') }}.</p>
         </div>
     </section>

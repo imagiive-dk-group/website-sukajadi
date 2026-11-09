@@ -167,6 +167,24 @@ class PublicPagesTest extends TestCase
         $this->get(route('id.contact'))->assertOk()->assertSee('https://www.tiktok.com/@desawisatasukajadi', false);
     }
 
+    public function test_team_page_shows_roles_when_no_member_profiles_exist(): void
+    {
+        \App\Models\Official::query()->delete();
+
+        $this->get(route('id.team'))->assertOk()->assertSee('Siapa yang menyambut Anda')->assertSee('Pemandu Wisata');
+        $this->get(route('id.home'))->assertOk()->assertDontSee('Nama Ketua');
+    }
+
+    public function test_partner_without_offers_asks_via_whatsapp_instead_of_booking(): void
+    {
+        $partner = Partner::first();
+        $partner->offers()->delete();
+
+        $this->get($partner->url('id'))->assertOk()
+            ->assertSee('Tanyakan harga, ketersediaan')
+            ->assertDontSee('href="#pilihan"', false);
+    }
+
     public function test_profile_has_no_government_officials_and_team_page_lists_activists(): void
     {
         $this->get(route('id.profile'))->assertOk()->assertDontSee('Kepala desa')->assertDontSee('Kepala Desa');

@@ -162,11 +162,21 @@ return [
         'via_us' => 'Pemesanan dibantu oleh admin Desa Wisata Sukajadi dan dikonfirmasi lewat WhatsApp.',
         'other' => 'Tempat lain di sekitar',
         'from' => 'Mulai',
+        'ask_info' => 'Tanyakan harga, ketersediaan, dan reservasi rombongan langsung lewat admin kami.',
     ],
 
     'team' => [
         'title' => 'Tim Penggiat Desa Wisata',
         'subtitle' => 'Warga Sukajadi yang menyambut, memandu, dan menjaga desa wisata ini.',
+        'roles_title' => 'Siapa yang menyambut Anda',
+        'roles' => [
+            ['icon' => 'star', 'title' => 'Ketua Penggiat', 'text' => 'Mengarahkan program dan menjadi penghubung dengan mitra serta pemerintah.'],
+            ['icon' => 'ticket', 'title' => 'Koordinator Paket & Booking', 'text' => 'Mengatur jadwal, kuota, dan konfirmasi reservasi rombongan.'],
+            ['icon' => 'map', 'title' => 'Pemandu Wisata', 'text' => 'Warga lokal yang memandu keliling desa, kebun, dan curug.'],
+            ['icon' => 'academic-cap', 'title' => 'Pemandu Edukasi Pertanian', 'text' => 'Petani dan peternak yang mengajak pengunjung belajar langsung.'],
+            ['icon' => 'building-storefront', 'title' => 'Koordinator UMKM', 'text' => 'Menghubungkan pengunjung dengan perajin dan pelaku usaha desa.'],
+            ['icon' => 'camera', 'title' => 'Media & Dokumentasi', 'text' => 'Mengabadikan kegiatan dan mengelola informasi di website.'],
+        ],
     ],
 
     'status' => [
@@ -270,7 +280,7 @@ return [
         'choose_this' => 'Pilih paket ini',
         'includes' => 'Termasuk',
         'itinerary' => 'Rundown kegiatan',
-        'itinerary_note' => 'Contoh rundown. Jadwal dapat menyesuaikan kebutuhan rombongan.',
+        'itinerary_note' => 'Jadwal dapat menyesuaikan kebutuhan rombongan.',
         'facilities' => 'Fasilitas',
         'audience' => 'Cocok untuk',
         'activities' => 'Destinasi & aktivitas',
@@ -342,7 +352,7 @@ return [
         'title' => 'Profil Desa Sukajadi',
         'subtitle' => 'Data resmi Desa Sukajadi, Kecamatan Tamansari, Kabupaten Bogor.',
         'officials' => 'Perangkat & Tokoh Desa',
-        'data_note' => 'Setiap data dicantumkan sumber dan tahunnya. Data bertanda "Perlu verifikasi" sedang dicocokkan dengan data Kantor Desa Sukajadi.',
+        'data_note' => 'Setiap data dicantumkan sumber dan tahunnya, bersumber dari Profil Desa Sukajadi 2025.',
         'sources' => 'Sumber data',
     ],
 

@@ -162,11 +162,21 @@ return [
         'via_us' => 'Bookings are handled by the Sukajadi Tourism Village admin and confirmed on WhatsApp.',
         'other' => 'Other places nearby',
         'from' => 'From',
+        'ask_info' => 'Ask about prices, availability and group reservations directly through our admin.',
     ],
 
     'team' => [
         'title' => 'Our Tourism Village Team',
         'subtitle' => 'The Sukajadi residents who welcome, guide and look after this tourism village.',
+        'roles_title' => 'Who will welcome you',
+        'roles' => [
+            ['icon' => 'star', 'title' => 'Team Lead', 'text' => 'Sets the programme and liaises with partners and the government.'],
+            ['icon' => 'ticket', 'title' => 'Packages & Booking Coordinator', 'text' => 'Handles schedules, quotas and confirming group reservations.'],
+            ['icon' => 'map', 'title' => 'Tour Guides', 'text' => 'Local residents who guide you around the village, gardens and waterfalls.'],
+            ['icon' => 'academic-cap', 'title' => 'Farming Education Guides', 'text' => 'Farmers and breeders who teach visitors hands-on.'],
+            ['icon' => 'building-storefront', 'title' => 'Local Business Coordinator', 'text' => 'Connects visitors with local makers and small businesses.'],
+            ['icon' => 'camera', 'title' => 'Media & Documentation', 'text' => 'Captures the activities and looks after the website.'],
+        ],
     ],
 
     'status' => [
@@ -270,7 +280,7 @@ return [
         'choose_this' => 'Choose this package',
         'includes' => 'Includes',
         'itinerary' => 'Itinerary',
-        'itinerary_note' => 'Sample itinerary. The schedule can be adjusted to your group.',
+        'itinerary_note' => 'The schedule can be adjusted to your group.',
         'facilities' => 'Facilities',
         'audience' => 'Perfect for',
         'activities' => 'Destinations & activities',
@@ -342,7 +352,7 @@ return [
         'title' => 'Sukajadi Village Profile',
         'subtitle' => 'Official data on Sukajadi Village, Tamansari District, Bogor Regency.',
         'officials' => 'Village Officials & Leaders',
-        'data_note' => 'Every figure lists its source and year. Data marked "To be verified" is being checked against the Sukajadi Village Office records.',
+        'data_note' => 'Every figure lists its source and year, taken from the Sukajadi Village Profile 2025.',
         'sources' => 'Data sources',
     ],
 

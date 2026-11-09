@@ -1,9 +1,8 @@
 <footer class="relative mt-auto bg-leaf-900 text-white/80">
     <div class="container-site grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
         <div class="sm:col-span-2 lg:col-span-1">
-            <a href="{{ lroute('home') }}" class="flex items-center gap-3">
-                <img src="{{ asset('images/logo.webp') }}" alt="" class="size-16" width="64" height="64" loading="lazy">
-                <span class="font-display text-xl leading-tight font-extrabold text-white">Desa Wisata<br><span class="text-sun-400">Sukajadi</span></span>
+            <a href="{{ lroute('home') }}" class="inline-block rounded-2xl bg-white p-4 shadow-lg shadow-black/20">
+                <img src="{{ asset('images/logo.webp') }}" alt="Logo Desa Wisata Sukajadi" class="h-auto w-40" width="160" height="118" loading="lazy">
             </a>
             <p class="mt-4 text-sm leading-relaxed">{{ __('site.footer.about') }}</p>
             <p class="mt-4 font-hand text-2xl text-sun-300">{{ setting_tr('motto') }}</p>

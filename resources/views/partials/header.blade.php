@@ -41,7 +41,9 @@
 >
     <div class="container-site flex h-16 items-center justify-between gap-4 sm:h-20">
         <a href="{{ lroute('home') }}" class="flex shrink-0 items-center gap-2.5">
-            <img src="{{ asset('images/logo.webp') }}" alt="Logo Desa Wisata Sukajadi" class="size-11 drop-shadow sm:size-14" width="56" height="56">
+            <span class="grid size-11 shrink-0 place-items-center rounded-full bg-white p-1.5 shadow-md ring-1 ring-leaf-900/10 sm:size-14 sm:p-2">
+                <img src="{{ asset('images/logo-emblem.webp') }}" alt="Logo Desa Wisata Sukajadi" class="h-auto w-full" width="52" height="33">
+            </span>
             <span class="leading-tight">
                 <span class="block font-display text-[11px] font-semibold tracking-[0.18em] uppercase opacity-80">Desa Wisata</span>
                 <span class="block font-display text-lg font-extrabold sm:text-xl">Sukajadi</span>

@@ -187,14 +187,18 @@
                 <p class="mt-4 max-w-xl text-lg text-leaf-950/70">{{ __('site.home.team_text') }}</p>
                 <a href="{{ lroute('team') }}" class="btn-outline mt-6">{{ __('site.home.team_cta') }} <x-heroicon-m-arrow-right class="size-4" /></a>
             </div>
-            <div data-stagger class="grid grid-cols-3 gap-3 sm:gap-4">
-                @foreach($team as $member)
-                    <figure class="overflow-hidden rounded-2xl bg-white ring-1 ring-leaf-900/5">
-                        <x-img :path="$member->photo_path" :label="$member->tr('position')" :alt="$member->name" ratio="1/1" size="sm" compact />
-                        <figcaption class="p-3 text-xs"><span class="block font-semibold text-leaf-900">{{ $member->name }}</span><span class="text-leaf-950/55">{{ $member->tr('position') }}</span></figcaption>
-                    </figure>
-                @endforeach
-            </div>
+            @if($team->isNotEmpty())
+                <div data-stagger class="grid grid-cols-3 gap-3 sm:gap-4">
+                    @foreach($team as $member)
+                        <figure class="overflow-hidden rounded-2xl bg-white ring-1 ring-leaf-900/5">
+                            <x-img :path="$member->photo_path" :label="$member->tr('position')" :alt="$member->name" ratio="1/1" size="sm" compact />
+                            <figcaption class="p-3 text-xs"><span class="block font-semibold text-leaf-900">{{ $member->name }}</span><span class="text-leaf-950/55">{{ $member->tr('position') }}</span></figcaption>
+                        </figure>
+                    @endforeach
+                </div>
+            @else
+                <x-team-roles compact />
+            @endif
         </div>
     </section>
 

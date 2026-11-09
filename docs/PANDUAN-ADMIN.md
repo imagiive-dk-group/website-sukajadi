@@ -69,18 +69,16 @@ Kuota harian: isi di **Pengaturan Website → Booking** (berlaku untuk semua pak
 
 Nama & slogan, teks beranda dan "Tentang", foto hero, **pendamping program** (nama, logo, dan keterangan Yayasan LEADS & pendukung CSR; tampil di footer dan Profil Desa), nomor WhatsApp, Instagram, TikTok, email, alamat, jam operasional, peta Google Maps, aturan booking (batas H-, kuota, paket custom), email notifikasi tambahan, dan Google Analytics.
 
-## Yang perlu diganti sebelum diluncurkan
+## Yang sebaiknya Anda lengkapi setelah peluncuran
 
-- [ ] Ganti password Super Admin
-- [ ] Unggah foto asli (ikuti keterangan placeholder)
-- [ ] Harga asli Paket UMKM & Anggrek Bulan (matikan *Harga sementara*)
-- [ ] Data resmi profil desa, nama perangkat desa
-- [ ] Kontak UMKM (dengan izin pemilik)
-- [ ] Ganti foto berketerangan **"Ilustrasi"** (dari Wikimedia Commons: kelinci, anggrek, pala, tempe, noga, permainan tradisional, homestay & kafe contoh) dengan foto asli Sukajadi, lalu hapus paragraf kredit "Foto ilustrasi via Wikimedia Commons" di deskripsinya. Selama masih dipakai, kredit itu wajib dibiarkan (syarat lisensi CC BY/BY-SA).
+- [ ] Ganti password Super Admin dan simpan salinan `.env` di tempat aman
+- [ ] **Harga Paket UMKM dan Anggrek Bulan** (Rp100.000 dan Rp75.000 per pax) masih perkiraan: sesuaikan di Paket Wisata → tingkat harga
+- [ ] **Tim Penggiat**: tambahkan nama dan foto anggota di *Tentang Desa → Tim Penggiat*. Selama kosong, website menampilkan peran tim saja
+- [ ] **Mitra Bisnis** (21 tempat): lengkapi alamat, link Google Maps, jam buka, dan, bila sudah ada kesepakatan, pilihan harga (tab *Penawaran*) supaya tombol Pesan tampil
+- [ ] Foto berketerangan **"Ilustrasi"** (dari Wikimedia Commons): ganti dengan foto asli Sukajadi bila ada. Selama masih dipakai, kredit fotografernya wajib dibiarkan (syarat lisensi)
+- [ ] Bagian **Sejarah Desa** (Tentang Desa → Bagian Profil) disembunyikan sampai ada teks resmi dari Kantor Desa
 - [ ] Logo & website Yayasan LEADS (Pengaturan → Pendamping program)
-- [ ] Data asli mitra bisnis (ganti Curug Nangka, Highland Tamansari, dll. setelah kerja sama disepakati)
-- [ ] Hapus berita & ulasan contoh
-- [ ] Cek ulang teks "Tentang" dan rundown paket
+- [ ] Kontak UMKM (dengan izin pemilik)
 
 ## Revisi v2: Mitra bisnis, prospek, dan monitoring
 

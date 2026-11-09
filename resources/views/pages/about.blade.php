@@ -15,9 +15,13 @@
                 <p class="mt-6 font-hand text-3xl text-sun-600">{{ setting_tr('motto') }}</p>
             </div>
             <div class="relative">
-                <x-placeholder label="Pokdarwis & warga Desa Sukajadi berfoto bersama" ratio="4/5" class="rounded-[2rem]" />
+                <div class="overflow-hidden rounded-[2rem]">
+                    <x-img path="photos/sukajadi-23.jpg" alt="Warga dan pengunjung memanen ubi jalar bersama" ratio="4/5" sizes="(min-width: 1024px) 40vw, 90vw" />
+                </div>
                 <div class="absolute -bottom-6 -left-4 hidden w-44 rotate-[-4deg] rounded-2xl bg-white p-2 shadow-xl sm:block">
-                    <x-placeholder label="Anak-anak bermain egrang" ratio="1/1" class="rounded-xl" compact />
+                    <div class="overflow-hidden rounded-xl">
+                        <x-img path="photos/sukajadi-05.jpg" alt="Botram, makan liwet bersama beralas daun pisang" ratio="1/1" size="sm" sizes="176px" />
+                    </div>
                 </div>
             </div>
         </div>

@@ -32,7 +32,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->brandName('Desa Wisata Sukajadi')
-            ->brandLogo(fn (): string => asset('images/logo.webp'))
+            ->brandLogo(fn (): string => asset('images/logo-emblem.webp'))
             ->brandLogoHeight('2.5rem')
             ->favicon(fn (): string => asset('images/favicon.png'))
             ->colors([

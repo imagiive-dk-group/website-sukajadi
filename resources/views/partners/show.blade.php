@@ -82,10 +82,15 @@
                         <p class="text-sm text-leaf-950/55">{{ __('site.partners.from') }}</p>
                         <p class="font-display text-3xl font-extrabold text-leaf-700">{{ rupiah($from) }}</p>
                     @endif
-                    <a href="#pilihan" class="btn-primary mt-5 w-full !py-3">{{ __('site.partners.book') }}</a>
-                    <a href="{{ wa_track('partner', $partner->id, __('site.partners.wa_ask', ['name' => $partner->name])) }}" target="_blank" rel="noopener" class="btn-wa mt-3 w-full !py-3"><x-icons.whatsapp /> {{ __('site.partners.ask') }}</a>
+                    @if($partner->offers->isNotEmpty())
+                        <a href="#pilihan" class="btn-primary mt-5 w-full !py-3">{{ __('site.partners.book') }}</a>
+                    @else
+                        <p class="text-sm text-leaf-950/70">{{ __('site.partners.ask_info') }}</p>
+                    @endif
+                    <a href="{{ wa_track('partner', $partner->id, __('site.partners.wa_ask', ['name' => $partner->name])) }}" target="_blank" rel="noopener" @class(['btn-wa w-full !py-3', 'mt-3' => $partner->offers->isNotEmpty(), 'mt-5' => $partner->offers->isEmpty()])><x-icons.whatsapp /> {{ __('site.partners.ask') }}</a>
                     <p class="mt-4 text-xs text-leaf-950/55">{{ __('site.partners.via_us') }}</p>
                 </div>
+                @if($partner->address || $partner->tr('opening_hours') || $partner->maps_url)
                 <div class="card space-y-3 p-6 text-sm">
                     @if($partner->address)
                         <p class="flex gap-3"><x-heroicon-o-map-pin class="size-5 shrink-0 text-leaf-600" /> {{ $partner->address }}</p>
@@ -97,6 +102,7 @@
                         <a href="{{ $partner->maps_url }}" target="_blank" rel="noopener" class="btn-outline w-full"><x-heroicon-o-map class="size-5" /> {{ __('site.common.open_maps') }}</a>
                     @endif
                 </div>
+                @endif
             </aside>
         </div>
     </section>
