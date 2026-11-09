@@ -68,7 +68,7 @@
                 <span class="shrink-0 text-xs font-bold tracking-widest text-white/55 uppercase">{{ __('site.footer.supported_by') }}</span>
                 <a @if(setting('supporter_url')) href="{{ setting('supporter_url') }}" target="_blank" rel="noopener" @endif class="flex shrink-0 items-center gap-3 font-semibold text-white">
                     @if(setting('supporter_logo'))
-                        <img src="{{ \App\Support\Images::url(setting('supporter_logo')) }}" alt="" class="h-10 w-auto rounded-md bg-white p-1" height="40" loading="lazy">
+                        <img src="{{ \App\Support\Images::url(setting('supporter_logo')) }}" alt="" class="h-14 w-auto rounded-md bg-white p-1.5" height="56" loading="lazy">
                     @endif
                     {{ $supporter }}
                 </a>
