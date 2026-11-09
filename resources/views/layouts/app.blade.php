@@ -5,7 +5,7 @@
     $pageTitle = html_entity_decode(trim($__env->yieldContent('title')), ENT_QUOTES);
     $fullTitle = $pageTitle ? $pageTitle.' | '.$siteName : $siteName.' — '.setting_tr('tagline');
     $description = html_entity_decode(trim($__env->yieldContent('description')), ENT_QUOTES) ?: __('site.meta.default_description');
-    $ogImage = html_entity_decode(trim($__env->yieldContent('og_image')), ENT_QUOTES) ?: asset('images/og-default.jpg');
+    $ogImage = html_entity_decode(trim($__env->yieldContent('og_image')), ENT_QUOTES) ?: asset('images/og-default.jpg').'?v=2';
     $gaId = setting('ga_measurement_id');
 @endphp
 <!DOCTYPE html>
@@ -30,9 +30,9 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="theme-color" content="#277721">
 
-    <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="any">
-    <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}">
-    <link rel="apple-touch-icon" href="{{ asset('images/apple-touch-icon.png') }}">
+    <link rel="icon" href="{{ asset('favicon.ico').'?v=2' }}" sizes="any">
+    <link rel="icon" type="image/png" href="{{ asset('images/favicon.png').'?v=2' }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/apple-touch-icon.png').'?v=2' }}">
 
     {{-- Tandai JS aktif sebelum render: elemen [data-reveal] hanya disembunyikan bila skrip gerak bisa menampilkannya lagi. --}}
     <script>document.documentElement.classList.add('js')</script>
@@ -44,7 +44,7 @@
         'name' => $siteName,
         'url' => lroute('home'),
         'logo' => asset('images/logo.png'),
-        'image' => asset('images/og-default.jpg'),
+        'image' => asset('images/og-default.jpg').'?v=2',
         'telephone' => setting('whatsapp'),
         'email' => setting('email'),
         'address' => [

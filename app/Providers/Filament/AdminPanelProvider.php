@@ -34,7 +34,7 @@ class AdminPanelProvider extends PanelProvider
             ->brandName('Desa Wisata Sukajadi')
             ->brandLogo(fn (): string => asset('images/logo-emblem.webp'))
             ->brandLogoHeight('2.5rem')
-            ->favicon(fn (): string => asset('images/favicon.png'))
+            ->favicon(fn (): string => asset('images/favicon.png').'?v=2')
             ->colors([
                 'primary' => Color::hex('#277721'),
                 'warning' => Color::hex('#FA6700'),
