@@ -72,7 +72,6 @@ Nama & slogan, teks beranda dan "Tentang", foto hero, **pendamping program** (na
 ## Yang sebaiknya Anda lengkapi setelah peluncuran
 
 - [ ] Ganti password Super Admin dan simpan salinan `.env` di tempat aman
-- [ ] **Harga Paket UMKM dan Anggrek Bulan** (Rp100.000 dan Rp75.000 per pax) masih perkiraan: sesuaikan di Paket Wisata → tingkat harga
 - [ ] **Tim Penggiat**: tambahkan nama dan foto anggota di *Tentang Desa → Tim Penggiat*. Selama kosong, website menampilkan peran tim saja
 - [ ] **Mitra Bisnis** (21 tempat): lengkapi alamat, link Google Maps, jam buka, dan, bila sudah ada kesepakatan, pilihan harga (tab *Penawaran*) supaya tombol Pesan tampil
 - [ ] Foto berketerangan **"Ilustrasi"** (dari Wikimedia Commons): ganti dengan foto asli Sukajadi bila ada. Selama masih dipakai, kredit fotografernya wajib dibiarkan (syarat lisensi)
