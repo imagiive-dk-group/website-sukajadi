@@ -43,7 +43,7 @@
         '@type' => 'TouristInformationCenter',
         'name' => $siteName,
         'url' => lroute('home'),
-        'logo' => asset('images/logo.png'),
+        'logo' => asset('images/logo.png').'?v=2',
         'image' => asset('images/og-default.jpg').'?v=2',
         'telephone' => setting('whatsapp'),
         'email' => setting('email'),
