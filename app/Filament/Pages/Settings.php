@@ -201,7 +201,7 @@ class Settings extends Page
                     ->schema([
                         TextInput::make('whatsapp')
                             ->label('Nomor WhatsApp admin')
-                            ->helperText('Tujuan tombol WhatsApp & pesan booking. Format bebas, misal +62 857-7519-4575.')
+                            ->helperText('Tujuan tombol WhatsApp & pesan booking. Format bebas, misal +62 889-7644-8447.')
                             ->tel()
                             ->required()
                             ->maxLength(30),

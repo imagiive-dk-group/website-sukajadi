@@ -172,7 +172,7 @@ class PublicPagesTest extends TestCase
         \App\Models\Official::query()->delete();
 
         $this->get(route('id.team'))->assertOk()->assertSee('Siapa yang menyambut Anda')->assertSee('Pemandu Wisata');
-        $this->get(route('id.home'))->assertOk()->assertDontSee('Nama Ketua');
+        $this->get(route('id.home'))->assertOk()->assertDontSee('Altayani');
     }
 
     public function test_partner_without_offers_asks_via_whatsapp_instead_of_booking(): void
@@ -188,16 +188,16 @@ class PublicPagesTest extends TestCase
     public function test_profile_has_no_government_officials_and_team_page_lists_activists(): void
     {
         $this->get(route('id.profile'))->assertOk()->assertDontSee('Kepala desa')->assertDontSee('Kepala Desa');
-        $this->get(route('id.team'))->assertOk()->assertSee('Ketua Penggiat Desa Wisata');
+        $this->get(route('id.team'))->assertOk()->assertSee('Altayani')->assertSee('Ketua Desa Wisata');
     }
 
     public function test_whatsapp_clicks_are_tracked_and_redirect_to_wa_me(): void
     {
         $this->get(route('wa', ['c' => 'partner', 'i' => 1, 't' => 'Halo']))
-            ->assertRedirect('https://wa.me/6285775194575?text=Halo');
+            ->assertRedirect('https://wa.me/6288976448447?text=Halo');
 
         $this->get(route('wa', ['c' => 'evil', 'n' => 'https://evil.example']))
-            ->assertRedirect('https://wa.me/6285775194575');
+            ->assertRedirect('https://wa.me/6288976448447');
 
         $this->assertDatabaseHas('wa_clicks', ['context_type' => 'partner', 'context_id' => 1]);
         $this->assertDatabaseHas('wa_clicks', ['context_type' => 'general']);

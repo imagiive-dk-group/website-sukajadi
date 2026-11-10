@@ -201,18 +201,18 @@ class CommunitySeeder extends Seeder
             ProfileSection::create(['key' => $key, 'title' => $title, 'body' => $body, 'sort' => $sort]);
         }
 
-        // Tim penggiat desa wisata (bukan perangkat desa). Nama masih contoh.
+        // Pengurus Desa Wisata Sukajadi (foto diunggah terpisah lewat admin).
         $officials = [
-            ['Nama Ketua', $this->t('Ketua Penggiat Desa Wisata', 'Head of Tourism Village Team')],
-            ['Nama Koordinator', $this->t('Koordinator Paket & Booking', 'Packages & Booking Coordinator')],
-            ['Nama Pemandu', $this->t('Pemandu Wisata', 'Tour Guide')],
-            ['Nama Pemandu', $this->t('Pemandu Edukasi Pertanian', 'Farming Education Guide')],
-            ['Nama Koordinator UMKM', $this->t('Koordinator UMKM', 'Local Business Coordinator')],
-            ['Nama Dokumentasi', $this->t('Media & Dokumentasi', 'Media & Documentation')],
+            ['Altayani', $this->t('Ketua Desa Wisata', 'Chair of the Tourism Village')],
+            ['Irfan', $this->t('Sekretaris Desa Wisata', 'Secretary of the Tourism Village')],
+            ['Imron Nurzaid', $this->t('Bendahara Desa Wisata', 'Treasurer of the Tourism Village')],
+            ['M. Rajib Maulana', $this->t('Tour Guide', 'Tour Guide')],
+            ['M. Alanun Atang Sanjaya', $this->t('Tour Guide', 'Tour Guide')],
+            ['M. Asep Azhar', $this->t('Tour Guide', 'Tour Guide')],
         ];
 
         foreach ($officials as $sort => [$name, $position]) {
-            Official::create(['name' => $name, 'position' => $position, 'sort' => $sort]);
+            Official::create(['name' => $name, 'position' => $position, 'sort' => $sort + 1]);
         }
     }
 

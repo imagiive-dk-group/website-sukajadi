@@ -11,7 +11,7 @@ Format foto: JPG/PNG/WebP, sisi terpanjang **min. 1.600 px** (ideal 2.000–3.00
 | Bahan | Keterangan | Diisi di admin |
 |---|---|---|
 | ⭐ Logo resmi resolusi tinggi | Sudah ada (PNG). Idealnya versi **SVG/vektor** untuk ketajaman | (dikirim ke developer) |
-| ⭐ Nomor WhatsApp admin | Sudah: +62 857-7519-4575 | Pengaturan Website → Kontak |
+| ⭐ Nomor WhatsApp admin | Sudah: +62 889-7644-8447 | Pengaturan Website → Kontak |
 | ⭐ Instagram | Sudah: @desawisatasukajadi | Pengaturan Website → Kontak |
 | ⭐ Email resmi | Mis. info@desawisatasukajadi.com (dibuat setelah beli hosting) | Pengaturan Website → Kontak |
 | ⭐ Alamat lengkap + titik Google Maps | Alamat sekretariat/titik kumpul pengunjung, link Google Maps | Pengaturan Website → Kontak |

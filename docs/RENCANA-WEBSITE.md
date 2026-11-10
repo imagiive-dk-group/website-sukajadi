@@ -51,7 +51,7 @@
 | Nama | Desa Wisata Sukajadi |
 | Lokasi | Desa Sukajadi, Kec. Tamansari, Kab. Bogor, Jawa Barat |
 | Tagline | "Belajar • Berwisata • Berdaya", "Alam, Budaya, Edukasi", "Wisata Ramah! Eta Pisan!", "Datang, Belajar, Berkesan!" |
-| WhatsApp | **+62 857-7519-4575** (`wa.me/6285775194575`) |
+| WhatsApp | **+62 889-7644-8447** (`wa.me/6288976448447`) |
 | Instagram | **`@desawisatasukajadi`** |
 | TikTok | Tidak ada (tidak ditampilkan di website) |
 | Domain | **desawisatasukajadi.com** |
@@ -110,7 +110,7 @@ Fasilitas: transportasi (area desa), makan & snack, tiket masuk objek, pemandu b
 - Pembuatan kue tradisional "kue noga"
 - Wisata alam & petualangan Curug Aman
 
-**E. Agro Eduwisata Anggrek Bulan**: 🧪 **harga dummy** Rp75.000/pax, minimal 15 pax (akan diganti dari admin)
+**E. Agro Eduwisata Anggrek Bulan**: Rp100.000/pax, minimal 15 pax
 - Belajar budidaya langsung dari petani
 - Melihat proses perkembangbiakan anggrek bulan
 
@@ -456,7 +456,7 @@ Domain terpilih: **`desawisatasukajadi.com`**. Sekalian buat email resmi gratis 
 | Topik | Keputusan |
 |---|---|
 | Instagram | `@desawisatasukajadi` |
-| WhatsApp | +62 857-7519-4575 |
+| WhatsApp | +62 889-7644-8447 |
 | TikTok | Belum ada akun. Kolom **TikTok** tersedia di Pengaturan; ikon muncul otomatis setelah diisi |
 | LEADS | **Yayasan LEADS**: yayasan yang mengelola program **Sukajadi Mandiri** dari dana CSR **PT RATU**, agar desa wisata mandiri dari sisi pemasaran. Tampil sebagai lembaga pendamping di footer & Profil Desa (Pengaturan → Pendamping program). Bukan prospek; menu prospek di admin bernama **Prospek** |
 | Mitra bisnis contoh | Curug Nangka, Highland Tamansari, vila, kafe: data contoh, diganti data asli setelah ada kesepakatan kerja sama |

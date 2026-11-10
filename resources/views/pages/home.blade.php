@@ -191,7 +191,7 @@
                 <div data-stagger class="grid grid-cols-3 gap-3 sm:gap-4">
                     @foreach($team as $member)
                         <figure class="overflow-hidden rounded-2xl bg-white ring-1 ring-leaf-900/5">
-                            <x-img :path="$member->photo_path" :label="$member->tr('position')" :alt="$member->name" ratio="1/1" size="sm" compact />
+                            <x-team-photo :member="$member" ratio="1/1" size="sm" sizes="(min-width: 1024px) 14vw, 30vw" />
                             <figcaption class="p-3 text-xs"><span class="block font-semibold text-leaf-900">{{ $member->name }}</span><span class="text-leaf-950/55">{{ $member->tr('position') }}</span></figcaption>
                         </figure>
                     @endforeach

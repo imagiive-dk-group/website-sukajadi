@@ -12,7 +12,7 @@
                 <div data-stagger class="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
                     @foreach($team as $member)
                         <figure class="card">
-                            <x-img :path="$member->photo_path" :label="__('site.common.photo').': '.$member->tr('position')" :alt="$member->name" ratio="4/5" />
+                            <x-team-photo :member="$member" ratio="4/5" />
                             <figcaption class="p-4">
                                 <span class="block font-display font-bold text-leaf-900">{{ $member->name }}</span>
                                 <span class="text-sm text-leaf-950/60">{{ $member->tr('position') }}</span>

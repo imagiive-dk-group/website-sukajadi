@@ -486,7 +486,7 @@ class TourismSeeder extends Seeder
                     [
                         'name' => $this->t('Paket Anggrek Bulan', 'Moon Orchid Package'),
                         'duration' => $this->t('2–3 jam', '2–3 hours'),
-                        'price' => 75000,
+                        'price' => 100000,
                         'min_pax' => 15,
                         'is_dummy_price' => true,
                         'inclusions' => [

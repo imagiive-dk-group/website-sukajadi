@@ -48,7 +48,7 @@ class SettingSeeder extends Seeder
             ],
             'hero_video' => null,
             'hero_slides' => null,
-            'whatsapp' => '+62 857-7519-4575',
+            'whatsapp' => '+62 889-7644-8447',
             'instagram' => 'desawisatasukajadi',
             'tiktok' => null,
             'email' => 'info@desawisatasukajadi.com',
